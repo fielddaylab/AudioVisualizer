@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "WaveformViewController.h"
+#import "FreqHistogramViewController.h"
 
 @implementation AppDelegate
 
@@ -20,8 +21,11 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    
     WaveformViewController *waveformViewController = [[WaveformViewController alloc] initWithNibName:@"WaveformViewController" bundle:nil];
     self.window.rootViewController = waveformViewController;
+    
     [self.window makeKeyAndVisible];
     return YES;
     

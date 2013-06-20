@@ -14,6 +14,8 @@
 
 @implementation WaveformViewController
 
+@synthesize waveformView;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -26,6 +28,7 @@
     if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSURL *audioURL = [NSURL fileURLWithPath:path];
         //[wfv openAudioURL:audioURL];
+        [waveformView openAudioURL:audioURL];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio !"
                                                         message: @"You should add a sample.mp3 file to the project before test it."
@@ -59,4 +62,7 @@
     return YES;
 }
 
+- (IBAction)findData:(id)sender {
+    [waveformView printSampleData:self.waveformView.sampleData forSampleLength:self.waveformView.sampleLength];
+}
 @end

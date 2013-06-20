@@ -23,6 +23,11 @@
 		5BFB60F3177376850058BCD3 /* WaveformViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BFB60F1177376850058BCD3 /* WaveformViewController.xib */; };
 		5BFB60F7177376A10058BCD3 /* FreqHistogramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB60F5177376A10058BCD3 /* FreqHistogramViewController.m */; };
 		5BFB60F8177376A10058BCD3 /* FreqHistogramViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BFB60F6177376A10058BCD3 /* FreqHistogramViewController.xib */; };
+		5BFB610F17739F8C0058BCD3 /* WaveFormViewIOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB610E17739F8C0058BCD3 /* WaveFormViewIOS.m */; };
+		5BFB611317739FDB0058BCD3 /* WaveSampleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB611117739FDB0058BCD3 /* WaveSampleProvider.m */; };
+		5BFB61151773A1770058BCD3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB61141773A1770058BCD3 /* AudioToolbox.framework */; };
+		5BFB61191773A1D40058BCD3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB61181773A1D40058BCD3 /* AVFoundation.framework */; };
+		5BFB611B1773A2040058BCD3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB611A1773A2040058BCD3 /* CoreMedia.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +54,14 @@
 		5BFB60F4177376A10058BCD3 /* FreqHistogramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreqHistogramViewController.h; sourceTree = "<group>"; };
 		5BFB60F5177376A10058BCD3 /* FreqHistogramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreqHistogramViewController.m; sourceTree = "<group>"; };
 		5BFB60F6177376A10058BCD3 /* FreqHistogramViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FreqHistogramViewController.xib; sourceTree = "<group>"; };
+		5BFB610D17739F8C0058BCD3 /* WaveFormViewIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveFormViewIOS.h; sourceTree = "<group>"; };
+		5BFB610E17739F8C0058BCD3 /* WaveFormViewIOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveFormViewIOS.m; sourceTree = "<group>"; };
+		5BFB611017739FDB0058BCD3 /* WaveSampleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProvider.h; sourceTree = "<group>"; };
+		5BFB611117739FDB0058BCD3 /* WaveSampleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveSampleProvider.m; sourceTree = "<group>"; };
+		5BFB611217739FDB0058BCD3 /* WaveSampleProviderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProviderDelegate.h; sourceTree = "<group>"; };
+		5BFB61141773A1770058BCD3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		5BFB61181773A1D40058BCD3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		5BFB611A1773A2040058BCD3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +69,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BFB611B1773A2040058BCD3 /* CoreMedia.framework in Frameworks */,
+				5BFB61191773A1D40058BCD3 /* AVFoundation.framework in Frameworks */,
+				5BFB61151773A1770058BCD3 /* AudioToolbox.framework in Frameworks */,
 				5BFB60CA177373AC0058BCD3 /* UIKit.framework in Frameworks */,
 				5BFB60CC177373AC0058BCD3 /* Foundation.framework in Frameworks */,
 				5BFB60CE177373AC0058BCD3 /* CoreGraphics.framework in Frameworks */,
@@ -86,6 +102,9 @@
 		5BFB60C8177373AC0058BCD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5BFB611A1773A2040058BCD3 /* CoreMedia.framework */,
+				5BFB61181773A1D40058BCD3 /* AVFoundation.framework */,
+				5BFB61141773A1770058BCD3 /* AudioToolbox.framework */,
 				5BFB60C9177373AC0058BCD3 /* UIKit.framework */,
 				5BFB60CB177373AC0058BCD3 /* Foundation.framework */,
 				5BFB60CD177373AC0058BCD3 /* CoreGraphics.framework */,
@@ -97,6 +116,11 @@
 		5BFB60D1177373AC0058BCD3 /* AudioVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				5BFB610D17739F8C0058BCD3 /* WaveFormViewIOS.h */,
+				5BFB610E17739F8C0058BCD3 /* WaveFormViewIOS.m */,
+				5BFB611017739FDB0058BCD3 /* WaveSampleProvider.h */,
+				5BFB611117739FDB0058BCD3 /* WaveSampleProvider.m */,
+				5BFB611217739FDB0058BCD3 /* WaveSampleProviderDelegate.h */,
 				5BFB60EB1773744F0058BCD3 /* view controllers */,
 				5BFB60DA177373AC0058BCD3 /* AppDelegate.h */,
 				5BFB60DB177373AC0058BCD3 /* AppDelegate.m */,
@@ -208,6 +232,8 @@
 				5BFB60EE177376640058BCD3 /* AudioVisualizerContainer.m in Sources */,
 				5BFB60F2177376850058BCD3 /* WaveformViewController.m in Sources */,
 				5BFB60F7177376A10058BCD3 /* FreqHistogramViewController.m in Sources */,
+				5BFB610F17739F8C0058BCD3 /* WaveFormViewIOS.m in Sources */,
+				5BFB611317739FDB0058BCD3 /* WaveSampleProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
