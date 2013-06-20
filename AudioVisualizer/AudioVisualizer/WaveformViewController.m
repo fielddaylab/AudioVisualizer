@@ -22,10 +22,26 @@
     }
     return self;
 }
+-(void)loadAudioForPath:(NSString *)path{
+    if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSURL *audioURL = [NSURL fileURLWithPath:path];
+        //[wfv openAudioURL:audioURL];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio !"
+                                                        message: @"You should add a sample.mp3 file to the project before test it."
+                                                       delegate: self
+                                              cancelButtonTitle: @"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+}
+
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+     [self loadAudioForPath:@"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.mp3"];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -33,6 +49,14 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
 }
 
 @end
