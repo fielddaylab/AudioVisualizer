@@ -11,6 +11,5 @@
 
 @interface WaveformViewController : UIViewController
 @property (weak, nonatomic) IBOutlet WaveFormViewIOS *waveformView;
-- (IBAction)findData:(id)sender;
 
 @end

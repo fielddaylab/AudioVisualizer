@@ -20,10 +20,11 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+
     }
     return self;
 }
+
 -(void)loadAudioForPath:(NSString *)path{
     if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSURL *audioURL = [NSURL fileURLWithPath:path];
@@ -62,7 +63,4 @@
     return YES;
 }
 
-- (IBAction)findData:(id)sender {
-    [waveformView printSampleData:self.waveformView.sampleData forSampleLength:self.waveformView.sampleLength];
-}
 @end

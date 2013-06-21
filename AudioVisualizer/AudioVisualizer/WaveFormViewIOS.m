@@ -9,6 +9,7 @@
 #import "WaveFormViewIOS.h"
 
 @interface WaveFormViewIOS (Private)
+
 - (void) initView;
 - (void) drawRoundRect:(CGRect)bounds fillColor:(UIColor *)fillColor strokeColor:(UIColor *)strokeColor radius:(CGFloat)radius lineWidht:(CGFloat)lineWidth;
 - (CGRect) playRect;
@@ -66,6 +67,23 @@
 	darkgray = [UIColor colorWithRed:47.0/255.0 green:47.0/255.0 blue:48.0/255.0 alpha:1.0];
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
+    
+//    slider = [[AudioSlider alloc] initWithFrame:CGRectMake(6, 6, 50, 50)];
+//    [self addSubview:slider];
+    
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    [button setTitle:@"Drag me" forState:UIControlStateNormal];
+    AudioSlider *button = [[AudioSlider alloc] init];
+    button.frame = CGRectMake(0, 0, 40.0, 160.0);
+    [button addTarget:self action:@selector(draggedOut:withEvent:)
+         forControlEvents:UIControlEventTouchDragOutside |
+     UIControlEventTouchDragInside];
+    [self addSubview:button];
+}
+
+- (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
+    CGPoint point = [[[ev allTouches] anyObject] locationInView:self];
+    c.center = point;
 }
 
 - (void)setFrame:(CGRect)frameRect
@@ -184,18 +202,24 @@
 	CGRect wr = [self waveRect];
 	wr.size.width = (wr.size.width - 12);
 	wr.origin.x = wr.origin.x + 6;
-	if(CGRectContainsPoint([self playRect],local_point)) {
-		NSLog(@"Play/Pause touched");
-		[self pauseAudio];
-	} else if(CGRectContainsPoint(wr,local_point) && player != nil) {
-		CGFloat x = local_point.x - wr.origin.x;
-		float sel = x / wr.size.width;
-		Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
-		float timeSelected = duration * sel;
-		CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
-		[player seekToTime:tm];
-		NSLog(@"Clicked time : %f",timeSelected);
+	if(CGRectContainsPoint(wr,local_point) && player != nil) {
+        CGFloat x = local_point.x - wr.origin.x;
+        float sel = x / wr.size.width;
+        Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+        float timeSelected = duration * sel;
+        CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
+        [player seekToTime:tm];
+        NSLog(@"Clicked time : %f",timeSelected);
 	}
+//    else if(CGRectContainsPoint(wr,local_point) && player != nil) {
+//		CGFloat x = local_point.x - wr.origin.x;
+//		float sel = x / wr.size.width;
+//		Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+//		float timeSelected = duration * sel;
+//		CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
+//		[player seekToTime:tm];
+//		NSLog(@"Clicked time : %f",timeSelected);
+//	}
 }
 //- (BOOL) acceptsFirstMouse:(NSEvent *)theEvent
 //{
@@ -296,11 +320,11 @@
 
 - (CGRect) waveRect
 {
-	CGRect sr = [self statusRect];
-	CGFloat y = 6;//sr.origin.y + sr.size.height + 2;
-	return CGRectMake(self.bounds.size.height, y, self.bounds.size.width - 9 - self.bounds.size.height, self.bounds.size.height - 12 - sr.size.height);
+//	CGRect sr = [self statusRect];
+//	CGFloat y = 6;//sr.origin.y + sr.size.height + 2;
+//	return CGRectMake(self.bounds.size.height, y, self.bounds.size.width - 9 - self.bounds.size.height, self.bounds.size.height - 12 - sr.size.height);
     
-    //return CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+    return CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     
 }
 
@@ -376,24 +400,24 @@
 	CGContextSetFillColorWithColor(cx, [UIColor clearColor].CGColor);
 	CGContextFillRect(cx, self.bounds);
 	
-	[self drawRoundRect:self.bounds fillColor:white strokeColor:green radius:8.0 lineWidht:2.0];
+	[self drawRoundRect:self.bounds fillColor:white strokeColor:[UIColor blueColor] radius:8.0 lineWidht:2.0];
 	
-	CGRect playRect = [self playRect];
-	[self drawRoundRect:playRect fillColor:white strokeColor:darkgray radius:4.0 lineWidht:2.0];
+//	CGRect playRect = [self playRect];
+//	[self drawRoundRect:playRect fillColor:white strokeColor:darkgray radius:4.0 lineWidht:2.0];
 	
 	CGRect waveRect = [self waveRect];
 	[self drawRoundRect:waveRect fillColor:lightgray strokeColor:darkgray radius:4.0 lineWidht:2.0];
 	
-	CGRect statusRect = [self statusRect];
-	[self drawRoundRect:statusRect fillColor:lightgray strokeColor:darkgray radius:4.0 lineWidht:2.0];
+//	CGRect statusRect = [self statusRect];
+//	[self drawRoundRect:statusRect fillColor:lightgray strokeColor:darkgray radius:4.0 lineWidht:2.0];
 	
 	if(sampleLength > 0) {
         //draw setup
-		if(player.rate == 0.0) {
-			[self drawPlay];
-		} else {
-			[self drawPause];
-		}
+//		if(player.rate == 0.0) {
+//			[self drawPlay];
+//		} else {
+//			[self drawPause];
+//		}
 		CGMutablePathRef halfPath = CGPathCreateMutable();
 		CGPathAddLines( halfPath, NULL,sampleData, sampleLength); // magic!
 		
@@ -420,25 +444,28 @@
 		// Now, path contains the full waveform path.		
 		CGContextRef cx = UIGraphicsGetCurrentContext();
 		
-		[darkgray set];
+		//[darkgray set];
+        [lightgray set];
 		CGContextAddPath(cx, path);
 		CGContextStrokePath(cx);
 		
 		// gauge draw
-		if(playProgress > 0.0) {
+		//if(playProgress > 0.0) {
 			CGRect clipRect = waveRect;
-			clipRect.size.width = (clipRect.size.width - 12) * playProgress;
+			//clipRect.size.width = (clipRect.size.width - 12) * playProgress;
+            clipRect.size.width = (clipRect.size.width - 12);
 			clipRect.origin.x = clipRect.origin.x + 6;
 			CGContextClipToRect(cx,clipRect);
 			
-			[marker setFill];
+			[white setFill];
 			CGContextAddPath(cx, path);
 			CGContextFillPath(cx);
 			CGContextClipToRect(cx,waveRect);
-			[darkgray set];
+			//[darkgray set];
+            [lightgray set];
 			CGContextAddPath(cx, path);
 			CGContextStrokePath(cx);
-		}		
+		//}
 		CGPathRelease(path); // clean up!
 	}
 	[[UIColor clearColor] setFill];

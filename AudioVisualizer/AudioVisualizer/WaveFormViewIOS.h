@@ -10,6 +10,7 @@
 #include <AVFoundation/AVFoundation.h>
 #import "WaveSampleProvider.h"
 #import "WaveSampleProviderDelegate.h"
+#import "AudioSlider.h"
 
 @interface WaveFormViewIOS : UIControl<WaveSampleProviderDelegate>
 {
@@ -36,6 +37,8 @@
 	UIColor *darkgray;
 	UIColor *white;
 	UIColor *marker;
+    
+    AudioSlider *slider;
 }
 
 @property CGPoint* sampleData;
