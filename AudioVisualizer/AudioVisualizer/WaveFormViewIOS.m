@@ -68,22 +68,27 @@
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
     
-//    slider = [[AudioSlider alloc] initWithFrame:CGRectMake(6, 6, 50, 50)];
-//    [self addSubview:slider];
-    
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [button setTitle:@"Drag me" forState:UIControlStateNormal];
-    AudioSlider *button = [[AudioSlider alloc] init];
-    button.frame = CGRectMake(0, 0, 40.0, 160.0);
-    [button addTarget:self action:@selector(draggedOut:withEvent:)
+    AudioSlider *leftSlider = [[AudioSlider alloc] init];
+    leftSlider.frame = CGRectMake(0, 0, 10.0, self.bounds.size.height);
+    [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
-    [self addSubview:button];
+    [self addSubview:leftSlider];
+    
+    AudioSlider *rightSlider = [[AudioSlider alloc] init];
+    //this is hardcoded BAD BAD BAD
+    rightSlider.frame = CGRectMake(self.bounds.size.width - 95.0, 0, 10.0, self.bounds.size.height);
+    [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
+         forControlEvents:UIControlEventTouchDragOutside |
+     UIControlEventTouchDragInside];
+    [self addSubview:rightSlider];
 }
 
 - (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
     CGPoint point = [[[ev allTouches] anyObject] locationInView:self];
-    c.center = point;
+    if(point.x > 0 && point.x < self.bounds.size.width){
+        c.center = CGPointMake(point.x, c.center.y);
+    }
 }
 
 - (void)setFrame:(CGRect)frameRect

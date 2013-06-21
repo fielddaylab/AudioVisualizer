@@ -37,8 +37,6 @@
 	UIColor *darkgray;
 	UIColor *white;
 	UIColor *marker;
-    
-    AudioSlider *slider;
 }
 
 @property CGPoint* sampleData;
