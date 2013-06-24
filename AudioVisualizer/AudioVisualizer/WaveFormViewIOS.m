@@ -68,14 +68,14 @@
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
     
-    AudioSlider *leftSlider = [[AudioSlider alloc] init];
+    leftSlider = [[AudioSlider alloc] init];
     leftSlider.frame = CGRectMake(0, 0, 10.0, self.bounds.size.height);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
     [self addSubview:leftSlider];
     
-    AudioSlider *rightSlider = [[AudioSlider alloc] init];
+    rightSlider = [[AudioSlider alloc] init];
     //this is hardcoded BAD BAD BAD
     rightSlider.frame = CGRectMake(self.bounds.size.width - 95.0, 0, 10.0, self.bounds.size.height);
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
@@ -86,8 +86,25 @@
 
 - (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
     CGPoint point = [[[ev allTouches] anyObject] locationInView:self];
+    
+    //all of these checks arent precise because they dont take into account the width of the bar
     if(point.x > 0 && point.x < self.bounds.size.width){
-        c.center = CGPointMake(point.x, c.center.y);
+        if([c isEqual:leftSlider]){
+            if(rightSlider.center.x - point.x > 10){
+                c.center = CGPointMake(point.x, c.center.y);
+            }
+            else{
+                c.center = CGPointMake(rightSlider.center.x - 10, c.center.y);
+            }
+        }
+        else{
+            if(leftSlider.center.x - point.x < -10){
+                c.center = CGPointMake(point.x, c.center.y);
+            }
+            else{
+                c.center = CGPointMake(leftSlider.center.x + 10, c.center.y);
+            }
+        }
     }
 }
 

@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B31BAAD1778A86900EC3478 /* WaveformViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */; };
 		5B67BD0C1774D5A7000DE184 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B67BD0B1774D5A7000DE184 /* 74-location.png */; };
 		5B67BD0F1774D60A000DE184 /* AudioSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B67BD0E1774D60A000DE184 /* AudioSlider.m */; };
-		5B67BD111774EBAE000DE184 /* WaveformViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B67BD101774EBAE000DE184 /* WaveformViewController.xib */; };
 		5BFB60CA177373AC0058BCD3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB60C9177373AC0058BCD3 /* UIKit.framework */; };
 		5BFB60CC177373AC0058BCD3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB60CB177373AC0058BCD3 /* Foundation.framework */; };
 		5BFB60CE177373AC0058BCD3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB60CD177373AC0058BCD3 /* CoreGraphics.framework */; };
@@ -33,10 +33,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WaveformViewController.xib; sourceTree = "<group>"; };
 		5B67BD0B1774D5A7000DE184 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "74-location.png"; path = "../../../../ARISRealtimeMonitor/ARISRealtimeMonitor/ARISRealtimeMonitor/Assets/74-location.png"; sourceTree = "<group>"; };
 		5B67BD0D1774D60A000DE184 /* AudioSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSlider.h; sourceTree = "<group>"; };
 		5B67BD0E1774D60A000DE184 /* AudioSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSlider.m; sourceTree = "<group>"; };
-		5B67BD101774EBAE000DE184 /* WaveformViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WaveformViewController.xib; path = ../../../../../.Trash/WaveformViewController.xib; sourceTree = "<group>"; };
 		5BFB60C6177373AC0058BCD3 /* AudioVisualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioVisualizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BFB60C9177373AC0058BCD3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5BFB60CB177373AC0058BCD3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -155,11 +155,11 @@
 		5BFB60EB1773744F0058BCD3 /* view controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */,
 				5BFB60EC177376640058BCD3 /* AudioVisualizerContainer.h */,
 				5BFB60ED177376640058BCD3 /* AudioVisualizerContainer.m */,
 				5BFB60EF177376850058BCD3 /* WaveformViewController.h */,
 				5BFB60F0177376850058BCD3 /* WaveformViewController.m */,
-				5B67BD101774EBAE000DE184 /* WaveformViewController.xib */,
 				5BFB60F4177376A10058BCD3 /* FreqHistogramViewController.h */,
 				5BFB60F5177376A10058BCD3 /* FreqHistogramViewController.m */,
 				5BFB60F6177376A10058BCD3 /* FreqHistogramViewController.xib */,
@@ -224,7 +224,7 @@
 				5BFB60E2177373AC0058BCD3 /* Default-568h@2x.png in Resources */,
 				5BFB60F8177376A10058BCD3 /* FreqHistogramViewController.xib in Resources */,
 				5B67BD0C1774D5A7000DE184 /* 74-location.png in Resources */,
-				5B67BD111774EBAE000DE184 /* WaveformViewController.xib in Resources */,
+				5B31BAAD1778A86900EC3478 /* WaveformViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

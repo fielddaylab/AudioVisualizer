@@ -19,7 +19,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        //self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -45,9 +45,37 @@
 	CGContextDrawPath(cx, kCGPathFillStroke);
 }
 
+-(void) draw1PxStrokeForContext:(CGContextRef)context startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint color:(CGColorRef)color{
+    CGContextSaveGState(context);
+    CGContextSetLineCap(context, kCGLineCapSquare);
+    CGContextSetStrokeColorWithColor(context, color);
+    CGContextSetLineWidth(context, 1.0);
+    CGContextMoveToPoint(context, startPoint.x + .5, startPoint.y + .5);
+    CGContextAddLineToPoint(context, endPoint.x + .5, endPoint.y + .5);
+    CGContextStrokePath(context);
+    CGContextRestoreGState(context);
+}
+
 - (void)drawRect:(CGRect)rect
 {
-	[self drawRoundRect:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) fillColor:[UIColor redColor] strokeColor:[UIColor blueColor] radius:4.0 lineWidht:2.0];
+//	[self drawRoundRect:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) fillColor:[UIColor redColor] strokeColor:[UIColor blueColor] radius:4.0 lineWidht:2.0];
+    
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGRect rectangle = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+//    CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 0.0);
+//    CGContextSetRGBStrokeColor(context, 1.0, 0.0, 1.0, 1.0);
+//    CGContextFillRect(context, rectangle);
+//    CGContextStrokeRect(context, rectangle);
+    
+    //this draws the triangle
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0, 0)];
+    float halfWidth = self.bounds.size.width / 2.0;
+    [path addLineToPoint:CGPointMake(50, 100)];
+    [path addLineToPoint:CGPointMake(100, 0)];
+    [path closePath];
+    [[UIColor orangeColor] set];
+    [path fill];
 }
 
 
