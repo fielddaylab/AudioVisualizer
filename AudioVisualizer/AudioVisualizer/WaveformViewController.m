@@ -104,8 +104,8 @@
 -(void)stopFunction{
     if(waveformView.player.rate != 0.0){
         [waveformView setPlayHeadToLeftSlider];
-        [playButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
         [waveformView pauseAudio];
+        [playButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
     }
     [self updateTime];
 }

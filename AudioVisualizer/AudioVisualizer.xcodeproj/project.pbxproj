@@ -20,7 +20,6 @@
 		5B31BAC61778FCC300EC3478 /* 29-circle-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAC31778FCC300EC3478 /* 29-circle-pause.png */; };
 		5B31BACA1778FD7100EC3478 /* 35-circle-stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAC91778FD7100EC3478 /* 35-circle-stop.png */; };
 		5B31BACC1778FDA800EC3478 /* 30-circle-play.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BACB1778FDA800EC3478 /* 30-circle-play.png */; };
-		5B67BD0C1774D5A7000DE184 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B67BD0B1774D5A7000DE184 /* 74-location.png */; };
 		5B67BD0F1774D60A000DE184 /* AudioSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B67BD0E1774D60A000DE184 /* AudioSlider.m */; };
 		5BFB60CA177373AC0058BCD3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB60C9177373AC0058BCD3 /* UIKit.framework */; };
 		5BFB60CC177373AC0058BCD3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB60CB177373AC0058BCD3 /* Foundation.framework */; };
@@ -59,7 +58,6 @@
 		5B31BAC31778FCC300EC3478 /* 29-circle-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "29-circle-pause.png"; sourceTree = "<group>"; };
 		5B31BAC91778FD7100EC3478 /* 35-circle-stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "35-circle-stop.png"; sourceTree = "<group>"; };
 		5B31BACB1778FDA800EC3478 /* 30-circle-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "30-circle-play.png"; sourceTree = "<group>"; };
-		5B67BD0B1774D5A7000DE184 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "74-location.png"; path = "../../../../ARISRealtimeMonitor/ARISRealtimeMonitor/ARISRealtimeMonitor/Assets/74-location.png"; sourceTree = "<group>"; };
 		5B67BD0D1774D60A000DE184 /* AudioSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSlider.h; sourceTree = "<group>"; };
 		5B67BD0E1774D60A000DE184 /* AudioSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSlider.m; sourceTree = "<group>"; };
 		5BFB60C6177373AC0058BCD3 /* AudioVisualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioVisualizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,7 +174,6 @@
 				5B31BAB21778C9BA00EC3478 /* sample.mp3 */,
 				5B31BAB01778C94D00EC3478 /* sound.caf */,
 				5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */,
-				5B67BD0B1774D5A7000DE184 /* 74-location.png */,
 				5BFB60D3177373AC0058BCD3 /* AudioVisualizer-Info.plist */,
 				5BFB60D4177373AC0058BCD3 /* InfoPlist.strings */,
 				5BFB60D7177373AC0058BCD3 /* main.m */,
@@ -261,7 +258,6 @@
 				5BFB60E0177373AC0058BCD3 /* Default@2x.png in Resources */,
 				5BFB60E2177373AC0058BCD3 /* Default-568h@2x.png in Resources */,
 				5BFB60F8177376A10058BCD3 /* FreqHistogramViewController.xib in Resources */,
-				5B67BD0C1774D5A7000DE184 /* 74-location.png in Resources */,
 				5B31BAAD1778A86900EC3478 /* WaveformViewController.xib in Resources */,
 				5B31BAAF1778C87500EC3478 /* gunSoundEffect.mp3 in Resources */,
 				5B31BAB11778C94D00EC3478 /* sound.caf in Resources */,

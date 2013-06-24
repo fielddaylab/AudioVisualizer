@@ -105,8 +105,11 @@
 }
 
 - (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
-    CGPoint point = [[[ev allTouches] anyObject] locationInView:self];
+   
+    //Stop playing if you begin to crop.
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"StopAudio" object:nil userInfo:nil]];
     
+    CGPoint point = [[[ev allTouches] anyObject] locationInView:self];
     CGRect waveRect = [self waveRect];
     //all of these checks arent precise because they dont take into account the width of the bar
     if(point.x > waveRect.origin.x && point.x < self.bounds.size.width){
@@ -270,7 +273,7 @@
 	CGRect wr = [self waveRect];
 //	wr.size.width = (wr.size.width - 12);
 //	wr.origin.x = wr.origin.x + 6;
-	if(CGRectContainsPoint(wr,local_point) && player != nil) {
+	if(CGRectContainsPoint(wr,local_point) && player != nil) {        
         CGFloat x = local_point.x - wr.origin.x;
         float sel = x / wr.size.width;
         Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
@@ -540,13 +543,13 @@
         
         CGRect rectangle = CGRectMake(waveRect.origin.x, 0, leftSlider.center.x, self.bounds.size.height);
         CGContextRef context = UIGraphicsGetCurrentContext();
-        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .2);   //this is the transparent color
+        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .4);   //this is the transparent color
         CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
         CGContextFillRect(context, rectangle);
         CGContextStrokeRect(context, rectangle);
         
         rectangle = CGRectMake(rightSlider.center.x, 0, self.bounds.size.width, self.bounds.size.height);
-        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .2);   //this is the transparent color
+        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .4);   //this is the transparent color
         CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
         CGContextFillRect(context, rectangle);
         CGContextStrokeRect(context, rectangle);
