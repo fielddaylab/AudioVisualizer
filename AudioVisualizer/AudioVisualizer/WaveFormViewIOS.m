@@ -107,6 +107,7 @@
                 c.center = CGPointMake(leftSlider.center.x + SLIDER_BUFFER, c.center.y);
             }
         }
+        [self setNeedsDisplay];
     }
 }
 
@@ -233,7 +234,7 @@
         float timeSelected = duration * sel;
         CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
         [player seekToTime:tm];
-        NSLog(@"Clicked time : %f",timeSelected);
+        //NSLog(@"Clicked time : %f",timeSelected);
 	}
 //    else if(CGRectContainsPoint(wr,local_point) && player != nil) {
 //		CGFloat x = local_point.x - wr.origin.x;
@@ -485,12 +486,27 @@
 			CGContextAddPath(cx, path);
 			CGContextFillPath(cx);
 			CGContextClipToRect(cx,waveRect);
-			//[darkgray set];
             [lightgray set];
 			CGContextAddPath(cx, path);
 			CGContextStrokePath(cx);
 		//}
 		CGPathRelease(path); // clean up!
+        
+        //draw the faded rectangles
+        CGRect rectangle = CGRectMake(0, 0, leftSlider.center.x, self.bounds.size.height);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .2);   //this is the transparent color
+        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
+        CGContextFillRect(context, rectangle);
+        CGContextStrokeRect(context, rectangle);
+        
+        rectangle = CGRectMake(rightSlider.center.x, 0, self.bounds.size.width, self.bounds.size.height);
+        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .2);   //this is the transparent color
+        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
+        CGContextFillRect(context, rectangle);
+        CGContextStrokeRect(context, rectangle);
+        
+        
 	}
 	[[UIColor clearColor] setFill];
 	CGContextRestoreGState(cx);
