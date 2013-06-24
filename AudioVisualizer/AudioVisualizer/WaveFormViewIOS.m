@@ -30,7 +30,7 @@
 
 @implementation WaveFormViewIOS
 
-@synthesize sampleData, sampleLength, player;
+@synthesize sampleData, sampleLength, player, timeString;
 
 #pragma mark -
 #pragma mark Chrome
@@ -253,7 +253,7 @@
 			int cmin = currentTime / 60;
 			int csec = currentTime - (cmin * 60);
 			if(currentTime > 0.0) {
-				[self setTimeString:[NSString stringWithFormat:@"%02d:%02d/%02d:%02d",dmin,dsec,cmin,csec]];
+				[self setTimeString:[NSString stringWithFormat:@"%02d:%02d/%02d:%02d",cmin,csec,dmin,dsec]];
 			}
 			playProgress = currentTime/duration;			
 			[self setNeedsDisplay];
@@ -538,8 +538,14 @@
 		//}
 		CGPathRelease(path); // clean up!
         
-        CGRect rectangle = CGRectMake(leftSlider.center.x, 0, (rightSlider.center.x - leftSlider.center.x), self.bounds.size.height);
+        CGRect rectangle = CGRectMake(waveRect.origin.x, 0, leftSlider.center.x, self.bounds.size.height);
         CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .2);   //this is the transparent color
+        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
+        CGContextFillRect(context, rectangle);
+        CGContextStrokeRect(context, rectangle);
+        
+        rectangle = CGRectMake(rightSlider.center.x, 0, self.bounds.size.width, self.bounds.size.height);
         CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .2);   //this is the transparent color
         CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
         CGContextFillRect(context, rectangle);
@@ -624,8 +630,8 @@
 		[self setSampleData:sd length:sdl];
 		[self setInfoString:@"Paused"];
 		int dmin = wsp.minute;
-		int dsec = wsp.sec;
-		[self setTimeString:[NSString stringWithFormat:@"%02d:%02d/--:--",dmin,dsec]];
+		int dsec = wsp.sec; 
+		[self setTimeString:[NSString stringWithFormat:@"--:--/%02d:%02d",dmin,dsec]];
 		[self startAudio];
 		
 	}

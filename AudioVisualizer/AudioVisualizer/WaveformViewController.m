@@ -16,7 +16,7 @@
 
 @implementation WaveformViewController
 
-@synthesize waveformView;
+@synthesize waveformView, timeText;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -67,6 +67,11 @@
 {
     [super viewDidLoad];
      [self loadAudioForPath:@"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/tail_toddle.mp3"];
+    NSTimer *refreshTimeTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                               target:self
+                                             selector:@selector(updateTime)
+                                             userInfo:nil
+                                              repeats:YES];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -92,8 +97,8 @@
     else{
         [playButton setImage:[UIImage imageNamed:@"playButtonBlue.png"] forState:UIControlStateNormal];
     }
-    
     [waveformView pauseAudio];
+    [self updateTime];
 }
 
 -(void)stopFunction{
@@ -102,6 +107,11 @@
         [playButton setImage:[UIImage imageNamed:@"playButtonBlue.png"] forState:UIControlStateNormal];
         [waveformView pauseAudio];
     }
+    [self updateTime];
+}
+
+-(void)updateTime{
+    [timeText setText:[waveformView timeString]];
 }
 
 @end

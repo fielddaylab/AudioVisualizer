@@ -45,6 +45,7 @@
 @property CGPoint* sampleData;
 @property int sampleLength;
 @property AVPlayer *player;
+@property NSString *timeString;
 
 //- (void) openAudio:(NSString *)path;
 - (void) openAudioURL:(NSURL *)url;

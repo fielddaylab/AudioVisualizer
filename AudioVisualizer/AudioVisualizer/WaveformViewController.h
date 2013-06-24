@@ -11,5 +11,6 @@
 
 @interface WaveformViewController : UIViewController
 @property (weak, nonatomic) IBOutlet WaveFormViewIOS *waveformView;
+@property (weak, nonatomic) IBOutlet UILabel *timeText;
 
 @end

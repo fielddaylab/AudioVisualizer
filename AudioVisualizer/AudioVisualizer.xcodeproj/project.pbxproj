@@ -16,6 +16,7 @@
 		5B31BABC1778E96C00EC3478 /* playButtonBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BABA1778E96C00EC3478 /* playButtonBlue.png */; };
 		5B31BABD1778E96C00EC3478 /* stopButtonRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BABB1778E96C00EC3478 /* stopButtonRed.png */; };
 		5B31BABF1778ECCA00EC3478 /* pauseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BABE1778ECCA00EC3478 /* pauseButton.png */; };
+		5B31BAC21778F11E00EC3478 /* AudioVisualizerContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B31BAC11778F11E00EC3478 /* AudioVisualizerContainerViewController.m */; };
 		5B67BD0C1774D5A7000DE184 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B67BD0B1774D5A7000DE184 /* 74-location.png */; };
 		5B67BD0F1774D60A000DE184 /* AudioSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B67BD0E1774D60A000DE184 /* AudioSlider.m */; };
 		5BFB60CA177373AC0058BCD3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB60C9177373AC0058BCD3 /* UIKit.framework */; };
@@ -50,6 +51,8 @@
 		5B31BABA1778E96C00EC3478 /* playButtonBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playButtonBlue.png; sourceTree = "<group>"; };
 		5B31BABB1778E96C00EC3478 /* stopButtonRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopButtonRed.png; sourceTree = "<group>"; };
 		5B31BABE1778ECCA00EC3478 /* pauseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pauseButton.png; sourceTree = "<group>"; };
+		5B31BAC01778F11E00EC3478 /* AudioVisualizerContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVisualizerContainerViewController.h; sourceTree = "<group>"; };
+		5B31BAC11778F11E00EC3478 /* AudioVisualizerContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVisualizerContainerViewController.m; sourceTree = "<group>"; };
 		5B67BD0B1774D5A7000DE184 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "74-location.png"; path = "../../../../ARISRealtimeMonitor/ARISRealtimeMonitor/ARISRealtimeMonitor/Assets/74-location.png"; sourceTree = "<group>"; };
 		5B67BD0D1774D60A000DE184 /* AudioSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSlider.h; sourceTree = "<group>"; };
 		5B67BD0E1774D60A000DE184 /* AudioSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSlider.m; sourceTree = "<group>"; };
@@ -187,6 +190,8 @@
 				5BFB60F4177376A10058BCD3 /* FreqHistogramViewController.h */,
 				5BFB60F5177376A10058BCD3 /* FreqHistogramViewController.m */,
 				5BFB60F6177376A10058BCD3 /* FreqHistogramViewController.xib */,
+				5B31BAC01778F11E00EC3478 /* AudioVisualizerContainerViewController.h */,
+				5B31BAC11778F11E00EC3478 /* AudioVisualizerContainerViewController.m */,
 			);
 			name = "view controllers";
 			sourceTree = "<group>";
@@ -276,6 +281,7 @@
 				5BFB610F17739F8C0058BCD3 /* WaveFormViewIOS.m in Sources */,
 				5BFB611317739FDB0058BCD3 /* WaveSampleProvider.m in Sources */,
 				5B67BD0F1774D60A000DE184 /* AudioSlider.m in Sources */,
+				5B31BAC21778F11E00EC3478 /* AudioVisualizerContainerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
