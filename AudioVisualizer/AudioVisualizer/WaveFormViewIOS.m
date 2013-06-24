@@ -555,9 +555,9 @@
         [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];
         
         //check to see if the playhead should stop
+        //this also needs to reset the play button
         if(currentPointX >= rightSlider.center.x){
-            [self setPlayHeadToLeftSlider];
-            [self pauseAudio];
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"StopAudio" object:nil userInfo:nil]];
         }
         
         

@@ -15,6 +15,7 @@
 		5B31BAB91778E3A200EC3478 /* playButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB81778E3A200EC3478 /* playButton.png */; };
 		5B31BABC1778E96C00EC3478 /* playButtonBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BABA1778E96C00EC3478 /* playButtonBlue.png */; };
 		5B31BABD1778E96C00EC3478 /* stopButtonRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BABB1778E96C00EC3478 /* stopButtonRed.png */; };
+		5B31BABF1778ECCA00EC3478 /* pauseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BABE1778ECCA00EC3478 /* pauseButton.png */; };
 		5B67BD0C1774D5A7000DE184 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B67BD0B1774D5A7000DE184 /* 74-location.png */; };
 		5B67BD0F1774D60A000DE184 /* AudioSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B67BD0E1774D60A000DE184 /* AudioSlider.m */; };
 		5BFB60CA177373AC0058BCD3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB60C9177373AC0058BCD3 /* UIKit.framework */; };
@@ -48,6 +49,7 @@
 		5B31BAB81778E3A200EC3478 /* playButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playButton.png; sourceTree = "<group>"; };
 		5B31BABA1778E96C00EC3478 /* playButtonBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playButtonBlue.png; sourceTree = "<group>"; };
 		5B31BABB1778E96C00EC3478 /* stopButtonRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopButtonRed.png; sourceTree = "<group>"; };
+		5B31BABE1778ECCA00EC3478 /* pauseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pauseButton.png; sourceTree = "<group>"; };
 		5B67BD0B1774D5A7000DE184 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "74-location.png"; path = "../../../../ARISRealtimeMonitor/ARISRealtimeMonitor/ARISRealtimeMonitor/Assets/74-location.png"; sourceTree = "<group>"; };
 		5B67BD0D1774D60A000DE184 /* AudioSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSlider.h; sourceTree = "<group>"; };
 		5B67BD0E1774D60A000DE184 /* AudioSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSlider.m; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 		5BFB60D2177373AC0058BCD3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B31BABE1778ECCA00EC3478 /* pauseButton.png */,
 				5B31BABA1778E96C00EC3478 /* playButtonBlue.png */,
 				5B31BABB1778E96C00EC3478 /* stopButtonRed.png */,
 				5B31BAB81778E3A200EC3478 /* playButton.png */,
@@ -253,6 +256,7 @@
 				5B31BAB91778E3A200EC3478 /* playButton.png in Resources */,
 				5B31BABC1778E96C00EC3478 /* playButtonBlue.png in Resources */,
 				5B31BABD1778E96C00EC3478 /* stopButtonRed.png in Resources */,
+				5B31BABF1778ECCA00EC3478 /* pauseButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,9 @@
 
 #import "WaveformViewController.h"
 
-@interface WaveformViewController ()
+@interface WaveformViewController (){
+    UIButton *playButton;
+}
 
 @end
 
@@ -20,7 +22,12 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        UIButton *playButton = [[UIButton alloc] init];
+        self.title = @"Waveform";
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopFunction) name:@"StopAudio" object:nil];
+        
+        //set up buttons
+        playButton = [[UIButton alloc] init];
         [playButton addTarget:self
                    action:@selector(playFunction)
                    forControlEvents:UIControlEventTouchDown];
@@ -79,12 +86,20 @@
 
 -(void)playFunction{
     //[waveformView setPlayHeadToLeftSlider];
+    if([waveformView player].rate == 0.0){
+        [playButton setImage:[UIImage imageNamed:@"pauseButton.png"] forState:UIControlStateNormal];
+    }
+    else{
+        [playButton setImage:[UIImage imageNamed:@"playButtonBlue.png"] forState:UIControlStateNormal];
+    }
+    
     [waveformView pauseAudio];
 }
 
 -(void)stopFunction{
     if(waveformView.player.rate != 0.0){
         [waveformView setPlayHeadToLeftSlider];
+        [playButton setImage:[UIImage imageNamed:@"playButtonBlue.png"] forState:UIControlStateNormal];
         [waveformView pauseAudio];
     }
 }
