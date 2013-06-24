@@ -31,7 +31,7 @@
         [playButton addTarget:self
                    action:@selector(playFunction)
                    forControlEvents:UIControlEventTouchDown];
-        [playButton setImage:[UIImage imageNamed:@"playButtonBlue.png"] forState:UIControlStateNormal];
+        [playButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
         playButton.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.size.height - 30, 50.0, 40.0);
         [self.view addSubview:playButton];
         
@@ -39,7 +39,7 @@
         [stopButton addTarget:self
                        action:@selector(stopFunction)
              forControlEvents:UIControlEventTouchDown];
-        [stopButton setImage:[UIImage imageNamed:@"stopButtonRed.png"] forState:UIControlStateNormal];
+        [stopButton setImage:[UIImage imageNamed:@"35-circle-stop.png"] forState:UIControlStateNormal];
         stopButton.frame = CGRectMake(self.view.frame.size.width - 140.0, self.view.frame.size.height - 30.0, 50.0, 40.0);
         [self.view addSubview:stopButton];
     }
@@ -92,10 +92,10 @@
 -(void)playFunction{
     //[waveformView setPlayHeadToLeftSlider];
     if([waveformView player].rate == 0.0){
-        [playButton setImage:[UIImage imageNamed:@"pauseButton.png"] forState:UIControlStateNormal];
+        [playButton setImage:[UIImage imageNamed:@"29-circle-pause.png"] forState:UIControlStateNormal];
     }
     else{
-        [playButton setImage:[UIImage imageNamed:@"playButtonBlue.png"] forState:UIControlStateNormal];
+        [playButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
     }
     [waveformView pauseAudio];
     [self updateTime];
@@ -104,7 +104,7 @@
 -(void)stopFunction{
     if(waveformView.player.rate != 0.0){
         [waveformView setPlayHeadToLeftSlider];
-        [playButton setImage:[UIImage imageNamed:@"playButtonBlue.png"] forState:UIControlStateNormal];
+        [playButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
         [waveformView pauseAudio];
     }
     [self updateTime];
