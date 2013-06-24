@@ -70,27 +70,51 @@
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
     
+    CGRect waveRect = [self waveRect];
     leftSlider = [[AudioSlider alloc] init];
-    leftSlider.frame = CGRectMake(0, 0, 10.0, self.bounds.size.height);
+    leftSlider.frame = CGRectMake(waveRect.origin.x - 5, 0, 10.0, waveRect.size.height);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
     [self addSubview:leftSlider];
     
     rightSlider = [[AudioSlider alloc] init];
-    //this is hardcoded BAD BAD BAD
-    rightSlider.frame = CGRectMake(self.bounds.size.width - 95.0, 0, 10.0, self.bounds.size.height);
+    rightSlider.frame = CGRectMake(self.bounds.size.width - 95.0, 0, 10.0, waveRect.size.height);
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
     [self addSubview:rightSlider];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(playFunction)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"Play" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 10.0, 80.0, 40.0);
+    [self addSubview:button];
+}
+
+-(void)setPlayHeadToLeftSlider{
+    CGRect wr = [self waveRect];
+    CGFloat x = leftSlider.center.x - wr.origin.x;
+    float sel = x / wr.size.width;
+    Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+    float timeSelected = duration * sel;
+    CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
+    [player seekToTime:tm];
+}
+
+-(void)playFunction{
+    [self setPlayHeadToLeftSlider];
+    [self pauseAudio];
 }
 
 - (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
     CGPoint point = [[[ev allTouches] anyObject] locationInView:self];
     
+    CGRect waveRect = [self waveRect];
     //all of these checks arent precise because they dont take into account the width of the bar
-    if(point.x > 0 && point.x < self.bounds.size.width){
+    if(point.x > waveRect.origin.x && point.x < self.bounds.size.width){
         if([c isEqual:leftSlider]){
             if(rightSlider.center.x - point.x > SLIDER_BUFFER){
                 c.center = CGPointMake(point.x, c.center.y);
@@ -225,8 +249,8 @@
 	UITouch *touch = [touches anyObject];
 	CGPoint local_point = [touch locationInView:self];
 	CGRect wr = [self waveRect];
-	wr.size.width = (wr.size.width - 12);
-	wr.origin.x = wr.origin.x + 6;
+//	wr.size.width = (wr.size.width - 12);
+//	wr.origin.x = wr.origin.x + 6;
 	if(CGRectContainsPoint(wr,local_point) && player != nil) {
         CGFloat x = local_point.x - wr.origin.x;
         float sel = x / wr.size.width;
@@ -236,15 +260,6 @@
         [player seekToTime:tm];
         //NSLog(@"Clicked time : %f",timeSelected);
 	}
-//    else if(CGRectContainsPoint(wr,local_point) && player != nil) {
-//		CGFloat x = local_point.x - wr.origin.x;
-//		float sel = x / wr.size.width;
-//		Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
-//		float timeSelected = duration * sel;
-//		CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
-//		[player seekToTime:tm];
-//		NSLog(@"Clicked time : %f",timeSelected);
-//	}
 }
 //- (BOOL) acceptsFirstMouse:(NSEvent *)theEvent
 //{
@@ -417,8 +432,20 @@
     }
 }
 
+-(void) draw1PxStrokeForContext:(CGContextRef)context startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint color:(CGColorRef)color{
+    CGContextSaveGState(context);
+    CGContextSetLineCap(context, kCGLineCapSquare);
+    CGContextSetStrokeColorWithColor(context, color);
+    CGContextSetLineWidth(context, 1.0);
+    CGContextMoveToPoint(context, startPoint.x + .5, startPoint.y + .5);
+    CGContextAddLineToPoint(context, endPoint.x + .5, endPoint.y + .5);
+    CGContextStrokePath(context);
+    CGContextRestoreGState(context);
+}
+
 - (void)drawRect:(CGRect)dirtyRect
 {
+    //NSLog(@"%f", playProgress);
 	CGContextRef cx = UIGraphicsGetCurrentContext();
 	CGContextSaveGState(cx);
 	
@@ -448,21 +475,21 @@
 		
 		CGMutablePathRef path = CGPathCreateMutable();
 		
-		double xscale = (CGRectGetWidth(waveRect)-12.0) / (float)sampleLength;
+		double xscale = (CGRectGetWidth(waveRect)) / (float)sampleLength;
 		// Transform to fit the waveform ([0,1] range) into the vertical space 
 		// ([halfHeight,height] range)
 		double halfHeight = floor( CGRectGetHeight(waveRect) / 2.0 );//waveRect.size.height / 2.0;
 		CGAffineTransform xf = CGAffineTransformIdentity;
-		xf = CGAffineTransformTranslate( xf, waveRect.origin.x+6, halfHeight + waveRect.origin.y);
-		xf = CGAffineTransformScale( xf, xscale, -(halfHeight-6) );
+		xf = CGAffineTransformTranslate( xf, waveRect.origin.x, halfHeight + waveRect.origin.y);
+		xf = CGAffineTransformScale( xf, xscale, -(halfHeight) );
         //xf = CGAffineTransformScale(xf, xscale, -120);
 		CGPathAddPath( path, &xf, halfPath );
 		
 		// Transform to fit the waveform ([0,1] range) into the vertical space
 		// ([0,halfHeight] range), flipping the Y axis
 		xf = CGAffineTransformIdentity;
-		xf = CGAffineTransformTranslate( xf, waveRect.origin.x+6, halfHeight + waveRect.origin.y);
-		xf = CGAffineTransformScale( xf, xscale, (halfHeight-6));
+		xf = CGAffineTransformTranslate( xf, waveRect.origin.x, halfHeight + waveRect.origin.y);
+		xf = CGAffineTransformScale( xf, xscale, (halfHeight));
 		CGPathAddPath( path, &xf, halfPath );
 		
 		CGPathRelease( halfPath ); // clean up!
@@ -478,8 +505,8 @@
 		//if(playProgress > 0.0) {
 			CGRect clipRect = waveRect;
 			//clipRect.size.width = (clipRect.size.width - 12) * playProgress;
-            clipRect.size.width = (clipRect.size.width - 12);
-			clipRect.origin.x = clipRect.origin.x + 6;
+//            clipRect.size.width = (clipRect.size.width - 12);
+//			clipRect.origin.x = clipRect.origin.x + 6;
 			CGContextClipToRect(cx,clipRect);
 			
 			[white setFill];
@@ -492,19 +519,27 @@
 		//}
 		CGPathRelease(path); // clean up!
         
-        //draw the faded rectangles
-        CGRect rectangle = CGRectMake(0, 0, leftSlider.center.x, self.bounds.size.height);
+        CGRect rectangle = CGRectMake(leftSlider.center.x, 0, (rightSlider.center.x - leftSlider.center.x), self.bounds.size.height);
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .2);   //this is the transparent color
         CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
         CGContextFillRect(context, rectangle);
         CGContextStrokeRect(context, rectangle);
         
-        rectangle = CGRectMake(rightSlider.center.x, 0, self.bounds.size.width, self.bounds.size.height);
-        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .2);   //this is the transparent color
-        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
-        CGContextFillRect(context, rectangle);
-        CGContextStrokeRect(context, rectangle);
+        //draw a line where the current playhead is
+        CGRect wave = [self waveRect];
+//        wave.size.width = (wave.size.width - 12);
+//        wave.origin.x = wave.origin.x + 6;
+        float currentPointX = (wave.size.width) * playProgress;
+        CGPoint startPoint = CGPointMake(currentPointX, 0);
+        CGPoint endPoint = CGPointMake(currentPointX, self.bounds.size.height);
+        [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];
+        
+        //check to see if the playhead should stop
+        if(currentPointX >= rightSlider.center.x){
+            [self setPlayHeadToLeftSlider];
+            [self pauseAudio];
+        }
         
         
 	}

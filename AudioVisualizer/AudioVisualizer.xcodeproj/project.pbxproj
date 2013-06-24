@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5B31BAAD1778A86900EC3478 /* WaveformViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */; };
+		5B31BAAF1778C87500EC3478 /* gunSoundEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */; };
+		5B31BAB11778C94D00EC3478 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB01778C94D00EC3478 /* sound.caf */; };
+		5B31BAB31778C9BA00EC3478 /* sample.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB21778C9BA00EC3478 /* sample.mp3 */; };
+		5B31BAB51778CB4F00EC3478 /* tail_toddle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB41778CB4F00EC3478 /* tail_toddle.mp3 */; };
 		5B67BD0C1774D5A7000DE184 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B67BD0B1774D5A7000DE184 /* 74-location.png */; };
 		5B67BD0F1774D60A000DE184 /* AudioSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B67BD0E1774D60A000DE184 /* AudioSlider.m */; };
 		5BFB60CA177373AC0058BCD3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB60C9177373AC0058BCD3 /* UIKit.framework */; };
@@ -34,6 +38,10 @@
 
 /* Begin PBXFileReference section */
 		5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WaveformViewController.xib; sourceTree = "<group>"; };
+		5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gunSoundEffect.mp3; sourceTree = "<group>"; };
+		5B31BAB01778C94D00EC3478 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
+		5B31BAB21778C9BA00EC3478 /* sample.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sample.mp3; sourceTree = "<group>"; };
+		5B31BAB41778CB4F00EC3478 /* tail_toddle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tail_toddle.mp3; sourceTree = "<group>"; };
 		5B67BD0B1774D5A7000DE184 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "74-location.png"; path = "../../../../ARISRealtimeMonitor/ARISRealtimeMonitor/ARISRealtimeMonitor/Assets/74-location.png"; sourceTree = "<group>"; };
 		5B67BD0D1774D60A000DE184 /* AudioSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSlider.h; sourceTree = "<group>"; };
 		5B67BD0E1774D60A000DE184 /* AudioSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSlider.m; sourceTree = "<group>"; };
@@ -140,6 +148,10 @@
 		5BFB60D2177373AC0058BCD3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B31BAB41778CB4F00EC3478 /* tail_toddle.mp3 */,
+				5B31BAB21778C9BA00EC3478 /* sample.mp3 */,
+				5B31BAB01778C94D00EC3478 /* sound.caf */,
+				5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */,
 				5B67BD0B1774D5A7000DE184 /* 74-location.png */,
 				5BFB60D3177373AC0058BCD3 /* AudioVisualizer-Info.plist */,
 				5BFB60D4177373AC0058BCD3 /* InfoPlist.strings */,
@@ -225,6 +237,10 @@
 				5BFB60F8177376A10058BCD3 /* FreqHistogramViewController.xib in Resources */,
 				5B67BD0C1774D5A7000DE184 /* 74-location.png in Resources */,
 				5B31BAAD1778A86900EC3478 /* WaveformViewController.xib in Resources */,
+				5B31BAAF1778C87500EC3478 /* gunSoundEffect.mp3 in Resources */,
+				5B31BAB11778C94D00EC3478 /* sound.caf in Resources */,
+				5B31BAB31778C9BA00EC3478 /* sample.mp3 in Resources */,
+				5B31BAB51778CB4F00EC3478 /* tail_toddle.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

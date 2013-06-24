@@ -24,6 +24,7 @@
     
     
     WaveformViewController *waveformViewController = [[WaveformViewController alloc] initWithNibName:@"WaveformViewController" bundle:nil];
+//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:waveformViewController];
     self.window.rootViewController = waveformViewController;
     
     [self.window makeKeyAndVisible];
