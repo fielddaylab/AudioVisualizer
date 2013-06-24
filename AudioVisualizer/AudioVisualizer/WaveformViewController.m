@@ -20,7 +20,21 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-
+        UIButton *playButton = [[UIButton alloc] init];
+        [playButton addTarget:self
+                   action:@selector(playFunction)
+                   forControlEvents:UIControlEventTouchDown];
+        [playButton setImage:[UIImage imageNamed:@"playButtonBlue.png"] forState:UIControlStateNormal];
+        playButton.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.size.height - 30, 50.0, 40.0);
+        [self.view addSubview:playButton];
+        
+        UIButton *stopButton = [[UIButton alloc] init];
+        [stopButton addTarget:self
+                       action:@selector(stopFunction)
+             forControlEvents:UIControlEventTouchDown];
+        [stopButton setImage:[UIImage imageNamed:@"stopButtonRed.png"] forState:UIControlStateNormal];
+        stopButton.frame = CGRectMake(self.view.frame.size.width - 140.0, self.view.frame.size.height - 30.0, 50.0, 40.0);
+        [self.view addSubview:stopButton];
     }
     return self;
 }
@@ -61,6 +75,18 @@
 
 - (BOOL)shouldAutorotate {
     return YES;
+}
+
+-(void)playFunction{
+    //[waveformView setPlayHeadToLeftSlider];
+    [waveformView pauseAudio];
+}
+
+-(void)stopFunction{
+    if(waveformView.player.rate != 0.0){
+        [waveformView setPlayHeadToLeftSlider];
+        [waveformView pauseAudio];
+    }
 }
 
 @end

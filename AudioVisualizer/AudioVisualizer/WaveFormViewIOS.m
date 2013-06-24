@@ -8,7 +8,7 @@
 
 #import "WaveFormViewIOS.h"
 
-#define SLIDER_BUFFER 10
+#define SLIDER_BUFFER 5
 
 @interface WaveFormViewIOS (Private)
 
@@ -30,7 +30,7 @@
 
 @implementation WaveFormViewIOS
 
-@synthesize sampleData, sampleLength;
+@synthesize sampleData, sampleLength, player;
 
 #pragma mark -
 #pragma mark Chrome
@@ -72,26 +72,26 @@
     
     CGRect waveRect = [self waveRect];
     leftSlider = [[AudioSlider alloc] init];
-    leftSlider.frame = CGRectMake(waveRect.origin.x - 5, 0, 10.0, waveRect.size.height);
+    leftSlider.frame = CGRectMake(waveRect.origin.x - 5, 12, 10.0, waveRect.size.height);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
     [self addSubview:leftSlider];
     
     rightSlider = [[AudioSlider alloc] init];
-    rightSlider.frame = CGRectMake(self.bounds.size.width - 95.0, 0, 10.0, waveRect.size.height);
+    rightSlider.frame = CGRectMake(self.bounds.size.width - 95.0, 12, 10.0, waveRect.size.height);
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
     [self addSubview:rightSlider];
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button addTarget:self
-               action:@selector(playFunction)
-     forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"Play" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 10.0, 80.0, 40.0);
-    [self addSubview:button];
+//    UIButton *button = [[UIButton alloc] init];
+//    [button addTarget:self
+//               action:@selector(playFunction)
+//     forControlEvents:UIControlEventTouchDown];
+//    [button setImage:[UIImage imageNamed:@"playButton.png"] forState:UIControlStateNormal];
+//    button.frame = CGRectMake(waveRect.origin.x, waveRect.size.height, 80.0, 40.0);
+//    [self addSubview:button];
 }
 
 -(void)setPlayHeadToLeftSlider{
@@ -102,11 +102,6 @@
     float timeSelected = duration * sel;
     CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
     [player seekToTime:tm];
-}
-
--(void)playFunction{
-    [self setPlayHeadToLeftSlider];
-    [self pauseAudio];
 }
 
 - (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
@@ -122,6 +117,9 @@
             else{
                 c.center = CGPointMake(rightSlider.center.x - SLIDER_BUFFER, c.center.y);
             }
+            if(player.rate == 0.0){
+                [self setPlayHeadToLeftSlider];
+            }
         }
         else{
             if(leftSlider.center.x - point.x < -SLIDER_BUFFER){
@@ -133,6 +131,27 @@
         }
         [self setNeedsDisplay];
     }
+}
+
+- (CGRect)getScreenFrameForCurrentOrientation {
+    return [self getScreenFrameForOrientation:[UIApplication sharedApplication].statusBarOrientation];
+}
+
+- (CGRect)getScreenFrameForOrientation:(UIInterfaceOrientation)orientation {
+    
+    UIScreen *screen = [UIScreen mainScreen];
+    CGRect fullScreenRect = screen.bounds;
+    
+    //implicitly in Portrait orientation.
+    if(orientation == UIInterfaceOrientationLandscapeRight || orientation == UIInterfaceOrientationLandscapeLeft){
+        CGRect temp = CGRectZero;
+        temp.size.width = fullScreenRect.size.height;
+        temp.size.height = fullScreenRect.size.width;
+        temp.size.height += 12; // Offset by 12 because status/navbar change when in landscape.
+        fullScreenRect = temp;
+    }
+    
+    return fullScreenRect;
 }
 
 - (void)setFrame:(CGRect)frameRect
@@ -452,13 +471,13 @@
 	CGContextSetFillColorWithColor(cx, [UIColor clearColor].CGColor);
 	CGContextFillRect(cx, self.bounds);
 	
-	[self drawRoundRect:self.bounds fillColor:white strokeColor:[UIColor blueColor] radius:8.0 lineWidht:2.0];
+	[self drawRoundRect:self.bounds fillColor:white strokeColor:[UIColor clearColor] radius:8.0 lineWidht:2.0];
 	
 //	CGRect playRect = [self playRect];
 //	[self drawRoundRect:playRect fillColor:white strokeColor:darkgray radius:4.0 lineWidht:2.0];
 	
 	CGRect waveRect = [self waveRect];
-	[self drawRoundRect:waveRect fillColor:lightgray strokeColor:darkgray radius:4.0 lineWidht:2.0];
+	[self drawRoundRect:waveRect fillColor:lightgray strokeColor:[UIColor clearColor] radius:4.0 lineWidht:2.0];
 	
 //	CGRect statusRect = [self statusRect];
 //	[self drawRoundRect:statusRect fillColor:lightgray strokeColor:darkgray radius:4.0 lineWidht:2.0];

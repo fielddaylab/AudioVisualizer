@@ -24,8 +24,8 @@
     
     
     WaveformViewController *waveformViewController = [[WaveformViewController alloc] initWithNibName:@"WaveformViewController" bundle:nil];
-//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:waveformViewController];
-    self.window.rootViewController = waveformViewController;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:waveformViewController];
+    self.window.rootViewController = navigationController;
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -154,6 +154,17 @@
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+    NSUInteger orientations = UIInterfaceOrientationMaskAllButUpsideDown;
+    
+    if(self.window.rootViewController){
+        UIViewController *presentedViewController = [[(UINavigationController *)self.window.rootViewController viewControllers] lastObject];
+        orientations = [presentedViewController supportedInterfaceOrientations];
+    }
+    
+    return orientations;
 }
 
 @end

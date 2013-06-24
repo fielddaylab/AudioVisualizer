@@ -44,9 +44,12 @@
 
 @property CGPoint* sampleData;
 @property int sampleLength;
+@property AVPlayer *player;
 
 //- (void) openAudio:(NSString *)path;
 - (void) openAudioURL:(NSURL *)url;
 -(void)printSampleData:(CGPoint *)mySampleData forSampleLength:(int)mySampleLength;
+-(void)setPlayHeadToLeftSlider;
+- (void) pauseAudio;
 
 @end
