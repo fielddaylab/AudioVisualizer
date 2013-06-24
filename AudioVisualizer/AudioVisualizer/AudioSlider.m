@@ -8,6 +8,8 @@
 
 #import "AudioSlider.h"
 
+#define TRIANGLE_HEIGHT 15
+
 @interface AudioSlider (){
 }
 
@@ -19,7 +21,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        //self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -49,33 +51,41 @@
     CGContextSaveGState(context);
     CGContextSetLineCap(context, kCGLineCapSquare);
     CGContextSetStrokeColorWithColor(context, color);
-    CGContextSetLineWidth(context, 1.0);
+    CGContextSetLineWidth(context, 2.0);
     CGContextMoveToPoint(context, startPoint.x + .5, startPoint.y + .5);
     CGContextAddLineToPoint(context, endPoint.x + .5, endPoint.y + .5);
     CGContextStrokePath(context);
     CGContextRestoreGState(context);
 }
 
+-(void)drawTriangleForContext:(CGContextRef)context width:(float)width height:(float)height color:(UIColor *)color{
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0, 0)];
+    float halfWidth = width / 2.0;
+    [path addLineToPoint:CGPointMake(halfWidth, height)];
+    [path addLineToPoint:CGPointMake(width, 0)];
+    [path closePath];
+    [color set];
+    [path fill];
+}
+
 - (void)drawRect:(CGRect)rect
 {
 //	[self drawRoundRect:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) fillColor:[UIColor redColor] strokeColor:[UIColor blueColor] radius:4.0 lineWidht:2.0];
     
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//    CGRect rectangle = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-//    CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 0.0);
-//    CGContextSetRGBStrokeColor(context, 1.0, 0.0, 1.0, 1.0);
-//    CGContextFillRect(context, rectangle);
-//    CGContextStrokeRect(context, rectangle);
+    CGContextRef context = UIGraphicsGetCurrentContext();
     
-    //this draws the triangle
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:CGPointMake(0, 0)];
-    float halfWidth = self.bounds.size.width / 2.0;
-    [path addLineToPoint:CGPointMake(50, 100)];
-    [path addLineToPoint:CGPointMake(100, 0)];
-    [path closePath];
-    [[UIColor orangeColor] set];
-    [path fill];
+    //draw the two triangles
+    CGContextSaveGState(context);
+    [self drawTriangleForContext:context width:self.bounds.size.width height:TRIANGLE_HEIGHT color:[UIColor orangeColor]];
+    CGContextTranslateCTM(context, 0, self.bounds.size.height);
+    CGContextScaleCTM(context, 1, -1);
+    [self drawTriangleForContext:context width:self.bounds.size.width height:TRIANGLE_HEIGHT color:[UIColor orangeColor]];
+    CGContextRestoreGState(context);
+    
+    CGPoint startPoint = CGPointMake((self.bounds.size.width / 2.0) - 0.5, TRIANGLE_HEIGHT);
+    CGPoint endPoint = CGPointMake((self.bounds.size.width / 2.0) - 0.5, self.bounds.size.height - TRIANGLE_HEIGHT);
+    [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor blackColor].CGColor];
 }
 
 

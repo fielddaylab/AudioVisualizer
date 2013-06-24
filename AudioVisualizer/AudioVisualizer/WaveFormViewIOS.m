@@ -8,6 +8,8 @@
 
 #import "WaveFormViewIOS.h"
 
+#define SLIDER_BUFFER 10
+
 @interface WaveFormViewIOS (Private)
 
 - (void) initView;
@@ -90,19 +92,19 @@
     //all of these checks arent precise because they dont take into account the width of the bar
     if(point.x > 0 && point.x < self.bounds.size.width){
         if([c isEqual:leftSlider]){
-            if(rightSlider.center.x - point.x > 10){
+            if(rightSlider.center.x - point.x > SLIDER_BUFFER){
                 c.center = CGPointMake(point.x, c.center.y);
             }
             else{
-                c.center = CGPointMake(rightSlider.center.x - 10, c.center.y);
+                c.center = CGPointMake(rightSlider.center.x - SLIDER_BUFFER, c.center.y);
             }
         }
         else{
-            if(leftSlider.center.x - point.x < -10){
+            if(leftSlider.center.x - point.x < -SLIDER_BUFFER){
                 c.center = CGPointMake(point.x, c.center.y);
             }
             else{
-                c.center = CGPointMake(leftSlider.center.x + 10, c.center.y);
+                c.center = CGPointMake(leftSlider.center.x + SLIDER_BUFFER, c.center.y);
             }
         }
     }
