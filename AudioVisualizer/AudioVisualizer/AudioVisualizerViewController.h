@@ -12,6 +12,7 @@
 #include <AVFoundation/AVFoundation.h>
 #import "WaveformControl.h"
 #import "FreqHistogramControl.h"
+#import "AudioTint.h"
 
 @interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate>{
     //this is the object that constructs the audio sample
@@ -34,6 +35,8 @@
     
     AudioSlider *leftSlider;
     AudioSlider *rightSlider;
+    AudioTint *leftTint;
+    AudioTint *rightTint;
     WaveformControl *wf;
     FreqHistogramControl *freq;
 }

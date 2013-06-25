@@ -82,6 +82,7 @@
 	CGContextSetFillColorWithColor(cx, [UIColor clearColor].CGColor);
 	CGContextFillRect(cx, self.bounds);
 	
+    //drawing weird white background behind gray background
 	[self drawRoundRect:self.bounds fillColor:[UIColor whiteColor] strokeColor:[UIColor clearColor] radius:8.0 lineWidht:2.0];
 	
     //	CGRect playRect = [self playRect];
@@ -148,20 +149,6 @@
         CGContextStrokePath(cx);
 		//}
 		CGPathRelease(path); // clean up!
-        
-        //code for drawing tint
-//        CGRect rectangle = CGRectMake(waveRect.origin.x, 0, leftSlider.center.x, self.bounds.size.height);
-//        CGContextRef context = UIGraphicsGetCurrentContext();
-//        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .4);   //this is the transparent color
-//        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
-//        CGContextFillRect(context, rectangle);
-//        CGContextStrokeRect(context, rectangle);
-//        
-//        rectangle = CGRectMake(rightSlider.center.x, 0, self.bounds.size.width, self.bounds.size.height);
-//        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .4);   //this is the transparent color
-//        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
-//        CGContextFillRect(context, rectangle);
-//        CGContextStrokeRect(context, rectangle);
         
         //draw a line where the current playhead is
 //        float currentPointX = (wave.size.width) * playProgress;

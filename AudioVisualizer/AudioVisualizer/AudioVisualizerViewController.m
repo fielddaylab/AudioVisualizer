@@ -37,11 +37,20 @@
 {
     [super viewDidLoad];
     [self loadAudioForPath:@"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/tail_toddle.mp3"];
-    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
+    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
     [self.view addSubview:wf];
+    
 //    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
 //    [self.view addSubview:freq];
     // Do any additional setup after loading the view from its nib.
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    UIToolbar *toolbar = [[UIToolbar alloc]init];
+    toolbar.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.size.height - 44, self.view.bounds.size.width, 44);
+    [self.view addSubview:toolbar];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,17 +86,25 @@
     
 //    CGRect waveRect = [self waveRect];
     leftSlider = [[AudioSlider alloc] init];
-    leftSlider.frame = CGRectMake(0, 12, 10.0, self.view.bounds.size.height - 12);
+    leftSlider.frame = CGRectMake(-5, 12, 10.0, self.view.bounds.size.height - 12);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
-    [self.view addSubview:leftSlider];
+    
 
     rightSlider = [[AudioSlider alloc] init];
-    rightSlider.frame = CGRectMake(self.view.bounds.size.width - 95.0, 12, 10.0, self.view.bounds.size.height - 12);
+    rightSlider.frame = CGRectMake(self.view.bounds.size.width - 88.0 - 5.0, 12, 10.0, self.view.bounds.size.height - 12);
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
+    
+    
+    leftTint = [[AudioTint alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, leftSlider.center.x, self.view.bounds.size.height)];
+    [self.view addSubview:leftTint];
+    [self.view addSubview:leftSlider];
+    
+    rightTint = [[AudioTint alloc] initWithFrame:CGRectMake(rightSlider.center.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height)];
+    [self.view addSubview:rightTint];
     [self.view addSubview:rightSlider];
 }
 
@@ -111,6 +128,8 @@
             if(player.rate == 0.0){
                 [self setPlayHeadToLeftSlider];
             }
+            leftTint.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, leftSlider.center.x, self.view.bounds.size.height);
+            [leftTint setNeedsDisplay];
         }
         else{
             if(leftSlider.center.x - point.x < -SLIDER_BUFFER){
@@ -119,8 +138,10 @@
             else{
                 c.center = CGPointMake(leftSlider.center.x + SLIDER_BUFFER, c.center.y);
             }
+            rightTint.frame = CGRectMake(rightSlider.center.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
+            [rightTint setNeedsDisplay];
         }
-        [leftSlider setNeedsDisplay];
+
     }
 }
 
@@ -267,7 +288,7 @@
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscapeLeft;
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 - (BOOL)shouldAutorotate {
