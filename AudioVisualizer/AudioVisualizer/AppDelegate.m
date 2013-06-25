@@ -8,9 +8,8 @@
 
 #import "AppDelegate.h"
 #import "WaveformViewController.h"
-#import "FreqHistogramViewController.h"
 
-#import "AudioVisualizerContainerViewController.h"
+#import "AudioVisualizerViewController.h"
 
 @implementation AppDelegate
 
@@ -24,9 +23,11 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    AudioVisualizerContainerViewController *audioVisualizerContainerVC = [[AudioVisualizerContainerViewController alloc]initWithNibName:nil bundle:nil];
+    //AudioVisualizerContainerViewController *audioVisualizerContainerVC = [[AudioVisualizerContainerViewController alloc]init];
+    
+    AudioVisualizerViewController *vc = [[AudioVisualizerViewController alloc] initWithNibName:@"AudioVisualizerViewController" bundle:nil];
 
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:audioVisualizerContainerVC];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
         
     self.window.rootViewController = navigationController;
     

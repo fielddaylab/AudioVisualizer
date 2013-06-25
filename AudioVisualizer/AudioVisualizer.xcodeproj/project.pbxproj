@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B019AF0177A0A0600DE9C8B /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B019AEF177A0A0600DE9C8B /* Accelerate.framework */; };
+		5B019AF4177A196D00DE9C8B /* AudioVisualizerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019AF2177A196D00DE9C8B /* AudioVisualizerViewController.m */; };
+		5B019AF5177A196D00DE9C8B /* AudioVisualizerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B019AF3177A196D00DE9C8B /* AudioVisualizerViewController.xib */; };
+		5B019AFC177A203300DE9C8B /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019AFB177A203300DE9C8B /* WaveformControl.m */; };
+		5B019AFF177A2DD600DE9C8B /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019AFE177A2DD600DE9C8B /* AppModel.m */; };
+		5B019B02177A337D00DE9C8B /* FreqHistogramControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019B01177A337D00DE9C8B /* FreqHistogramControl.m */; };
 		5B31BAAD1778A86900EC3478 /* WaveformViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */; };
 		5B31BAAF1778C87500EC3478 /* gunSoundEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */; };
 		5B31BAB11778C94D00EC3478 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB01778C94D00EC3478 /* sound.caf */; };
@@ -16,7 +22,6 @@
 		5B31BABC1778E96C00EC3478 /* playButtonBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BABA1778E96C00EC3478 /* playButtonBlue.png */; };
 		5B31BABD1778E96C00EC3478 /* stopButtonRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BABB1778E96C00EC3478 /* stopButtonRed.png */; };
 		5B31BABF1778ECCA00EC3478 /* pauseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BABE1778ECCA00EC3478 /* pauseButton.png */; };
-		5B31BAC21778F11E00EC3478 /* AudioVisualizerContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B31BAC11778F11E00EC3478 /* AudioVisualizerContainerViewController.m */; };
 		5B31BAC61778FCC300EC3478 /* 29-circle-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAC31778FCC300EC3478 /* 29-circle-pause.png */; };
 		5B31BACA1778FD7100EC3478 /* 35-circle-stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAC91778FD7100EC3478 /* 35-circle-stop.png */; };
 		5B31BACC1778FDA800EC3478 /* 30-circle-play.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BACB1778FDA800EC3478 /* 30-circle-play.png */; };
@@ -33,17 +38,24 @@
 		5BFB60E2177373AC0058BCD3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BFB60E1177373AC0058BCD3 /* Default-568h@2x.png */; };
 		5BFB60E5177373AC0058BCD3 /* AudioVisualizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB60E3177373AC0058BCD3 /* AudioVisualizer.xcdatamodeld */; };
 		5BFB60F2177376850058BCD3 /* WaveformViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB60F0177376850058BCD3 /* WaveformViewController.m */; };
-		5BFB60F7177376A10058BCD3 /* FreqHistogramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB60F5177376A10058BCD3 /* FreqHistogramViewController.m */; };
-		5BFB60F8177376A10058BCD3 /* FreqHistogramViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BFB60F6177376A10058BCD3 /* FreqHistogramViewController.xib */; };
 		5BFB610F17739F8C0058BCD3 /* WaveFormViewIOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB610E17739F8C0058BCD3 /* WaveFormViewIOS.m */; };
 		5BFB611317739FDB0058BCD3 /* WaveSampleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB611117739FDB0058BCD3 /* WaveSampleProvider.m */; };
 		5BFB61151773A1770058BCD3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB61141773A1770058BCD3 /* AudioToolbox.framework */; };
 		5BFB61191773A1D40058BCD3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB61181773A1D40058BCD3 /* AVFoundation.framework */; };
 		5BFB611B1773A2040058BCD3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB611A1773A2040058BCD3 /* CoreMedia.framework */; };
-		7152F52A1779F5F4001B0CAE /* AudioVisualizerContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7152F5281779F5F4001B0CAE /* AudioVisualizerContainer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B019AEF177A0A0600DE9C8B /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		5B019AF1177A196D00DE9C8B /* AudioVisualizerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVisualizerViewController.h; sourceTree = "<group>"; };
+		5B019AF2177A196D00DE9C8B /* AudioVisualizerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVisualizerViewController.m; sourceTree = "<group>"; };
+		5B019AF3177A196D00DE9C8B /* AudioVisualizerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioVisualizerViewController.xib; sourceTree = "<group>"; };
+		5B019AFA177A203300DE9C8B /* WaveformControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformControl.h; sourceTree = "<group>"; };
+		5B019AFB177A203300DE9C8B /* WaveformControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveformControl.m; sourceTree = "<group>"; };
+		5B019AFD177A2DD600DE9C8B /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppModel.h; sourceTree = "<group>"; };
+		5B019AFE177A2DD600DE9C8B /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppModel.m; sourceTree = "<group>"; };
+		5B019B00177A337D00DE9C8B /* FreqHistogramControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreqHistogramControl.h; sourceTree = "<group>"; };
+		5B019B01177A337D00DE9C8B /* FreqHistogramControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreqHistogramControl.m; sourceTree = "<group>"; };
 		5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WaveformViewController.xib; sourceTree = "<group>"; };
 		5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gunSoundEffect.mp3; sourceTree = "<group>"; };
 		5B31BAB01778C94D00EC3478 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
@@ -53,8 +65,6 @@
 		5B31BABA1778E96C00EC3478 /* playButtonBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playButtonBlue.png; sourceTree = "<group>"; };
 		5B31BABB1778E96C00EC3478 /* stopButtonRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopButtonRed.png; sourceTree = "<group>"; };
 		5B31BABE1778ECCA00EC3478 /* pauseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pauseButton.png; sourceTree = "<group>"; };
-		5B31BAC01778F11E00EC3478 /* AudioVisualizerContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVisualizerContainerViewController.h; sourceTree = "<group>"; };
-		5B31BAC11778F11E00EC3478 /* AudioVisualizerContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVisualizerContainerViewController.m; sourceTree = "<group>"; };
 		5B31BAC31778FCC300EC3478 /* 29-circle-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "29-circle-pause.png"; sourceTree = "<group>"; };
 		5B31BAC91778FD7100EC3478 /* 35-circle-stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "35-circle-stop.png"; sourceTree = "<group>"; };
 		5B31BACB1778FDA800EC3478 /* 30-circle-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "30-circle-play.png"; sourceTree = "<group>"; };
@@ -77,9 +87,6 @@
 		5BFB60E4177373AC0058BCD3 /* AudioVisualizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AudioVisualizer.xcdatamodel; sourceTree = "<group>"; };
 		5BFB60EF177376850058BCD3 /* WaveformViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformViewController.h; sourceTree = "<group>"; };
 		5BFB60F0177376850058BCD3 /* WaveformViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveformViewController.m; sourceTree = "<group>"; };
-		5BFB60F4177376A10058BCD3 /* FreqHistogramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreqHistogramViewController.h; sourceTree = "<group>"; };
-		5BFB60F5177376A10058BCD3 /* FreqHistogramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreqHistogramViewController.m; sourceTree = "<group>"; };
-		5BFB60F6177376A10058BCD3 /* FreqHistogramViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FreqHistogramViewController.xib; sourceTree = "<group>"; };
 		5BFB610D17739F8C0058BCD3 /* WaveFormViewIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveFormViewIOS.h; sourceTree = "<group>"; };
 		5BFB610E17739F8C0058BCD3 /* WaveFormViewIOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveFormViewIOS.m; sourceTree = "<group>"; };
 		5BFB611017739FDB0058BCD3 /* WaveSampleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProvider.h; sourceTree = "<group>"; };
@@ -88,8 +95,6 @@
 		5BFB61141773A1770058BCD3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		5BFB61181773A1D40058BCD3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5BFB611A1773A2040058BCD3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		7152F5271779F5F4001B0CAE /* AudioVisualizerContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVisualizerContainer.h; sourceTree = "<group>"; };
-		7152F5281779F5F4001B0CAE /* AudioVisualizerContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVisualizerContainer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B019AF0177A0A0600DE9C8B /* Accelerate.framework in Frameworks */,
 				5BFB611B1773A2040058BCD3 /* CoreMedia.framework in Frameworks */,
 				5BFB61191773A1D40058BCD3 /* AVFoundation.framework in Frameworks */,
 				5BFB61151773A1770058BCD3 /* AudioToolbox.framework in Frameworks */,
@@ -110,6 +116,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B019AF6177A1F5000DE9C8B /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				5B67BD0D1774D60A000DE184 /* AudioSlider.h */,
+				5B67BD0E1774D60A000DE184 /* AudioSlider.m */,
+				5B019AFA177A203300DE9C8B /* WaveformControl.h */,
+				5B019AFB177A203300DE9C8B /* WaveformControl.m */,
+				5B019B00177A337D00DE9C8B /* FreqHistogramControl.h */,
+				5B019B01177A337D00DE9C8B /* FreqHistogramControl.m */,
+			);
+			name = Controls;
+			sourceTree = "<group>";
+		};
 		5BFB60BD177373AC0058BCD3 = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +149,7 @@
 		5BFB60C8177373AC0058BCD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5B019AEF177A0A0600DE9C8B /* Accelerate.framework */,
 				5BFB611A1773A2040058BCD3 /* CoreMedia.framework */,
 				5BFB61181773A1D40058BCD3 /* AVFoundation.framework */,
 				5BFB61141773A1770058BCD3 /* AudioToolbox.framework */,
@@ -144,16 +164,17 @@
 		5BFB60D1177373AC0058BCD3 /* AudioVisualizer */ = {
 			isa = PBXGroup;
 			children = (
-				5B67BD0D1774D60A000DE184 /* AudioSlider.h */,
-				5B67BD0E1774D60A000DE184 /* AudioSlider.m */,
 				5BFB610D17739F8C0058BCD3 /* WaveFormViewIOS.h */,
 				5BFB610E17739F8C0058BCD3 /* WaveFormViewIOS.m */,
-				5BFB611017739FDB0058BCD3 /* WaveSampleProvider.h */,
-				5BFB611117739FDB0058BCD3 /* WaveSampleProvider.m */,
-				5BFB611217739FDB0058BCD3 /* WaveSampleProviderDelegate.h */,
+				5B019AF6177A1F5000DE9C8B /* Controls */,
 				5BFB60EB1773744F0058BCD3 /* view controllers */,
 				5BFB60DA177373AC0058BCD3 /* AppDelegate.h */,
 				5BFB60DB177373AC0058BCD3 /* AppDelegate.m */,
+				5B019AFD177A2DD600DE9C8B /* AppModel.h */,
+				5B019AFE177A2DD600DE9C8B /* AppModel.m */,
+				5BFB611017739FDB0058BCD3 /* WaveSampleProvider.h */,
+				5BFB611117739FDB0058BCD3 /* WaveSampleProvider.m */,
+				5BFB611217739FDB0058BCD3 /* WaveSampleProviderDelegate.h */,
 				5BFB60E3177373AC0058BCD3 /* AudioVisualizer.xcdatamodeld */,
 				5BFB60D2177373AC0058BCD3 /* Supporting Files */,
 			);
@@ -188,16 +209,12 @@
 		5BFB60EB1773744F0058BCD3 /* view controllers */ = {
 			isa = PBXGroup;
 			children = (
-				7152F5271779F5F4001B0CAE /* AudioVisualizerContainer.h */,
-				7152F5281779F5F4001B0CAE /* AudioVisualizerContainer.m */,
 				5BFB60EF177376850058BCD3 /* WaveformViewController.h */,
 				5BFB60F0177376850058BCD3 /* WaveformViewController.m */,
 				5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */,
-				5BFB60F4177376A10058BCD3 /* FreqHistogramViewController.h */,
-				5BFB60F5177376A10058BCD3 /* FreqHistogramViewController.m */,
-				5BFB60F6177376A10058BCD3 /* FreqHistogramViewController.xib */,
-				5B31BAC01778F11E00EC3478 /* AudioVisualizerContainerViewController.h */,
-				5B31BAC11778F11E00EC3478 /* AudioVisualizerContainerViewController.m */,
+				5B019AF1177A196D00DE9C8B /* AudioVisualizerViewController.h */,
+				5B019AF2177A196D00DE9C8B /* AudioVisualizerViewController.m */,
+				5B019AF3177A196D00DE9C8B /* AudioVisualizerViewController.xib */,
 			);
 			name = "view controllers";
 			sourceTree = "<group>";
@@ -257,7 +274,6 @@
 				5BFB60DE177373AC0058BCD3 /* Default.png in Resources */,
 				5BFB60E0177373AC0058BCD3 /* Default@2x.png in Resources */,
 				5BFB60E2177373AC0058BCD3 /* Default-568h@2x.png in Resources */,
-				5BFB60F8177376A10058BCD3 /* FreqHistogramViewController.xib in Resources */,
 				5B31BAAD1778A86900EC3478 /* WaveformViewController.xib in Resources */,
 				5B31BAAF1778C87500EC3478 /* gunSoundEffect.mp3 in Resources */,
 				5B31BAB11778C94D00EC3478 /* sound.caf in Resources */,
@@ -270,6 +286,7 @@
 				5B31BAC61778FCC300EC3478 /* 29-circle-pause.png in Resources */,
 				5B31BACA1778FD7100EC3478 /* 35-circle-stop.png in Resources */,
 				5B31BACC1778FDA800EC3478 /* 30-circle-play.png in Resources */,
+				5B019AF5177A196D00DE9C8B /* AudioVisualizerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,12 +301,13 @@
 				5BFB60DC177373AC0058BCD3 /* AppDelegate.m in Sources */,
 				5BFB60E5177373AC0058BCD3 /* AudioVisualizer.xcdatamodeld in Sources */,
 				5BFB60F2177376850058BCD3 /* WaveformViewController.m in Sources */,
-				5BFB60F7177376A10058BCD3 /* FreqHistogramViewController.m in Sources */,
 				5BFB610F17739F8C0058BCD3 /* WaveFormViewIOS.m in Sources */,
 				5BFB611317739FDB0058BCD3 /* WaveSampleProvider.m in Sources */,
 				5B67BD0F1774D60A000DE184 /* AudioSlider.m in Sources */,
-				5B31BAC21778F11E00EC3478 /* AudioVisualizerContainerViewController.m in Sources */,
-				7152F52A1779F5F4001B0CAE /* AudioVisualizerContainer.m in Sources */,
+				5B019AF4177A196D00DE9C8B /* AudioVisualizerViewController.m in Sources */,
+				5B019AFC177A203300DE9C8B /* WaveformControl.m in Sources */,
+				5B019AFF177A2DD600DE9C8B /* AppModel.m in Sources */,
+				5B019B02177A337D00DE9C8B /* FreqHistogramControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

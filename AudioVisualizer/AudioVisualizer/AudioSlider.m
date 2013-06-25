@@ -86,6 +86,13 @@
     CGPoint startPoint = CGPointMake((self.bounds.size.width / 2.0) - 0.5, TRIANGLE_HEIGHT);
     CGPoint endPoint = CGPointMake((self.bounds.size.width / 2.0) - 0.5, self.bounds.size.height - TRIANGLE_HEIGHT);
     [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor blackColor].CGColor];
+    
+    CGRect rectangle = CGRectMake(0, 0, self.center.x, self.bounds.size.height);
+    CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .4);   //this is the transparent color
+    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
+    CGContextFillRect(context, rectangle);
+    CGContextStrokeRect(context, rectangle);
+    
 }
 
 
