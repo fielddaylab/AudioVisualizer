@@ -136,6 +136,7 @@
     }
 }
 
+//Never gets called.... NH 6/25
 - (CGRect)getScreenFrameForCurrentOrientation {
     return [self getScreenFrameForOrientation:[UIApplication sharedApplication].statusBarOrientation];
 }

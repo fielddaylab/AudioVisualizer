@@ -32,7 +32,6 @@
 		5BFB60E0177373AC0058BCD3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BFB60DF177373AC0058BCD3 /* Default@2x.png */; };
 		5BFB60E2177373AC0058BCD3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BFB60E1177373AC0058BCD3 /* Default-568h@2x.png */; };
 		5BFB60E5177373AC0058BCD3 /* AudioVisualizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB60E3177373AC0058BCD3 /* AudioVisualizer.xcdatamodeld */; };
-		5BFB60EE177376640058BCD3 /* AudioVisualizerContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB60ED177376640058BCD3 /* AudioVisualizerContainer.m */; };
 		5BFB60F2177376850058BCD3 /* WaveformViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB60F0177376850058BCD3 /* WaveformViewController.m */; };
 		5BFB60F7177376A10058BCD3 /* FreqHistogramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB60F5177376A10058BCD3 /* FreqHistogramViewController.m */; };
 		5BFB60F8177376A10058BCD3 /* FreqHistogramViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BFB60F6177376A10058BCD3 /* FreqHistogramViewController.xib */; };
@@ -41,6 +40,7 @@
 		5BFB61151773A1770058BCD3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB61141773A1770058BCD3 /* AudioToolbox.framework */; };
 		5BFB61191773A1D40058BCD3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB61181773A1D40058BCD3 /* AVFoundation.framework */; };
 		5BFB611B1773A2040058BCD3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB611A1773A2040058BCD3 /* CoreMedia.framework */; };
+		7152F52A1779F5F4001B0CAE /* AudioVisualizerContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7152F5281779F5F4001B0CAE /* AudioVisualizerContainer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,8 +75,6 @@
 		5BFB60DF177373AC0058BCD3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		5BFB60E1177373AC0058BCD3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		5BFB60E4177373AC0058BCD3 /* AudioVisualizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AudioVisualizer.xcdatamodel; sourceTree = "<group>"; };
-		5BFB60EC177376640058BCD3 /* AudioVisualizerContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVisualizerContainer.h; sourceTree = "<group>"; };
-		5BFB60ED177376640058BCD3 /* AudioVisualizerContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVisualizerContainer.m; sourceTree = "<group>"; };
 		5BFB60EF177376850058BCD3 /* WaveformViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformViewController.h; sourceTree = "<group>"; };
 		5BFB60F0177376850058BCD3 /* WaveformViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveformViewController.m; sourceTree = "<group>"; };
 		5BFB60F4177376A10058BCD3 /* FreqHistogramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreqHistogramViewController.h; sourceTree = "<group>"; };
@@ -90,6 +88,8 @@
 		5BFB61141773A1770058BCD3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		5BFB61181773A1D40058BCD3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5BFB611A1773A2040058BCD3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		7152F5271779F5F4001B0CAE /* AudioVisualizerContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVisualizerContainer.h; sourceTree = "<group>"; };
+		7152F5281779F5F4001B0CAE /* AudioVisualizerContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVisualizerContainer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,8 +188,8 @@
 		5BFB60EB1773744F0058BCD3 /* view controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5BFB60EC177376640058BCD3 /* AudioVisualizerContainer.h */,
-				5BFB60ED177376640058BCD3 /* AudioVisualizerContainer.m */,
+				7152F5271779F5F4001B0CAE /* AudioVisualizerContainer.h */,
+				7152F5281779F5F4001B0CAE /* AudioVisualizerContainer.m */,
 				5BFB60EF177376850058BCD3 /* WaveformViewController.h */,
 				5BFB60F0177376850058BCD3 /* WaveformViewController.m */,
 				5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */,
@@ -283,13 +283,13 @@
 				5BFB60D8177373AC0058BCD3 /* main.m in Sources */,
 				5BFB60DC177373AC0058BCD3 /* AppDelegate.m in Sources */,
 				5BFB60E5177373AC0058BCD3 /* AudioVisualizer.xcdatamodeld in Sources */,
-				5BFB60EE177376640058BCD3 /* AudioVisualizerContainer.m in Sources */,
 				5BFB60F2177376850058BCD3 /* WaveformViewController.m in Sources */,
 				5BFB60F7177376A10058BCD3 /* FreqHistogramViewController.m in Sources */,
 				5BFB610F17739F8C0058BCD3 /* WaveFormViewIOS.m in Sources */,
 				5BFB611317739FDB0058BCD3 /* WaveSampleProvider.m in Sources */,
 				5B67BD0F1774D60A000DE184 /* AudioSlider.m in Sources */,
 				5B31BAC21778F11E00EC3478 /* AudioVisualizerContainerViewController.m in Sources */,
+				7152F52A1779F5F4001B0CAE /* AudioVisualizerContainer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

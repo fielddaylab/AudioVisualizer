@@ -11,6 +11,10 @@
 @interface AudioVisualizerContainerViewController : UIViewController
 
 @property (strong, nonatomic) UIViewController* currentChildViewController;
+
+@property (strong, nonatomic) UIButton *withoutBorderButton;
+@property (strong, nonatomic) UIBarButtonItem *rightNavBarButton;
+
 - (void) displayContentController:(UIViewController*)content;
 
 @end

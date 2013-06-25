@@ -10,6 +10,8 @@
 #import "WaveformViewController.h"
 #import "FreqHistogramViewController.h"
 
+#import "AudioVisualizerContainerViewController.h"
+
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -22,9 +24,10 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    
-    WaveformViewController *waveformViewController = [[WaveformViewController alloc] initWithNibName:@"WaveformViewController" bundle:nil];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:waveformViewController];
+    AudioVisualizerContainerViewController *audioVisualizerContainerVC = [[AudioVisualizerContainerViewController alloc]initWithNibName:nil bundle:nil];
+
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:audioVisualizerContainerVC];
+        
     self.window.rootViewController = navigationController;
     
     [self.window makeKeyAndVisible];
