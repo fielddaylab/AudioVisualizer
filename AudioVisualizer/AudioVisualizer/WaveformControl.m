@@ -75,7 +75,6 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    NSLog(@"DRAWING");
     CGContextRef cx = UIGraphicsGetCurrentContext();
 	CGContextSaveGState(cx);
 	

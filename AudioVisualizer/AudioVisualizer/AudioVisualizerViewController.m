@@ -13,13 +13,17 @@
 
 #define SLIDER_BUFFER 5
 
-@interface AudioVisualizerViewController ()
+@interface AudioVisualizerViewController (){
+    UIBarButtonItem *playButton;
+    UIImageView *playImage;
+    UIImageView *pauseImage;
+    UIImageView *stopImage;
+}
 
 - (void) initView;
 - (void) setSampleData:(float *)theSampleData length:(int)length;
 - (void) startAudio;
 - (void) pauseAudio;
-
 @end
 
 @implementation AudioVisualizerViewController
@@ -47,9 +51,16 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+
     
     UIToolbar *toolbar = [[UIToolbar alloc]init];
     toolbar.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.size.height - 44, self.view.bounds.size.width, 44);
+    UIButton *withoutBorderButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+    [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
+    playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, nil];
+    [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
 }
 
@@ -62,14 +73,7 @@
 - (void) initView
 {
 	playProgress = 0.0;
-	//progress = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-	//progress.frame = [self progressRect];
-	//[self addSubview:progress];
-	//[progress setHidden:TRUE];
-	//[self setInfoString:@"No Audio"];
-//	CGRect sr = [self statusRect];
-//	sr.origin.x += 2;
-//	sr.origin.y -= 2;
+
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
 	gray = [UIColor colorWithRed:64.0/255.0 green:63.0/255.0 blue:65.0/255.0 alpha:1.0];
 	lightgray = [UIColor colorWithRed:75.0/255.0 green:75.0/255.0 blue:75.0/255.0 alpha:1.0];
@@ -77,14 +81,10 @@
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
     
-//    WaveformControl *waveformControl = [[WaveformControl alloc] init];
-//    waveformControl.waveRect = [self waveRect];
-//    waveformControl.sampleData = sampleData;
-//    waveformControl.sampleLength = sampleLength;
-//    [customControl addSubview:waveformControl];
-    
-    
-//    CGRect waveRect = [self waveRect];
+    playImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"30-circle-play.png"]];
+    pauseImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"29-circle-pause.png"]];
+    stopImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"35-circle-stop.png"]];
+
     leftSlider = [[AudioSlider alloc] init];
     leftSlider.frame = CGRectMake(-5, 12, 10.0, self.view.bounds.size.height - 12);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
@@ -106,6 +106,7 @@
     rightTint = [[AudioTint alloc] initWithFrame:CGRectMake(rightSlider.center.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.view addSubview:rightTint];
     [self.view addSubview:rightSlider];
+    
 }
 
 - (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
@@ -143,6 +144,17 @@
         }
 
     }
+}
+
+-(void)playFunction{
+    //[waveformView setPlayHeadToLeftSlider];
+//    if(player.rate == 0.0){
+//        [playButton setImage:[UIImage imageNamed:@"29-circle-pause.png"] forState:UIControlStateNormal];
+//    }
+//    else{
+//        [playButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+//    }
+    [self pauseAudio];
 }
 
 -(void)setPlayHeadToLeftSlider{
