@@ -92,23 +92,13 @@
     //drawing weird white background behind gray background
 	//[self drawRoundRect:self.bounds fillColor:[UIColor whiteColor] strokeColor:[UIColor clearColor] radius:8.0 lineWidht:2.0];
 	
-    //	CGRect playRect = [self playRect];
-    //	[self drawRoundRect:playRect fillColor:white strokeColor:darkgray radius:4.0 lineWidht:2.0];
 	
 	CGRect waveRect = [self waveRect];
 	//[self drawRoundRect:waveRect fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidht:2.0];
     [self drawSquareRect:waveRect fillColor:[UIColor blackColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
 	
-    //	CGRect statusRect = [self statusRect];
-    //	[self drawRoundRect:statusRect fillColor:lightgray strokeColor:darkgray radius:4.0 lineWidht:2.0];
 	
 	if([AppModel sharedAppModel].sampleLength > 0) {
-        //draw setup
-        //		if(player.rate == 0.0) {
-        //			[self drawPlay];
-        //		} else {
-        //			[self drawPause];
-        //		}
 		CGMutablePathRef halfPath = CGPathCreateMutable();
 		CGPathAddLines( halfPath, NULL,[AppModel sharedAppModel].sampleData, [AppModel sharedAppModel].sampleLength); // magic!
 		
@@ -135,17 +125,11 @@
 		// Now, path contains the full waveform path.
 		CGContextRef cx = UIGraphicsGetCurrentContext();
 		
-		//[darkgray set];
         [[UIColor lightGrayColor] set];
 		CGContextAddPath(cx, path);
 		CGContextStrokePath(cx);
 		
-		// gauge draw
-		//if(playProgress > 0.0) {
         CGRect clipRect = waveRect;
-        //clipRect.size.width = (clipRect.size.width - 12) * playProgress;
-        //            clipRect.size.width = (clipRect.size.width - 12);
-        //			clipRect.origin.x = clipRect.origin.x + 6;
         CGContextClipToRect(cx,clipRect);
         
         [[UIColor whiteColor] setFill];
@@ -158,7 +142,7 @@
 		//}
 		CGPathRelease(path); // clean up!
         
-        //draw a line where the current playhead is
+        
         float currentPointX = (waveRect.size.width) * [AppModel sharedAppModel].playProgress;
         CGPoint startPoint = CGPointMake(currentPointX, 0);
         CGPoint endPoint = CGPointMake(currentPointX, self.bounds.size.height);

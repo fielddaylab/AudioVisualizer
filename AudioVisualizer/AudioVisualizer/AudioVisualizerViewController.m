@@ -26,6 +26,9 @@
     AudioTint *rightTint;
     WaveformControl *wf;
     FreqHistogramControl *freq;
+    id timeObserver;
+    UILabel *timeLabel;
+    UIBarButtonItem *timeButton;
 }
 
 - (void) initView;
@@ -75,7 +78,14 @@
     UIBarButtonItem *stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderStopButton];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, flexibleSpace, stopButton, nil];
+    timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
+    [timeLabel setText:timeString];
+    [timeLabel setBackgroundColor:[UIColor clearColor]];
+    [timeLabel setTextColor:[UIColor whiteColor]];
+    [timeLabel setTextAlignment:NSTextAlignmentCenter];
+    timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
+    
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, flexibleSpace, timeButton, flexibleSpace, stopButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
 }
@@ -88,6 +98,7 @@
 
 - (void) initView
 {
+    self.title = @"Waveform";
 	[AppModel sharedAppModel].playProgress = 0.0;
 
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
@@ -99,14 +110,14 @@
 
     
     leftSlider = [[AudioSlider alloc] init];
-    leftSlider.frame = CGRectMake(-5, 12, 10.0, self.view.bounds.size.height - 12);
+    leftSlider.frame = CGRectMake(-7.5, 12, 15.0, self.view.bounds.size.height - 12);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
     
 
     rightSlider = [[AudioSlider alloc] init];
-    rightSlider.frame = CGRectMake(self.view.bounds.size.width - 88.0 - 5.0, 12, 10.0, self.view.bounds.size.height - 12);
+    rightSlider.frame = CGRectMake(self.view.bounds.size.width - 88.0 - 7.5, 12, 15.0, self.view.bounds.size.height - 12);
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
@@ -126,12 +137,9 @@
 
 - (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
     
-    //Stop playing if you begin to crop.
-    //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"StopAudio" object:nil userInfo:nil]];
-    
+    [self stopFunction];
     CGPoint point = [[[ev allTouches] anyObject] locationInView:self.view];
-    //CGRect waveRect = [self waveRect];
-    //all of these checks arent precise because they dont take into account the width of the bar
+
     if(point.x > 0 && point.x < self.view.bounds.size.width){
         if([c isEqual:leftSlider]){
             if(rightSlider.center.x - point.x > SLIDER_BUFFER){
@@ -159,6 +167,9 @@
             CGFloat x = rightSlider.center.x - self.view.bounds.origin.x;
             float sel = x / self.view.bounds.size.width;
             [AppModel sharedAppModel].endTime = sel;
+            if([AppModel sharedAppModel].endTime <= [AppModel sharedAppModel].playProgress){
+                [self setPlayHeadToLeftSlider];
+            }
         }
 
     }
@@ -176,17 +187,19 @@
         playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
     }
     [self pauseAudio];
+    [self updateTimeString];
 }
 
 -(void)stopFunction{
     if(player.rate != 0.0){
-        [self setPlayHeadToLeftSlider];
         [self pauseAudio];
         [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
         [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
         playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
+        [player removeTimeObserver:timeObserver];
+        [self addTimeObserver];
+        [self setPlayHeadToLeftSlider];
     }
-//    [self updateTime];
 }
 
 -(void)setPlayHeadToLeftSlider{
@@ -214,12 +227,28 @@
     }
 }
 
+-(void)updateTimeString{
+    Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+    Float64 currentTime = CMTimeGetSeconds(player.currentTime);
+    int dmin = duration / 60;
+    int dsec = duration - (dmin * 60);
+    int cmin = currentTime / 60;
+    int csec = currentTime - (cmin * 60);
+    if(currentTime > 0.0) {
+        [self setTimeString:[NSString stringWithFormat:@"%02d:%02d/%02d:%02d",cmin,csec,dmin,dsec]];
+    }
+    [AppModel sharedAppModel].playProgress = currentTime/duration;
+}
 
 - (void) setTimeString:(NSString *)newTime
 {
 	//[timeString release];
 	timeString = newTime;
-	[self.view setNeedsDisplay];
+    [timeLabel setText:timeString];
+    [timeLabel setBackgroundColor:[UIColor clearColor]];
+    [timeLabel setTextColor:[UIColor whiteColor]];
+    [timeLabel setTextAlignment:NSTextAlignmentCenter];
+    timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
 }
 
 - (void) openAudioURL:(NSURL *)url
@@ -260,23 +289,17 @@
 {
 	if(wsp.status == LOADED) {
 		player = [[AVPlayer alloc] initWithURL:wsp.audioURL];
-		CMTime tm = CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC);
-		[player addPeriodicTimeObserverForInterval:tm queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-			Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
-			Float64 currentTime = CMTimeGetSeconds(player.currentTime);
-			int dmin = duration / 60;
-			int dsec = duration - (dmin * 60);
-			int cmin = currentTime / 60;
-			int csec = currentTime - (cmin * 60);
-			if(currentTime > 0.0) {
-				[self setTimeString:[NSString stringWithFormat:@"%02d:%02d/%02d:%02d",cmin,csec,dmin,dsec]];
-			}
-			[AppModel sharedAppModel].playProgress = currentTime/duration;
-			[wf setNeedsDisplay];
-		}];
+		[self addTimeObserver];
 	}
 }
 
+-(void)addTimeObserver{
+    CMTime tm = CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC);
+    timeObserver = [player addPeriodicTimeObserverForInterval:tm queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        [self updateTimeString];
+        [wf setNeedsDisplay];
+    }];
+}
 
 
 - (void) setSampleData:(float *)theSampleData length:(int)length
