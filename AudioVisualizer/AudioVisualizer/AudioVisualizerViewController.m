@@ -10,14 +10,22 @@
 #import "WaveformControl.h"
 #import "AppModel.h"
 #import "FreqHistogramControl.h"
+#import "WaveformControl.h"
+#import "FreqHistogramControl.h"
+#import "AudioTint.h"
 
 #define SLIDER_BUFFER 5
 
 @interface AudioVisualizerViewController (){
+    UIToolbar *toolbar;
+    UIButton *withoutBorderButton;
     UIBarButtonItem *playButton;
-    UIImageView *playImage;
-    UIImageView *pauseImage;
-    UIImageView *stopImage;
+    AudioSlider *leftSlider;
+    AudioSlider *rightSlider;
+    AudioTint *leftTint;
+    AudioTint *rightTint;
+    WaveformControl *wf;
+    FreqHistogramControl *freq;
 }
 
 - (void) initView;
@@ -42,6 +50,7 @@
     [super viewDidLoad];
     [self loadAudioForPath:@"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/tail_toddle.mp3"];
     wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    wf.delegate = self;
     [self.view addSubview:wf];
     
 //    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
@@ -53,13 +62,20 @@
     [super viewWillAppear:animated];
 
     
-    UIToolbar *toolbar = [[UIToolbar alloc]init];
+    toolbar = [[UIToolbar alloc]init];
     toolbar.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.size.height - 44, self.view.bounds.size.width, 44);
-    UIButton *withoutBorderButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    withoutBorderButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
     [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
     playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, nil];
+
+    UIButton *withoutBorderStopButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderStopButton setImage:[UIImage imageNamed:@"35-circle-stop.png"] forState:UIControlStateNormal];
+    [withoutBorderStopButton addTarget:self action:@selector(stopFunction) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderStopButton];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, flexibleSpace, stopButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
 }
@@ -72,7 +88,7 @@
 
 - (void) initView
 {
-	playProgress = 0.0;
+	[AppModel sharedAppModel].playProgress = 0.0;
 
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
 	gray = [UIColor colorWithRed:64.0/255.0 green:63.0/255.0 blue:65.0/255.0 alpha:1.0];
@@ -80,11 +96,8 @@
 	darkgray = [UIColor colorWithRed:47.0/255.0 green:47.0/255.0 blue:48.0/255.0 alpha:1.0];
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
-    
-    playImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"30-circle-play.png"]];
-    pauseImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"29-circle-pause.png"]];
-    stopImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"35-circle-stop.png"]];
 
+    
     leftSlider = [[AudioSlider alloc] init];
     leftSlider.frame = CGRectMake(-5, 12, 10.0, self.view.bounds.size.height - 12);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
@@ -99,13 +112,15 @@
      UIControlEventTouchDragInside];
     
     
-    leftTint = [[AudioTint alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, leftSlider.center.x, self.view.bounds.size.height)];
+    leftTint = [[AudioTint alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, 12, leftSlider.center.x, self.view.bounds.size.height)];
     [self.view addSubview:leftTint];
     [self.view addSubview:leftSlider];
     
-    rightTint = [[AudioTint alloc] initWithFrame:CGRectMake(rightSlider.center.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height)];
+    rightTint = [[AudioTint alloc] initWithFrame:CGRectMake(rightSlider.center.x, 12, self.view.bounds.size.width, self.view.bounds.size.height)];
     [self.view addSubview:rightTint];
     [self.view addSubview:rightSlider];
+    
+    [AppModel sharedAppModel].endTime = 1.0;
     
 }
 
@@ -114,7 +129,6 @@
     //Stop playing if you begin to crop.
     //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"StopAudio" object:nil userInfo:nil]];
     
-    NSLog(@"Dragging");
     CGPoint point = [[[ev allTouches] anyObject] locationInView:self.view];
     //CGRect waveRect = [self waveRect];
     //all of these checks arent precise because they dont take into account the width of the bar
@@ -141,30 +155,48 @@
             }
             rightTint.frame = CGRectMake(rightSlider.center.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
             [rightTint setNeedsDisplay];
+
+            CGFloat x = rightSlider.center.x - self.view.bounds.origin.x;
+            float sel = x / self.view.bounds.size.width;
+            [AppModel sharedAppModel].endTime = sel;
         }
 
     }
 }
 
 -(void)playFunction{
-    //[waveformView setPlayHeadToLeftSlider];
-//    if(player.rate == 0.0){
-//        [playButton setImage:[UIImage imageNamed:@"29-circle-pause.png"] forState:UIControlStateNormal];
-//    }
-//    else{
-//        [playButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
-//    }
+    if(player.rate == 0.0){
+        [withoutBorderButton setImage:[UIImage imageNamed:@"29-circle-pause.png"] forState:UIControlStateNormal];
+        [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
+        playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
+    }
+    else{
+        [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+        [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
+        playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
+    }
     [self pauseAudio];
 }
 
+-(void)stopFunction{
+    if(player.rate != 0.0){
+        [self setPlayHeadToLeftSlider];
+        [self pauseAudio];
+        [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+        [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
+        playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
+    }
+//    [self updateTime];
+}
+
 -(void)setPlayHeadToLeftSlider{
-//    CGRect wr = [self waveRect];
-//    CGFloat x = leftSlider.center.x - wr.origin.x;
-//    float sel = x / wr.size.width;
-//    Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
-//    float timeSelected = duration * sel;
-//    CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
-//    [player seekToTime:tm];
+    //CGRect wr = [self waveRect];
+    CGFloat x = leftSlider.center.x - self.view.bounds.origin.x;
+    float sel = x / self.view.bounds.size.width;
+    Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+    float timeSelected = duration * sel;
+    CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
+    [player seekToTime:tm];
 }
 
 -(void)loadAudioForPath:(NSString *)path{
@@ -239,7 +271,7 @@
 			if(currentTime > 0.0) {
 				[self setTimeString:[NSString stringWithFormat:@"%02d:%02d/%02d:%02d",cmin,csec,dmin,dsec]];
 			}
-			playProgress = currentTime/duration;
+			[AppModel sharedAppModel].playProgress = currentTime/duration;
 			[wf setNeedsDisplay];
 		}];
 	}
@@ -305,6 +337,27 @@
 
 - (BOOL)shouldAutorotate {
     return YES;
+}
+
+#pragma mark Waveform control delegate
+
+-(void)waveformControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches{
+    UITouch *touch = [touches anyObject];
+	CGPoint local_point = [touch locationInView:self.view];
+	//CGRect wr = [self waveRect];
+	if(CGRectContainsPoint(self.view.bounds,local_point) && player != nil) {
+        CGFloat x = local_point.x - self.view.bounds.origin.x;
+        float sel = x / self.view.bounds.size.width;
+        Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+        float timeSelected = duration * sel;
+        CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
+        [player seekToTime:tm];
+        
+	}
+}
+
+-(void)clipOver{
+    [self stopFunction];
 }
 
 @end

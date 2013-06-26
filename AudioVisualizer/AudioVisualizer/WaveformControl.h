@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class WaveformControl;
+
+@protocol WaveformControlDelegate <NSObject>
+
+-(void)waveformControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches;
+-(void)clipOver;
+
+@end
+
 @interface WaveformControl : UIControl
+
+@property (assign) id<WaveformControlDelegate> delegate;
 
 @end

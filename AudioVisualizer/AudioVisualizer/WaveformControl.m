@@ -17,6 +17,8 @@
 
 @implementation WaveformControl
 
+@synthesize delegate;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -30,21 +32,7 @@
 #pragma mark Touch Handling
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"WaveformControl was touched");
-//	UITouch *touch = [touches anyObject];
-//	CGPoint local_point = [touch locationInView:self];
-//	CGRect wr = [self waveRect];
-//    //	wr.size.width = (wr.size.width - 12);
-//    //	wr.origin.x = wr.origin.x + 6;
-//	if(CGRectContainsPoint(wr,local_point) && player != nil) {
-//        CGFloat x = local_point.x - wr.origin.x;
-//        float sel = x / wr.size.width;
-//        Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
-//        float timeSelected = duration * sel;
-//        CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
-//        [player seekToTime:tm];
-//        //NSLog(@"Clicked time : %f",timeSelected);
-//	}
+    [self.delegate waveformControl:self wasTouched:touches];
 }
 
 - (CGRect) waveRect
@@ -72,6 +60,26 @@
 	CGContextDrawPath(cx, kCGPathFillStroke);
 }
 
+-(void)drawSquareRect:(CGRect)bounds fillColor:(UIColor *)fillColor strokeColor:(UIColor *)strokeColor radius:(CGFloat)radius lineWidth:(CGFloat)lineWidth
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetRGBFillColor(context, .5, .5, .5, 1.0);
+    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
+    CGContextFillRect(context, bounds);
+    CGContextStrokeRect(context, bounds);
+}
+
+-(void) draw1PxStrokeForContext:(CGContextRef)context startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint color:(CGColorRef)color{
+    CGContextSaveGState(context);
+    CGContextSetLineCap(context, kCGLineCapSquare);
+    CGContextSetStrokeColorWithColor(context, color);
+    CGContextSetLineWidth(context, 1.0);
+    CGContextMoveToPoint(context, startPoint.x + .5, startPoint.y + .5);
+    CGContextAddLineToPoint(context, endPoint.x + .5, endPoint.y + .5);
+    CGContextStrokePath(context);
+    CGContextRestoreGState(context);
+}
+
 
 - (void)drawRect:(CGRect)rect
 {
@@ -82,13 +90,14 @@
 	CGContextFillRect(cx, self.bounds);
 	
     //drawing weird white background behind gray background
-	[self drawRoundRect:self.bounds fillColor:[UIColor whiteColor] strokeColor:[UIColor clearColor] radius:8.0 lineWidht:2.0];
+	//[self drawRoundRect:self.bounds fillColor:[UIColor whiteColor] strokeColor:[UIColor clearColor] radius:8.0 lineWidht:2.0];
 	
     //	CGRect playRect = [self playRect];
     //	[self drawRoundRect:playRect fillColor:white strokeColor:darkgray radius:4.0 lineWidht:2.0];
 	
 	CGRect waveRect = [self waveRect];
-	[self drawRoundRect:waveRect fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidht:2.0];
+	//[self drawRoundRect:waveRect fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidht:2.0];
+    [self drawSquareRect:waveRect fillColor:[UIColor blackColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
 	
     //	CGRect statusRect = [self statusRect];
     //	[self drawRoundRect:statusRect fillColor:lightgray strokeColor:darkgray radius:4.0 lineWidht:2.0];
@@ -150,17 +159,14 @@
 		CGPathRelease(path); // clean up!
         
         //draw a line where the current playhead is
-//        float currentPointX = (wave.size.width) * playProgress;
-//        CGPoint startPoint = CGPointMake(currentPointX, 0);
-//        CGPoint endPoint = CGPointMake(currentPointX, self.bounds.size.height);
-//        [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];
+        float currentPointX = (waveRect.size.width) * [AppModel sharedAppModel].playProgress;
+        CGPoint startPoint = CGPointMake(currentPointX, 0);
+        CGPoint endPoint = CGPointMake(currentPointX, self.bounds.size.height);
+        [self draw1PxStrokeForContext:cx startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];
         
-        //check to see if the playhead should stop
-        //this also needs to reset the play button
-        //BAD
-//        if(currentPointX >= rightSlider.center.x){
-//            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"StopAudio" object:nil userInfo:nil]];
-//        }
+        if([AppModel sharedAppModel].playProgress >= [AppModel sharedAppModel].endTime){
+            [self.delegate clipOver];
+        }
         
         
 	}

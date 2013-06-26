@@ -16,5 +16,7 @@
 @property CGPoint* sampleData;
 //this is the length of the audio sample
 @property int sampleLength;
+@property float playProgress;
+@property float endTime;
 
 @end

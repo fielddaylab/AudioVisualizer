@@ -12,6 +12,8 @@
 
 @synthesize sampleData;
 @synthesize sampleLength;
+@synthesize playProgress;
+@synthesize endTime;
 
 + (id)sharedAppModel
 {
