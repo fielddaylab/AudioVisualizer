@@ -29,6 +29,8 @@
     id timeObserver;
     UILabel *timeLabel;
     UIBarButtonItem *timeButton;
+    Float64 duration;
+
 }
 
 - (void) initView;
@@ -94,6 +96,7 @@
     NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, saveButton, flexibleSpace, timeButton, flexibleSpace, stopButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -137,6 +140,7 @@
     [self.view addSubview:rightSlider];
     
     [AppModel sharedAppModel].endTime = 1.0;
+
     
 }
 
@@ -211,7 +215,7 @@
 -(void)setPlayHeadToLeftSlider{
     CGFloat x = leftSlider.center.x - self.view.bounds.origin.x;
     float sel = x / self.view.bounds.size.width;
-    Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+    duration = CMTimeGetSeconds(player.currentItem.duration);
     float timeSelected = duration * sel;
     CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
     [player seekToTime:tm];
@@ -232,7 +236,7 @@
 }
 
 -(void)updateTimeString{
-    Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+    duration = CMTimeGetSeconds(player.currentItem.duration);
     Float64 currentTime = CMTimeGetSeconds(player.currentTime);
     int dmin = duration / 60;
     int dsec = duration - (dmin * 60);
@@ -381,7 +385,7 @@
 	if(CGRectContainsPoint(self.view.bounds,local_point) && player != nil) {
         CGFloat x = local_point.x - self.view.bounds.origin.x;
         float sel = x / self.view.bounds.size.width;
-        Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+        duration = CMTimeGetSeconds(player.currentItem.duration);
         float timeSelected = duration * sel;
         CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
         [player seekToTime:tm];
@@ -397,15 +401,15 @@
 
 - (BOOL)trimAudio
 {
-    float vocalStartMarker = leftSlider.center.x;
-    float vocalEndMarker = rightSlider.center.x;
+    float vocalStartMarker  = leftSlider.center.x  / self.view.frame.size.width;
+    float vocalEndMarker    = rightSlider.center.x / self.view.frame.size.width;
     NSLog(@"HOLAAAA");
-    NSString *path = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample2.m4a";
-    NSString *path1 = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample6.m4a";
+    NSString *inputPath =  @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a";
+    NSString *outputPath = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample10.m4a";
     
     
-    NSURL *audioFileInput = [NSURL fileURLWithPath:path];//<your pre-existing file>;
-    NSURL *audioFileOutput = [NSURL fileURLWithPath:path1];//<the file you want to create>;
+    NSURL *audioFileInput = [NSURL fileURLWithPath:inputPath];
+    NSURL *audioFileOutput = [NSURL fileURLWithPath:outputPath];
     
     if (!audioFileInput || !audioFileOutput)
     {
@@ -416,15 +420,19 @@
     AVAsset *asset = [AVAsset assetWithURL:audioFileInput];
     
     AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset
-                                                                            presetName:AVAssetExportPresetAppleM4A];
+                                                                        presetName:AVAssetExportPresetAppleM4A];
     
     if (exportSession == nil)
     {
         return NO;
     }
+    NSLog(@"Left: %f Right: %f",vocalStartMarker,vocalEndMarker);
     
-//    CMTime startTime = CMTimeMake((vocalStartMarker * 44100) , 44100);
-//    CMTime stopTime = CMTimeMake((vocalEndMarker * 44100) , 44100);
+    duration = CMTimeGetSeconds(player.currentItem.duration);
+    
+    vocalStartMarker *= duration;
+    vocalEndMarker *= duration;
+
     CMTime startTime = CMTimeMake(vocalStartMarker , 1);
     CMTime stopTime = CMTimeMake(vocalEndMarker , 1);
     CMTimeRange exportTimeRange = CMTimeRangeFromTimeToTime(startTime, stopTime);
@@ -438,11 +446,13 @@
          if (AVAssetExportSessionStatusCompleted == exportSession.status)
          {
              // It worked!
+             // Show a popup saying it worked (maybe)
              NSLog(@"WORKED");
          }
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
          {
              // It failed...
+             // Show an error as a popup
              NSLog(@"DIDNT WORK");
          }
      }];
