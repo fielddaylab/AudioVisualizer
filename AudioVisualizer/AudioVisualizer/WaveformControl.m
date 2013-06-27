@@ -63,8 +63,8 @@
 -(void)drawSquareRect:(CGRect)bounds fillColor:(UIColor *)fillColor strokeColor:(UIColor *)strokeColor radius:(CGFloat)radius lineWidth:(CGFloat)lineWidth
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBFillColor(context, .5, .5, .5, 1.0);
-    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
+    CGContextSetFillColorWithColor(context, fillColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, strokeColor.CGColor);
     CGContextFillRect(context, bounds);
     CGContextStrokeRect(context, bounds);
 }
@@ -95,7 +95,7 @@
 	
 	CGRect waveRect = [self waveRect];
 	//[self drawRoundRect:waveRect fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidht:2.0];
-    [self drawSquareRect:waveRect fillColor:[UIColor blackColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
+    [self drawSquareRect:waveRect fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
 	
 	
 	if([AppModel sharedAppModel].sampleLength > 0) {

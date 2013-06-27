@@ -208,7 +208,7 @@
         free(audio[i]);
     }
 	
-//	NSLog(@"Packets read : %d (%ld)",packetReads, sampleData.count);
+	NSLog(@"Packets read : %d (%ld)",packetReads, (unsigned long)sampleData.count);
 	[self normalizeSample];
 	[self status:LOADED message:@"Sample data loaded"];
 }

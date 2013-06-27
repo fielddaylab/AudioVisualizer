@@ -52,12 +52,12 @@
 {
     [super viewDidLoad];
     [self loadAudioForPath:@"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/tail_toddle.mp3"];
-    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
-    wf.delegate = self;
-    [self.view addSubview:wf];
+//    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+//    wf.delegate = self;
+//    [self.view addSubview:wf];
     
-//    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
-//    [self.view addSubview:freq];
+    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
+    [self.view addSubview:freq];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -98,7 +98,6 @@
 
 - (void) initView
 {
-    self.title = @"Waveform";
 	[AppModel sharedAppModel].playProgress = 0.0;
 
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
@@ -188,6 +187,7 @@
     }
     [self pauseAudio];
     [self updateTimeString];
+    NSLog(@"Updated Time String: Play Function");
 }
 
 -(void)stopFunction{
@@ -203,7 +203,6 @@
 }
 
 -(void)setPlayHeadToLeftSlider{
-    //CGRect wr = [self waveRect];
     CGFloat x = leftSlider.center.x - self.view.bounds.origin.x;
     float sel = x / self.view.bounds.size.width;
     Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
@@ -215,7 +214,6 @@
 -(void)loadAudioForPath:(NSString *)path{
     if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSURL *audioURL = [NSURL fileURLWithPath:path];
-        //[wfv openAudioURL:audioURL];
         [self openAudioURL:audioURL];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio !"
@@ -234,9 +232,7 @@
     int dsec = duration - (dmin * 60);
     int cmin = currentTime / 60;
     int csec = currentTime - (cmin * 60);
-    if(currentTime > 0.0) {
-        [self setTimeString:[NSString stringWithFormat:@"%02d:%02d/%02d:%02d",cmin,csec,dmin,dsec]];
-    }
+    [self setTimeString:[NSString stringWithFormat:@"%02d:%02d/%02d:%02d",cmin,csec,dmin,dsec]];
     [AppModel sharedAppModel].playProgress = currentTime/duration;
 }
 
@@ -329,6 +325,13 @@
 	//[progress setHidden:TRUE];
 	//[progress stopAnimating];
 	[wf setNeedsDisplay];
+    [freq setNeedsDisplay];
+}
+
+-(void)printSampleData:(CGPoint *)mySampleData forSampleLength:(int)mySampleLength{
+    for(int i = 0; i < mySampleLength; i++){
+        NSLog(@"X: %f Y: %f", mySampleData[i].x, mySampleData[i].y);
+    }
 }
 
 #pragma mark -
@@ -345,6 +348,7 @@
 		//		float *sd = [wsp dataForResolution:[self waveRect].size.width lenght:&sdl];
 		float *sd = [wsp dataForResolution:8000 lenght:&sdl];
 		[self setSampleData:sd length:sdl];
+        //[self printSampleData:[AppModel sharedAppModel].sampleData forSampleLength:[AppModel sharedAppModel].sampleLength];
 		//[self setInfoString:@"Paused"];
 		int dmin = wsp.minute;
 		int dsec = wsp.sec;
