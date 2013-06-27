@@ -66,7 +66,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     [self loadAudioForPath:@"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/tail_toddle.mp3"];
     NSTimer *refreshTimeTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                target:self
                                              selector:@selector(updateTime)

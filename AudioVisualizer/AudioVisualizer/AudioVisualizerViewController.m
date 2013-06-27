@@ -51,13 +51,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self loadAudioForPath:@"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/tail_toddle.mp3"];
-//    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
-//    wf.delegate = self;
-//    [self.view addSubview:wf];
+    [self loadAudioForPath:@"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a"];
+    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    wf.delegate = self;
+    [self.view addSubview:wf];
     
-    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
-    [self.view addSubview:freq];
+//    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
+//    [self.view addSubview:freq];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -78,6 +78,12 @@
     UIBarButtonItem *stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderStopButton];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
+    UIButton *withoutBorderSaveButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderSaveButton setImage:[UIImage imageNamed:@"57-download"] forState:UIControlStateNormal];
+    [withoutBorderSaveButton addTarget:self action:@selector(trimAudio) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderSaveButton];
+    
+    
     timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [timeLabel setText:timeString];
     [timeLabel setBackgroundColor:[UIColor clearColor]];
@@ -85,7 +91,7 @@
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
     
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, flexibleSpace, timeButton, flexibleSpace, stopButton, nil];
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, saveButton, flexibleSpace, timeButton, flexibleSpace, stopButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
 }
@@ -335,7 +341,7 @@
 }
 
 #pragma mark -
-#pragma mark Sample Data Provider Delegat
+#pragma mark Sample Data Provider Delegate
 - (void) statusUpdated:(WaveSampleProvider *)provider
 {
 	//[self setInfoString:wsp.statusMessage];
@@ -386,5 +392,63 @@
 -(void)clipOver{
     [self stopFunction];
 }
+
+#pragma mark Saving Data
+
+- (BOOL)trimAudio
+{
+    float vocalStartMarker = leftSlider.center.x;
+    float vocalEndMarker = rightSlider.center.x;
+    NSLog(@"HOLAAAA");
+    NSString *path = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample2.m4a";
+    NSString *path1 = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample6.m4a";
+    
+    
+    NSURL *audioFileInput = [NSURL fileURLWithPath:path];//<your pre-existing file>;
+    NSURL *audioFileOutput = [NSURL fileURLWithPath:path1];//<the file you want to create>;
+    
+    if (!audioFileInput || !audioFileOutput)
+    {
+        return NO;
+    }
+    
+    [[NSFileManager defaultManager] removeItemAtURL:audioFileOutput error:NULL];
+    AVAsset *asset = [AVAsset assetWithURL:audioFileInput];
+    
+    AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset
+                                                                            presetName:AVAssetExportPresetAppleM4A];
+    
+    if (exportSession == nil)
+    {
+        return NO;
+    }
+    
+//    CMTime startTime = CMTimeMake((vocalStartMarker * 44100) , 44100);
+//    CMTime stopTime = CMTimeMake((vocalEndMarker * 44100) , 44100);
+    CMTime startTime = CMTimeMake(vocalStartMarker , 1);
+    CMTime stopTime = CMTimeMake(vocalEndMarker , 1);
+    CMTimeRange exportTimeRange = CMTimeRangeFromTimeToTime(startTime, stopTime);
+    
+    exportSession.outputURL = audioFileOutput;
+    exportSession.outputFileType = AVFileTypeAppleM4A;
+    exportSession.timeRange = exportTimeRange;
+    
+    [exportSession exportAsynchronouslyWithCompletionHandler:^
+     {
+         if (AVAssetExportSessionStatusCompleted == exportSession.status)
+         {
+             // It worked!
+             NSLog(@"WORKED");
+         }
+         else if (AVAssetExportSessionStatusFailed == exportSession.status)
+         {
+             // It failed...
+             NSLog(@"DIDNT WORK");
+         }
+     }];
+    
+    return YES;
+}
+
 
 @end
