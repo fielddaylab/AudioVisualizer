@@ -11,7 +11,6 @@
 #import "AppModel.h"
 #import "FreqHistogramControl.h"
 #import "WaveformControl.h"
-#import "FreqHistogramControl.h"
 #import "AudioTint.h"
 
 #define SLIDER_BUFFER 5
@@ -53,13 +52,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    //Set up the right navbar buttons without a border.
+    self.withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [self.withoutBorderButton setImage:[UIImage imageNamed:@"57-download"] forState:UIControlStateNormal];
+    [self.withoutBorderButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
+    self.rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.withoutBorderButton];
+    self.navigationItem.rightBarButtonItem = self.rightNavBarButton;
+    
+    
     [self loadAudioForPath:@"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a"];
+    
+    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
+    
+    [self.view addSubview:freq];
+    
+    
     wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
     wf.delegate = self;
     [self.view addSubview:wf];
+
     
-//    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
-//    [self.view addSubview:freq];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -109,6 +123,7 @@
 {
 	[AppModel sharedAppModel].playProgress = 0.0;
 
+    
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
 	gray = [UIColor colorWithRed:64.0/255.0 green:63.0/255.0 blue:65.0/255.0 alpha:1.0];
 	lightgray = [UIColor colorWithRed:75.0/255.0 green:75.0/255.0 blue:75.0/255.0 alpha:1.0];
@@ -401,6 +416,8 @@
 
 - (BOOL)trimAudio
 {
+
+    
     float vocalStartMarker  = leftSlider.center.x  / self.view.frame.size.width;
     float vocalEndMarker    = rightSlider.center.x / self.view.frame.size.width;
     NSLog(@"HOLAAAA");
@@ -459,6 +476,17 @@
     
     return YES;
 }
+
+- (void) flipView
+{
+
+#pragma mark Control
+//subviews[0 or 1 (not sure yet)] is wf; subviews[2] is freq
+[self.view.subviews[0] setHidden:[self.view.subviews[2] isHidden]];
+[self.view.subviews[2] setHidden:![self.view.subviews[2] isHidden]];
+
+}
+
 
 
 @end
