@@ -29,6 +29,8 @@
     id timeObserver;
     UILabel *timeLabel;
     UIBarButtonItem *timeButton;
+    Float64 duration;
+
     
     UILabel *freqLabel;
     UIBarButtonItem *freqButton;
@@ -60,16 +62,37 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a";
-    [self loadAudioForPath:path];
-//    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
-//    wf.delegate = self;
-//    [self.view addSubview:wf];
+    [super viewDidLoad];  
+
+    [self.navigationItem setHidesBackButton:YES animated:YES];
+
     
-    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
+    
+    //Can either have text 'Save' or a floppy icon.
+    withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"57-download"] forState:UIControlStateNormal];
+    [withoutBorderButton addTarget:self action:@selector(saveAudioConfirmation) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
+    self.navigationItem.leftBarButtonItem = leftNavBarButton;
+    
+    //Can maybe have 77-ekg and 17-bar-chart (with a tad bit of editing) for wf/freq respectively
+    withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"05-shuffle"] forState:UIControlStateNormal];
+    [withoutBorderButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;
+    
+    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/bunny.m4a";
+    [self loadAudioForPath:path];
+    
+    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
     freq.delegate = self;
     [self.view addSubview:freq];
+    
+    
+    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    wf.delegate = self;
+    [self.view addSubview:wf];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -98,15 +121,15 @@
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
     
     freqLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
-    float binWidth = freq.bounds.size.width / 512;
-    float bin = freq.currentFreqX / binWidth;
-    [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * 44100.0)/1024)]];
+//    float binWidth = freq.bounds.size.width / 512;
+//    float bin = freq.currentFreqX / binWidth;
+    [freqLabel setText:@""];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
     [freqLabel setTextColor:[UIColor whiteColor]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
     freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
     
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, saveButton, flexibleSpace, timeButton, flexibleSpace,freqButton, flexibleSpace, stopButton, nil];
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, flexibleSpace, timeButton, flexibleSpace,freqButton, flexibleSpace, stopButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
 
@@ -131,7 +154,7 @@
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
 
     leftSlider = [[AudioSlider alloc] init];
-    leftSlider.frame = CGRectMake(-7.5, 12, 15.0, self.view.bounds.size.height - 12);
+    leftSlider.frame = CGRectMake(-7.5, 0, 15.0, self.view.bounds.size.height + 12);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
@@ -139,7 +162,7 @@
     
 
     rightSlider = [[AudioSlider alloc] init];
-    rightSlider.frame = CGRectMake(self.view.bounds.size.width - 88.0 - 7.5, 12, 15.0, self.view.bounds.size.height - 12);
+    rightSlider.frame = CGRectMake(self.view.bounds.size.width - 88.0 - 7.5, 0, 15.0, self.view.bounds.size.height + 12);
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
@@ -485,15 +508,27 @@
 
 - (BOOL)saveAudio
 {
-    float vocalStartMarker = leftSlider.center.x;
-    float vocalEndMarker = rightSlider.center.x;
-    NSLog(@"HOLAAAA");
-    NSString *pathInput = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sound.caf";
-    NSString *pathOutput = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sound1.caf";
+    //TODO in ARIS: We'll need to but the sample back at the original file at the very end.
+                //  We'll need to change the paths in general to reflect aris's stuff
+                //  We'll probably have to convert .caf from ARIS to .m4a - talk to David because he talked about switching over to .m4a anyways.
+    
+    //Also need to force into landscape. Seems like a bitch to do so in iOS6 >:/
+    //If not there already, need to add DiscardKey "Discard", SaveKey "Save", and SaveConfirmationKey "Would you like to save?"
+    //Also SaveErrorKey "Sorry, the file didn't save properly" ; ErrorKey "Error :'["
+    
+    //possibly add slider's representation of time. Something like this:
+    //*toolbarButtons = [NSArray arrayWithObjects:
+    //playButton, leftPlayHeadTime, flexibleSpace, timeButton, flexibleSpace, rightPlayHeadTime, stopButton, nil];
+    
+    float vocalStartMarker  = leftSlider.center.x  / self.view.frame.size.width;
+    float vocalEndMarker    = rightSlider.center.x / self.view.frame.size.width;
+
+    NSString *inputPath =  @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample12.m4a";
+    NSString *outputPath = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample13.m4a";
     
     
-    NSURL *audioFileInput = [NSURL fileURLWithPath:pathInput];//<your pre-existing file>;
-    NSURL *audioFileOutput = [NSURL fileURLWithPath:pathOutput];//<the file you want to create>;
+    NSURL *audioFileInput = [NSURL fileURLWithPath:inputPath];
+    NSURL *audioFileOutput = [NSURL fileURLWithPath:outputPath];
     
     if (!audioFileInput || !audioFileOutput)
     {
@@ -549,6 +584,24 @@
      }];
     
     return YES;
+}
+
+- (void) flipView
+{
+    
+#pragma mark Control
+    //subviews[0 or 1 (not sure yet)] is wf; subviews[2] is freq
+    [self.view.subviews[0] setHidden:[self.view.subviews[2] isHidden]];
+    [self.view.subviews[2] setHidden:![self.view.subviews[2] isHidden]];
+    [freqLabel setText:@""];
+    [freqLabel setBackgroundColor:[UIColor clearColor]];
+    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextAlignment:NSTextAlignmentCenter];
+    freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
+    [leftSlider setHidden:![leftSlider isHidden]];
+    [rightSlider setHidden:![rightSlider isHidden]];
+    [leftTint setHidden:![leftTint isHidden]];
+    [rightTint setHidden:![rightTint isHidden]];
 }
 
 #pragma mark Fourier Helper functions
@@ -662,6 +715,7 @@
     
     return magDB;
 }
+
 
 
 @end

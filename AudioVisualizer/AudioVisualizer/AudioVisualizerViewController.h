@@ -14,7 +14,7 @@
 #import "FreqHistogramControl.h"
 
 
-@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate, FreqHistogramControlDelegate>{
+@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate, FreqHistogramControlDelegate, UIAlertViewDelegate>{
     //this is the object that constructs the audio sample
 	WaveSampleProvider *wsp;
     //this is the player of the audio
