@@ -10,6 +10,7 @@
 #import "WaveformViewController.h"
 
 #import "AudioVisualizerViewController.h"
+#import "TestStartViewController.h"
 
 @implementation AppDelegate
 
@@ -23,11 +24,11 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    //AudioVisualizerContainerViewController *audioVisualizerContainerVC = [[AudioVisualizerContainerViewController alloc]init];
-    
-    AudioVisualizerViewController *vc = [[AudioVisualizerViewController alloc] initWithNibName:@"AudioVisualizerViewController" bundle:nil];
+    //AudioVisualizerViewController *vc = [[AudioVisualizerViewController alloc] initWithNibName:@"AudioVisualizerViewController" bundle:nil];
 
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+    TestStartViewController *test = [[TestStartViewController alloc] initWithNibName:@"TestStartViewController" bundle:nil];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:test];
         
     self.window.rootViewController = navigationController;
     

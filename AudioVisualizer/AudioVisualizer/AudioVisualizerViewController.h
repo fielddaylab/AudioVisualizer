@@ -38,8 +38,12 @@
 @property CGPoint* sampleData;
 @property int sampleLength;
 
+@property (strong, nonatomic) UIButton *withoutBorderButton;
+
 - (void) openAudioURL:(NSURL *)url;
 -(void)setPlayHeadToLeftSlider;
 - (void) pauseAudio;
+
+
 
 @end

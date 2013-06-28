@@ -11,7 +11,6 @@
 #import "AppModel.h"
 #import "FreqHistogramControl.h"
 #import "WaveformControl.h"
-#import "FreqHistogramControl.h"
 #import "AudioTint.h"
 #import <Accelerate/Accelerate.h>
 
@@ -47,6 +46,8 @@
 @end
 
 @implementation AudioVisualizerViewController
+
+@synthesize withoutBorderButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -89,16 +90,10 @@
     UIBarButtonItem *stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderStopButton];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    UIButton *withoutBorderSaveButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderSaveButton setImage:[UIImage imageNamed:@"57-download"] forState:UIControlStateNormal];
-    [withoutBorderSaveButton addTarget:self action:@selector(trimAudio) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderSaveButton];
-    
-    
     timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [timeLabel setText:timeString];
     [timeLabel setBackgroundColor:[UIColor clearColor]];
-    [timeLabel setTextColor:[UIColor whiteColor]];
+    //[timeLabel setTextColor:[UIColor colorWithRed:69 green:69 blue:69 alpha:0]];//Doesn't seem to work :'[
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
     
@@ -114,6 +109,7 @@
     NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, saveButton, flexibleSpace, timeButton, flexibleSpace,freqButton, flexibleSpace, stopButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -126,6 +122,7 @@
 {
 	[AppModel sharedAppModel].playProgress = 0.0;
 
+    
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
 	gray = [UIColor colorWithRed:64.0/255.0 green:63.0/255.0 blue:65.0/255.0 alpha:1.0];
 	lightgray = [UIColor colorWithRed:75.0/255.0 green:75.0/255.0 blue:75.0/255.0 alpha:1.0];
@@ -160,6 +157,7 @@
     [self.view addSubview:rightSlider];
     
     [AppModel sharedAppModel].endTime = 1.0;
+
     
     
     audioURL = [NSURL fileURLWithPath:path];
@@ -251,7 +249,7 @@
 -(void)setPlayHeadToLeftSlider{
     CGFloat x = leftSlider.center.x - self.view.bounds.origin.x;
     float sel = x / self.view.bounds.size.width;
-    Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+    duration = CMTimeGetSeconds(player.currentItem.duration);
     float timeSelected = duration * sel;
     CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
     [player seekToTime:tm];
@@ -272,7 +270,7 @@
 }
 
 -(void)updateTimeString{
-    Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+    duration = CMTimeGetSeconds(player.currentItem.duration);
     Float64 currentTime = CMTimeGetSeconds(player.currentTime);
     int dmin = duration / 60;
     int dsec = duration - (dmin * 60);
@@ -429,7 +427,7 @@
 	if(CGRectContainsPoint(self.view.bounds,local_point) && player != nil) {
         CGFloat x = local_point.x - self.view.bounds.origin.x;
         float sel = x / self.view.bounds.size.width;
-        Float64 duration = CMTimeGetSeconds(player.currentItem.duration);
+        duration = CMTimeGetSeconds(player.currentItem.duration);
         float timeSelected = duration * sel;
         CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
         [player seekToTime:tm];
@@ -464,7 +462,28 @@
 
 #pragma mark Saving Data
 
-- (BOOL)trimAudio
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;{
+    // the user clicked OK
+    if (buttonIndex == 1)
+    {
+        [self saveAudio];
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+
+}
+
+- (void)saveAudioConfirmation
+{    
+    UIAlertView *confirmationAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"SaveConfirmationKey", nil)
+                                                               message:nil
+                                                              delegate:self
+                                                     cancelButtonTitle:NSLocalizedString(@"DiscardKey", nil)
+                                                     otherButtonTitles:NSLocalizedString(@"SaveKey", nil), nil];
+    [confirmationAlert show];
+}
+
+- (BOOL)saveAudio
 {
     float vocalStartMarker = leftSlider.center.x;
     float vocalEndMarker = rightSlider.center.x;
@@ -485,15 +504,19 @@
     AVAsset *asset = [AVAsset assetWithURL:audioFileInput];
     
     AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset
-                                                                            presetName:AVAssetExportPresetAppleM4A];
+                                                                        presetName:AVAssetExportPresetAppleM4A];
     
     if (exportSession == nil)
     {
         return NO;
     }
+    NSLog(@"Left: %f Right: %f",vocalStartMarker,vocalEndMarker);
     
-//    CMTime startTime = CMTimeMake((vocalStartMarker * 44100) , 44100);
-//    CMTime stopTime = CMTimeMake((vocalEndMarker * 44100) , 44100);
+    duration = CMTimeGetSeconds(player.currentItem.duration);
+    
+    vocalStartMarker *= duration;
+    vocalEndMarker *= duration;
+
     CMTime startTime = CMTimeMake(vocalStartMarker , 1);
     CMTime stopTime = CMTimeMake(vocalEndMarker , 1);
     CMTimeRange exportTimeRange = CMTimeRangeFromTimeToTime(startTime, stopTime);
@@ -507,12 +530,21 @@
          if (AVAssetExportSessionStatusCompleted == exportSession.status)
          {
              // It worked!
+             // Show a popup saying it worked (maybe)
              NSLog(@"WORKED");
          }
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
          {
              // It failed...
+             // Show an error as a popup
              NSLog(@"DIDNT WORK");
+             
+             UIAlertView *errorAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"ErrorKey", nil)
+                                                                        message:NSLocalizedString(@"SaveErrorKey", nil)
+                                                                       delegate:self
+                                                              cancelButtonTitle:NSLocalizedString(@"OkKey", nil)
+                                                              otherButtonTitles:nil];
+             [errorAlert show];
          }
      }];
     

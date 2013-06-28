@@ -44,6 +44,14 @@
 		5BFB61151773A1770058BCD3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB61141773A1770058BCD3 /* AudioToolbox.framework */; };
 		5BFB61191773A1D40058BCD3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB61181773A1D40058BCD3 /* AVFoundation.framework */; };
 		5BFB611B1773A2040058BCD3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB611A1773A2040058BCD3 /* CoreMedia.framework */; };
+		713C65F4177DE58D004D21EE /* 05-shuffle.png in Resources */ = {isa = PBXBuildFile; fileRef = 713C65EE177DE58D004D21EE /* 05-shuffle.png */; };
+		713C65F5177DE58D004D21EE /* 05-shuffle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 713C65EF177DE58D004D21EE /* 05-shuffle@2x.png */; };
+		713C65F6177DE58D004D21EE /* 17-bar-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 713C65F0177DE58D004D21EE /* 17-bar-chart.png */; };
+		713C65F7177DE58D004D21EE /* 17-bar-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 713C65F1177DE58D004D21EE /* 17-bar-chart@2x.png */; };
+		713C65F8177DE58D004D21EE /* 77-ekg.png in Resources */ = {isa = PBXBuildFile; fileRef = 713C65F2177DE58D004D21EE /* 77-ekg.png */; };
+		713C65F9177DE58D004D21EE /* 77-ekg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 713C65F3177DE58D004D21EE /* 77-ekg@2x.png */; };
+		713C65FE177DF201004D21EE /* TestStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 713C65FC177DF201004D21EE /* TestStartViewController.m */; };
+		713C65FF177DF201004D21EE /* TestStartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713C65FD177DF201004D21EE /* TestStartViewController.xib */; };
 		7152F676177CA018001B0CAE /* bunny.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 7152F675177CA018001B0CAE /* bunny.m4a */; };
 		7152F679177CA4B2001B0CAE /* 57-download.png in Resources */ = {isa = PBXBuildFile; fileRef = 7152F677177CA4B2001B0CAE /* 57-download.png */; };
 		7152F67A177CA4B2001B0CAE /* 57-download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7152F678177CA4B2001B0CAE /* 57-download@2x.png */; };
@@ -103,6 +111,15 @@
 		5BFB61141773A1770058BCD3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		5BFB61181773A1D40058BCD3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5BFB611A1773A2040058BCD3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		713C65EE177DE58D004D21EE /* 05-shuffle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "05-shuffle.png"; sourceTree = "<group>"; };
+		713C65EF177DE58D004D21EE /* 05-shuffle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "05-shuffle@2x.png"; sourceTree = "<group>"; };
+		713C65F0177DE58D004D21EE /* 17-bar-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-bar-chart.png"; sourceTree = "<group>"; };
+		713C65F1177DE58D004D21EE /* 17-bar-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-bar-chart@2x.png"; sourceTree = "<group>"; };
+		713C65F2177DE58D004D21EE /* 77-ekg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "77-ekg.png"; sourceTree = "<group>"; };
+		713C65F3177DE58D004D21EE /* 77-ekg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "77-ekg@2x.png"; sourceTree = "<group>"; };
+		713C65FB177DF201004D21EE /* TestStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestStartViewController.h; sourceTree = "<group>"; };
+		713C65FC177DF201004D21EE /* TestStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestStartViewController.m; sourceTree = "<group>"; };
+		713C65FD177DF201004D21EE /* TestStartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestStartViewController.xib; sourceTree = "<group>"; };
 		7152F675177CA018001B0CAE /* bunny.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = bunny.m4a; sourceTree = "<group>"; };
 		7152F677177CA4B2001B0CAE /* 57-download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "57-download.png"; sourceTree = "<group>"; };
 		7152F678177CA4B2001B0CAE /* 57-download@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "57-download@2x.png"; sourceTree = "<group>"; };
@@ -199,6 +216,12 @@
 		5BFB60D2177373AC0058BCD3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				713C65EE177DE58D004D21EE /* 05-shuffle.png */,
+				713C65EF177DE58D004D21EE /* 05-shuffle@2x.png */,
+				713C65F0177DE58D004D21EE /* 17-bar-chart.png */,
+				713C65F1177DE58D004D21EE /* 17-bar-chart@2x.png */,
+				713C65F2177DE58D004D21EE /* 77-ekg.png */,
+				713C65F3177DE58D004D21EE /* 77-ekg@2x.png */,
 				7152F67F177CAE99001B0CAE /* sample.m4a */,
 				7152F67D177CAAB2001B0CAE /* bun.m4a */,
 				7152F677177CA4B2001B0CAE /* 57-download.png */,
@@ -229,6 +252,9 @@
 		5BFB60EB1773744F0058BCD3 /* view controllers */ = {
 			isa = PBXGroup;
 			children = (
+				713C65FB177DF201004D21EE /* TestStartViewController.h */,
+				713C65FC177DF201004D21EE /* TestStartViewController.m */,
+				713C65FD177DF201004D21EE /* TestStartViewController.xib */,
 				5BFB60EF177376850058BCD3 /* WaveformViewController.h */,
 				5BFB60F0177376850058BCD3 /* WaveformViewController.m */,
 				5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */,
@@ -312,6 +338,13 @@
 				7152F67A177CA4B2001B0CAE /* 57-download@2x.png in Resources */,
 				7152F67E177CAAB3001B0CAE /* bun.m4a in Resources */,
 				7152F680177CAE99001B0CAE /* sample.m4a in Resources */,
+				713C65F4177DE58D004D21EE /* 05-shuffle.png in Resources */,
+				713C65F5177DE58D004D21EE /* 05-shuffle@2x.png in Resources */,
+				713C65F6177DE58D004D21EE /* 17-bar-chart.png in Resources */,
+				713C65F7177DE58D004D21EE /* 17-bar-chart@2x.png in Resources */,
+				713C65F8177DE58D004D21EE /* 77-ekg.png in Resources */,
+				713C65F9177DE58D004D21EE /* 77-ekg@2x.png in Resources */,
+				713C65FF177DF201004D21EE /* TestStartViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +367,7 @@
 				5B019AFF177A2DD600DE9C8B /* AppModel.m in Sources */,
 				5B019B02177A337D00DE9C8B /* FreqHistogramControl.m in Sources */,
 				5B019B05177A493800DE9C8B /* AudioTint.m in Sources */,
+				713C65FE177DF201004D21EE /* TestStartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
