@@ -13,7 +13,7 @@
 #import "WaveformControl.h"
 
 
-@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate>{
+@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate, UIAlertViewDelegate>{
     //this is the object that constructs the audio sample
 	WaveSampleProvider *wsp;
     //this is the player of the audio
@@ -38,7 +38,6 @@
 @property int sampleLength;
 
 @property (strong, nonatomic) UIButton *withoutBorderButton;
-@property (strong, nonatomic) UIBarButtonItem *rightNavBarButton;
 
 - (void) openAudioURL:(NSURL *)url;
 -(void)setPlayHeadToLeftSlider;

@@ -40,6 +40,8 @@
 
 @implementation AudioVisualizerViewController
 
+@synthesize withoutBorderButton;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -51,15 +53,25 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    [super viewDidLoad];  
+
+    [self.navigationItem setHidesBackButton:YES animated:YES];
+
     
     
-    //Set up the right navbar buttons without a border.
-    self.withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [self.withoutBorderButton setImage:[UIImage imageNamed:@"57-download"] forState:UIControlStateNormal];
-    [self.withoutBorderButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
-    self.rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.withoutBorderButton];
-    self.navigationItem.rightBarButtonItem = self.rightNavBarButton;
+    //Can either have text 'Save' or a floppy icon.
+    withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"57-download"] forState:UIControlStateNormal];
+    [withoutBorderButton addTarget:self action:@selector(saveAudioConfirmation) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
+    self.navigationItem.leftBarButtonItem = leftNavBarButton;
+    
+    //Can maybe have 77-ekg and 17-bar-chart (with a tad bit of editing) for wf/freq respectively
+    withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"05-shuffle"] forState:UIControlStateNormal];
+    [withoutBorderButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
     
     [self loadAudioForPath:@"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a"];
@@ -94,20 +106,14 @@
     UIBarButtonItem *stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderStopButton];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    UIButton *withoutBorderSaveButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderSaveButton setImage:[UIImage imageNamed:@"57-download"] forState:UIControlStateNormal];
-    [withoutBorderSaveButton addTarget:self action:@selector(trimAudio) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderSaveButton];
-    
-    
     timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [timeLabel setText:timeString];
     [timeLabel setBackgroundColor:[UIColor clearColor]];
-    [timeLabel setTextColor:[UIColor whiteColor]];
+    //[timeLabel setTextColor:[UIColor colorWithRed:69 green:69 blue:69 alpha:0]];//Doesn't seem to work :'[
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
     
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, saveButton, flexibleSpace, timeButton, flexibleSpace, stopButton, nil];
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, flexibleSpace, timeButton, flexibleSpace, stopButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
 
@@ -414,15 +420,46 @@
 
 #pragma mark Saving Data
 
-- (BOOL)trimAudio
-{
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;{
+    // the user clicked OK
+    if (buttonIndex == 1)
+    {
+        [self saveAudio];
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
 
+}
+
+- (void)saveAudioConfirmation
+{    
+    UIAlertView *confirmationAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"SaveConfirmationKey", nil)
+                                                               message:nil
+                                                              delegate:self
+                                                     cancelButtonTitle:NSLocalizedString(@"DiscardKey", nil)
+                                                     otherButtonTitles:NSLocalizedString(@"SaveKey", nil), nil];
+    [confirmationAlert show];
+}
+
+- (BOOL)saveAudio
+{
+    //TODO in ARIS: We'll need to but the sample back at the original file at the very end.
+                //  We'll need to change the paths in general to reflect aris's stuff
+                //  We'll probably have to convert .caf from ARIS to .m4a - talk to David because he talked about switching over to .m4a anyways.
+    
+    //Also need to force into landscape. Seems like a bitch to do so in iOS6 >:/
+    //If not there already, need to add DiscardKey "Discard", SaveKey "Save", and SaveConfirmationKey "Would you like to save?"
+    //Also SaveErrorKey "Sorry, the file didn't save properly" ; ErrorKey "Error :'["
+    
+    //possibly add slider's representation of time. Something like this:
+    //*toolbarButtons = [NSArray arrayWithObjects:
+    //playButton, leftPlayHeadTime, flexibleSpace, timeButton, flexibleSpace, rightPlayHeadTime, stopButton, nil];
     
     float vocalStartMarker  = leftSlider.center.x  / self.view.frame.size.width;
     float vocalEndMarker    = rightSlider.center.x / self.view.frame.size.width;
-    NSLog(@"HOLAAAA");
-    NSString *inputPath =  @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a";
-    NSString *outputPath = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample10.m4a";
+
+    NSString *inputPath =  @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample12.m4a";
+    NSString *outputPath = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample13.m4a";
     
     
     NSURL *audioFileInput = [NSURL fileURLWithPath:inputPath];
@@ -471,6 +508,13 @@
              // It failed...
              // Show an error as a popup
              NSLog(@"DIDNT WORK");
+             
+             UIAlertView *errorAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"ErrorKey", nil)
+                                                                        message:NSLocalizedString(@"SaveErrorKey", nil)
+                                                                       delegate:self
+                                                              cancelButtonTitle:NSLocalizedString(@"OkKey", nil)
+                                                              otherButtonTitles:nil];
+             [errorAlert show];
          }
      }];
     
