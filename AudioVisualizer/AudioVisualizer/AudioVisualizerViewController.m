@@ -143,9 +143,9 @@
 
 - (void) initView
 {
-	[AppModel sharedAppModel].playProgress = 0.0;
-
     
+    
+	[AppModel sharedAppModel].playProgress = 0.0;
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
 	gray = [UIColor colorWithRed:64.0/255.0 green:63.0/255.0 blue:65.0/255.0 alpha:1.0];
 	lightgray = [UIColor colorWithRed:75.0/255.0 green:75.0/255.0 blue:75.0/255.0 alpha:1.0];

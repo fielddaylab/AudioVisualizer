@@ -61,4 +61,13 @@
 - (IBAction)gotonext:(id)sender {
     [self nextScreen];
 }
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    //locked landscape to prevent weird formatting issues.
+    return UIInterfaceOrientationMaskLandscape;
+}
 @end
