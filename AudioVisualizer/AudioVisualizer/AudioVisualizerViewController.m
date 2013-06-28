@@ -158,7 +158,7 @@
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
-    [leftSlider addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
+    //[leftSlider addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     
 
     rightSlider = [[AudioSlider alloc] init];
@@ -166,16 +166,16 @@
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
-    [rightSlider addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
+    //[rightSlider addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     
     
     leftTint = [[AudioTint alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, 12, leftSlider.center.x, self.view.bounds.size.height)];
-    [leftTint addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
+    //[leftTint addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:leftTint];
     [self.view addSubview:leftSlider];
     
     rightTint = [[AudioTint alloc] initWithFrame:CGRectMake(rightSlider.center.x, 12, self.view.bounds.size.width, self.view.bounds.size.height)];
-    [rightTint addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
+    //[rightTint addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:rightTint];
     [self.view addSubview:rightSlider];
     
@@ -198,7 +198,10 @@
 - (void)sliderOrTintWasTouched: (UIControl *) c withEvent: (UIEvent *) ev{
     //depending on the view or the control that was touched we can do different things
     //for now just handle the freq histogram
-    [self freqHistogramControl:freq wasTouched:[ev allTouches]];
+    if(![self.view.subviews[2] isHidden]){
+        [self freqHistogramControl:freq wasTouched:[ev allTouches]];
+    }
+    
 }
 
 - (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
