@@ -11,9 +11,10 @@
 #import "AudioSlider.h"
 #include <AVFoundation/AVFoundation.h>
 #import "WaveformControl.h"
+#import "FreqHistogramControl.h"
 
 
-@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate>{
+@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate, FreqHistogramControlDelegate>{
     //this is the object that constructs the audio sample
 	WaveSampleProvider *wsp;
     //this is the player of the audio

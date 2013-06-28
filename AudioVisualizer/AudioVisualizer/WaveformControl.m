@@ -148,9 +148,9 @@
         CGPoint endPoint = CGPointMake(currentPointX, self.bounds.size.height);
         [self draw1PxStrokeForContext:cx startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];
         
-        if([AppModel sharedAppModel].playProgress >= [AppModel sharedAppModel].endTime){
-            [self.delegate clipOver];
-        }
+//        if([AppModel sharedAppModel].playProgress >= [AppModel sharedAppModel].endTime){
+//            [self.delegate clipOver];
+//        }
         
         
 	}

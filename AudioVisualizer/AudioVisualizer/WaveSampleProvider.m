@@ -7,6 +7,8 @@
 //
 
 #import "WaveSampleProvider.h"
+#import <Accelerate/Accelerate.h>
+#import "AppModel.h"
 
 @interface WaveSampleProvider (Private)
 - (void) loadSample;
@@ -15,6 +17,8 @@
 - (void) normalizeSample;
 - (void) status:(WaveSampleStatus)status message:(NSString *)desc;
 - (OSStatus) readConsecutive:(SInt64)numFrames intoArray:(float**)audio;
+
+
 @end
 
 @implementation WaveSampleProvider
@@ -185,7 +189,8 @@
         audio[i] = (float *)malloc(sizeof(float)*NUM_FRAMES_PER_READ);
     }
 	int packetReads = 0;
-	
+    
+    int i = 0;
 	while (!extAFReachedEOF) {
 		int k = 0;
         if ((k = [self readConsecutive:NUM_FRAMES_PER_READ intoArray:audio]) < 0) { 
@@ -193,10 +198,12 @@
 			return;
         }
 		[self calculateSampleFromArray:audio lenght:k];
+        //NSLog(@"Iteration: %i read in %i samples", i, k);
 		packetReads += k;
+        i++;
 	}
 	float allSec = packetReads / 44100;
-	lengthInSec = allSec;
+	[AppModel sharedAppModel].lengthInSeconds = allSec;
 	minute = allSec / 60;
 	sec = ceil(allSec - ((float)(minute * 60) + 0.5));
 	err = ExtAudioFileDispose(extAFRef);
@@ -209,6 +216,8 @@
     }
 	
 	NSLog(@"Packets read : %d (%ld)",packetReads, (unsigned long)sampleData.count);
+    //NSLog(@"Data size is %i", [[AppModel sharedAppModel].mutableFourierData count]);
+    
 	[self normalizeSample];
 	[self status:LOADED message:@"Sample data loaded"];
 }
@@ -240,7 +249,7 @@
 {
 	float maxValues[extAFNumChannels];
 	for(int i = 0; i < extAFNumChannels;i++) {
-		maxValues[i] = 0.0; 
+		maxValues[i] = 0.0;
 	}
 	for(int v = 0; v < length; v+=binSize) {
 		for(int c = 0; c < extAFNumChannels;c++) {
@@ -264,6 +273,7 @@
 	}
 }
 
+
 - (OSStatus) readConsecutive:(SInt64)numFrames intoArray:(float**)audio
 {
     OSStatus err = noErr;
@@ -277,6 +287,7 @@
         kSegmentSize = (int)(numFrames * extAFNumChannels * extAFRateRatio + .5);
 	
     UInt32 loadedPackets;
+    
     float *data = (float*)malloc(kSegmentSize*sizeof(float));
     if (!data) {
 		return -1;

@@ -14,6 +14,8 @@
 @synthesize sampleLength;
 @synthesize playProgress;
 @synthesize endTime;
+@synthesize mutableFourierData;
+@synthesize lengthInSeconds;
 
 + (id)sharedAppModel
 {

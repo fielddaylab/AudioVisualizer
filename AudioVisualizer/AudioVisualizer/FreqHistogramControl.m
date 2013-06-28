@@ -9,45 +9,35 @@
 #import "FreqHistogramControl.h"
 #import "AppModel.h"
 #import <Accelerate/Accelerate.h>
+#include <AudioToolbox/AudioToolbox.h>
 
 @interface FreqHistogramControl(){
-
+    
 }
 
 @end
 
 @implementation FreqHistogramControl
 
+@synthesize fourierData;
+@synthesize largestMag;
+@synthesize currentFreqX;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        fourierData = nil;
+        largestMag = FLT_MIN;
+        currentFreqX = 0;
+        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataLoaded) name:@"DataLoaded" object:nil];
+        //[self loadAudio];
     }
     return self;
 }
 
 
--(COMPLEX_SPLIT)computeFFTForData:(float *)data{
-    
-    int bufferFrames = 1024;
-    int bufferLog2 = round(log2(bufferFrames));
-    FFTSetup fftSetup = vDSP_create_fftsetup(bufferLog2, kFFTRadix2);
-    float outReal[bufferFrames / 2];
-    float outImaginary[bufferFrames / 2];
-    COMPLEX_SPLIT out = { .realp = outReal, .imagp = outImaginary };
-    vDSP_ctoz((COMPLEX *)&data[0], 2, &out, 1, bufferFrames / 2);
-    vDSP_fft_zrip(fftSetup, &out, 1, bufferLog2, FFT_FORWARD);
-    
-    //print out data
-    for(int i = 1; i < bufferFrames / 2; i++){
-        float frequency = (i * 44100.0)/bufferFrames;
-        float magnitude = sqrtf((out.realp[i] * out.realp[i]) + (out.imagp[i] * out.imagp[i]));
-        float magnitudeDB = 10 * log10(out.realp[i] * out.realp[i] + (out.imagp[i] * out.imagp[i]));
-        NSLog(@"Bin %i: Magnitude: %f Magnitude DB: %f  Frequency: %f Hz", i, magnitude, magnitudeDB, frequency);
-    }
-    return out;
-}
+
 
 -(void)drawSquareRect:(CGRect)bounds fillColor:(UIColor *)fillColor strokeColor:(UIColor *)strokeColor radius:(CGFloat)radius lineWidth:(CGFloat)lineWidth
 {
@@ -58,26 +48,68 @@
     CGContextStrokeRect(context, bounds);
 }
 
--(float *)constructRawData:(CGPoint *)sampleData sampleLength:(int)sampleLength{
-    float *data = malloc(sizeof(float) * sampleLength);
-    for(int i = 0; i < sampleLength; i++){
-        data[i] = sampleData[i].y;
-        //NSLog(@"Raw Data at %i: %f", i, data[i]);
-    }
-    return data;
+-(void) draw1PxStrokeForContext:(CGContextRef)context startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint color:(CGColorRef)color{
+    CGContextSaveGState(context);
+    CGContextSetLineCap(context, kCGLineCapSquare);
+    CGContextSetStrokeColorWithColor(context, color);
+    CGContextSetLineWidth(context, 1.0);
+    CGContextMoveToPoint(context, startPoint.x + .5, startPoint.y + .5);
+    CGContextAddLineToPoint(context, endPoint.x + .5, endPoint.y + .5);
+    CGContextStrokePath(context);
+    CGContextRestoreGState(context);
 }
 
 - (void)drawRect:(CGRect)rect
 {
+    CGContextRef context = UIGraphicsGetCurrentContext();
     [self drawSquareRect:self.bounds fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
     
-    if([AppModel sharedAppModel].sampleLength > 0){
-        float *data = [self constructRawData:[AppModel sharedAppModel].sampleData sampleLength:[AppModel sharedAppModel].sampleLength];
-        [self computeFFTForData:data];
+    if(fourierData != nil){
+        
+        
+        float binWidth = self.bounds.size.width / 512;
+        float currentBinCoor = binWidth / 2;
+        for(int k = 1; k < 512; k++){
+            float heightRatio = fourierData[k] / largestMag;
+            float screenHeight = self.bounds.size.height * heightRatio;
+            CGPoint startPoint = CGPointMake(currentBinCoor, self.bounds.size.height);
+            CGPoint endPoint = CGPointMake(currentBinCoor, self.bounds.size.height - screenHeight);
+            [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];
+            currentBinCoor += binWidth;
+            //NSLog(@"%i Frequency: %f X: %f Y: %f", k, (k * 44100.0)/1024, currentBinCoor, screenHeight);
+        }
+        
     }
     
-    
+    CGPoint startPoint = CGPointMake(currentFreqX, 0);
+    CGPoint endPoint = CGPointMake(currentFreqX, self.bounds.size.height);
+    [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor blueColor].CGColor];
     
 }
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    [self.delegate freqHistogramControl:self wasTouched:touches];
+}
+
+
+-(void)dataLoaded{
+    
+    //this is a test
+//    int bufferFrames = 1024;
+//    float PI = 4*atan(1);
+//    int bin = 100;
+//    float *data = (float *)malloc(sizeof(float) * bufferFrames);
+//    for(int k = 0; k < bufferFrames; k++){
+//        data[k] = cos(2*PI*bin*k/bufferFrames);
+//    }
+//    
+//    fourierData = [self computeFFTForData:data forSampleSize:bufferFrames];
+//    [self setNeedsDisplay];
+}
+
+
+
+
 
 @end

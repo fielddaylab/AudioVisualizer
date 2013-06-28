@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class FreqHistogramControl;
+
+@protocol FreqHistogramControlDelegate <NSObject>
+
+-(void)freqHistogramControl:(FreqHistogramControl *)waveform wasTouched:(NSSet *)touches;
+
+@end
+
 @interface FreqHistogramControl : UIControl
+
+@property float *fourierData;
+@property float largestMag;
+@property (assign) id<FreqHistogramControlDelegate> delegate;
+@property float currentFreqX;
 
 @end

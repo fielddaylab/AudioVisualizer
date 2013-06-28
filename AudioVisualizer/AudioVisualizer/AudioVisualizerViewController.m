@@ -13,6 +13,7 @@
 #import "WaveformControl.h"
 #import "FreqHistogramControl.h"
 #import "AudioTint.h"
+#import <Accelerate/Accelerate.h>
 
 #define SLIDER_BUFFER 5
 
@@ -29,6 +30,14 @@
     id timeObserver;
     UILabel *timeLabel;
     UIBarButtonItem *timeButton;
+    
+    UILabel *freqLabel;
+    UIBarButtonItem *freqButton;
+    
+    ExtAudioFileRef extAFRef;
+    int extAFNumChannels;
+    NSURL *audioURL;
+    NSString *path;
 }
 
 - (void) initView;
@@ -51,13 +60,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self loadAudioForPath:@"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a"];
-    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
-    wf.delegate = self;
-    [self.view addSubview:wf];
+    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a";
+    [self loadAudioForPath:path];
+//    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+//    wf.delegate = self;
+//    [self.view addSubview:wf];
     
-//    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
-//    [self.view addSubview:freq];
+    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height)];
+    freq.delegate = self;
+    [self.view addSubview:freq];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -91,7 +102,16 @@
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
     
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, saveButton, flexibleSpace, timeButton, flexibleSpace, stopButton, nil];
+    freqLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
+    float binWidth = freq.bounds.size.width / 512;
+    float bin = freq.currentFreqX / binWidth;
+    [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * 44100.0)/1024)]];
+    [freqLabel setBackgroundColor:[UIColor clearColor]];
+    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextAlignment:NSTextAlignmentCenter];
+    freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
+    
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, saveButton, flexibleSpace, timeButton, flexibleSpace,freqButton, flexibleSpace, stopButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
 }
@@ -113,12 +133,12 @@
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
 
-    
     leftSlider = [[AudioSlider alloc] init];
     leftSlider.frame = CGRectMake(-7.5, 12, 15.0, self.view.bounds.size.height - 12);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
+    [leftSlider addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     
 
     rightSlider = [[AudioSlider alloc] init];
@@ -126,18 +146,38 @@
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
+    [rightSlider addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     
     
     leftTint = [[AudioTint alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, 12, leftSlider.center.x, self.view.bounds.size.height)];
+    [leftTint addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:leftTint];
     [self.view addSubview:leftSlider];
     
     rightTint = [[AudioTint alloc] initWithFrame:CGRectMake(rightSlider.center.x, 12, self.view.bounds.size.width, self.view.bounds.size.height)];
+    [rightTint addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:rightTint];
     [self.view addSubview:rightSlider];
     
     [AppModel sharedAppModel].endTime = 1.0;
     
+    
+    audioURL = [NSURL fileURLWithPath:path];
+    
+    OSStatus err;
+	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
+	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
+	if(err != noErr) {
+		NSLog(@"Cannot open audio file");
+		return;
+	}
+    
+}
+
+- (void)sliderOrTintWasTouched: (UIControl *) c withEvent: (UIEvent *) ev{
+    //depending on the view or the control that was touched we can do different things
+    //for now just handle the freq histogram
+    [self freqHistogramControl:freq wasTouched:[ev allTouches]];
 }
 
 - (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
@@ -217,10 +257,10 @@
     [player seekToTime:tm];
 }
 
--(void)loadAudioForPath:(NSString *)path{
-    if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        NSURL *audioURL = [NSURL fileURLWithPath:path];
-        [self openAudioURL:audioURL];
+-(void)loadAudioForPath:(NSString *)pathURL{
+    if([[NSFileManager defaultManager] fileExistsAtPath:pathURL]) {
+        NSURL *audio = [NSURL fileURLWithPath:pathURL];
+        [self openAudioURL:audio];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio !"
                                                         message: @"You should add a sample.mp3 file to the project before test it."
@@ -300,6 +340,10 @@
     timeObserver = [player addPeriodicTimeObserverForInterval:tm queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         [self updateTimeString];
         [wf setNeedsDisplay];
+        [self loadAudio];
+        if([AppModel sharedAppModel].playProgress >= [AppModel sharedAppModel].endTime){
+            [self clipOver];
+        }
     }];
 }
 
@@ -360,6 +404,10 @@
 		int dsec = wsp.sec;
 		[self setTimeString:[NSString stringWithFormat:@"--:--/%02d:%02d",dmin,dsec]];
 		[self startAudio];
+        
+        
+        //dont call this if the histogram is not the view
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"DataLoaded" object:nil]];
 		
 	}
 }
@@ -393,6 +441,27 @@
     [self stopFunction];
 }
 
+#pragma mark Freq Histogram control delegate
+-(void)freqHistogramControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches{
+    UITouch *touch = [touches anyObject];
+    CGPoint local_point = [touch locationInView:freq];
+    float binWidth = freq.bounds.size.width / 512;
+    float bin = local_point.x / binWidth;
+    NSLog(@"Frequency: %.2f", (bin * 44100.0)/1024);
+    
+    if(CGRectContainsPoint(freq.bounds,local_point)){
+        freq.currentFreqX = local_point.x;
+    }
+    
+    [freq setNeedsDisplay];
+    
+    [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * 44100.0)/1024)]];
+    [freqLabel setBackgroundColor:[UIColor clearColor]];
+    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextAlignment:NSTextAlignmentCenter];
+    freqButton = [[UIBarButtonItem alloc] initWithCustomView:freqLabel];
+}
+
 #pragma mark Saving Data
 
 - (BOOL)trimAudio
@@ -400,12 +469,12 @@
     float vocalStartMarker = leftSlider.center.x;
     float vocalEndMarker = rightSlider.center.x;
     NSLog(@"HOLAAAA");
-    NSString *path = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample2.m4a";
-    NSString *path1 = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample6.m4a";
+    NSString *pathInput = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sound.caf";
+    NSString *pathOutput = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sound1.caf";
     
     
-    NSURL *audioFileInput = [NSURL fileURLWithPath:path];//<your pre-existing file>;
-    NSURL *audioFileOutput = [NSURL fileURLWithPath:path1];//<the file you want to create>;
+    NSURL *audioFileInput = [NSURL fileURLWithPath:pathInput];//<your pre-existing file>;
+    NSURL *audioFileOutput = [NSURL fileURLWithPath:pathOutput];//<the file you want to create>;
     
     if (!audioFileInput || !audioFileOutput)
     {
@@ -448,6 +517,118 @@
      }];
     
     return YES;
+}
+
+#pragma mark Fourier Helper functions
+
+-(void)loadAudio{
+    
+    extAFNumChannels = 2;
+    
+    OSStatus err;
+    AudioStreamBasicDescription fileFormat;
+    UInt32 propSize = sizeof(fileFormat);
+    memset(&fileFormat, 0, sizeof(AudioStreamBasicDescription));
+    
+    err = ExtAudioFileGetProperty(extAFRef, kExtAudioFileProperty_FileDataFormat, &propSize, &fileFormat);
+	if(err != noErr) {
+		NSLog(@"Cannot get audio file properties");
+		return;
+	}
+    
+    Float64 sampleRate = 44100.0;
+    
+    float startingSample = (44100.0 * [AppModel sharedAppModel].playProgress * [AppModel sharedAppModel].lengthInSeconds);
+    
+    AudioStreamBasicDescription clientFormat;
+    propSize = sizeof(clientFormat);
+    
+    memset(&clientFormat, 0, sizeof(AudioStreamBasicDescription));
+    clientFormat.mFormatID = kAudioFormatLinearPCM;
+    clientFormat.mSampleRate = sampleRate;
+    clientFormat.mFormatFlags = kAudioFormatFlagIsFloat;
+    clientFormat.mChannelsPerFrame = extAFNumChannels;
+    clientFormat.mBitsPerChannel     = sizeof(float) * 8;
+    clientFormat.mFramesPerPacket    = 1;
+    clientFormat.mBytesPerFrame      = extAFNumChannels * sizeof(float);
+    clientFormat.mBytesPerPacket     = extAFNumChannels * sizeof(float);
+    
+    err = ExtAudioFileSetProperty(extAFRef, kExtAudioFileProperty_ClientDataFormat, propSize, &clientFormat);
+	if(err != noErr) {
+		NSLog(@"Couldn't convert audio file to PCM format");
+		return;
+	}
+    
+    //seek to an unspecified time currently
+    err = ExtAudioFileSeek(extAFRef, startingSample);
+    if(err != noErr) {
+		NSLog(@"Error in seeking in file");
+		return;
+	}
+    
+    float *returnData = (float *)malloc(sizeof(float) * 1024);
+    
+    AudioBufferList bufList;
+    bufList.mNumberBuffers = 1;
+    bufList.mBuffers[0].mNumberChannels = extAFNumChannels; // Always 2 channels in this example
+    bufList.mBuffers[0].mData = returnData; // data is a pointer (float*) to our sample buffer
+    bufList.mBuffers[0].mDataByteSize = 1024 * sizeof(float);
+    
+    UInt32 loadedPackets = 1024;
+    
+    err = ExtAudioFileRead(extAFRef, &loadedPackets, &bufList);
+    if(err != noErr) {
+		NSLog(@"Error in reading the file");
+		return;
+	}
+    
+    freq.fourierData = [self computeFFTForData:returnData forSampleSize:1024];
+    [freq setNeedsDisplay];
+    
+}
+
+-(float *)computeFFTForData:(float *)data forSampleSize:(int)bufferFrames{
+    
+    int bufferLog2 = round(log2(bufferFrames));
+    FFTSetup fftSetup = vDSP_create_fftsetup(bufferLog2, kFFTRadix2);
+    float outReal[bufferFrames / 2];
+    float outImaginary[bufferFrames / 2];
+    COMPLEX_SPLIT out = { .realp = outReal, .imagp = outImaginary };
+    vDSP_ctoz((COMPLEX *)data, 2, &out, 1, bufferFrames / 2);
+    vDSP_fft_zrip(fftSetup, &out, 1, bufferLog2, FFT_FORWARD);
+    
+    //print out data
+    //    for(int i = 1; i < bufferFrames / 2; i++){
+    //        float frequency = (i * 44100.0)/bufferFrames;
+    //        float magnitude = sqrtf((out.realp[i] * out.realp[i]) + (out.imagp[i] * out.imagp[i]));
+    //        float magnitudeDB = 10 * log10(out.realp[i] * out.realp[i] + (out.imagp[i] * out.imagp[i]));
+    //        NSLog(@"Bin %i: Magnitude: %f Magnitude DB: %f  Frequency: %f Hz", i, magnitude, magnitudeDB, frequency);
+    //    }
+    
+    //NSLog(@"\nSpectrum\n");
+    //    for(int k = 0; k < bufferFrames / 2; k++){
+    //        NSLog(@"Frequency %f Real: %f Imag: %f", (k * 44100.0)/bufferFrames, out.realp[k], out.imagp[k]);
+    //    }
+    
+    float *mag = (float *)malloc(sizeof(float) * bufferFrames/2);
+    float *phase = (float *)malloc(sizeof(float) * bufferFrames/2);
+    float *magDB = (float *)malloc(sizeof(float) * bufferFrames/2);
+    
+    vDSP_zvabs(&out, 1, mag, 1, bufferFrames/2);
+    vDSP_zvphas(&out, 1, phase, 1, bufferFrames/2);
+    
+    //NSLog(@"\nMag / Phase\n");
+    for(int k = 1; k < bufferFrames/2; k++){
+        float magnitudeDB = 10 * log10(out.realp[k] * out.realp[k] + (out.imagp[k] * out.imagp[k]));
+        magDB[k] = magnitudeDB;
+        //NSLog(@"Frequency: %f Magnitude DB: %f", (k * 44100.0)/bufferFrames, magnitudeDB);
+        if(magDB[k] > freq.largestMag){
+            freq.largestMag = magDB[k];
+        }
+        //NSLog(@"Frequency: %f Mag: %f Phase: %f", (k * 44100.0)/bufferFrames, mag[k], phase[k]);
+    }
+    
+    return magDB;
 }
 
 

@@ -18,5 +18,8 @@
 @property int sampleLength;
 @property float playProgress;
 @property float endTime;
+@property int lengthInSeconds;
+
+@property NSMutableArray *mutableFourierData;
 
 @end

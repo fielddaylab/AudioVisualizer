@@ -28,12 +28,14 @@ typedef enum {
 	NSMutableArray *sampleData;
 	NSMutableArray *normalizedData;
 	int binSize;
-	int lengthInSec;
+	//int lengthInSec;
 	int minute;
 	int sec;
 	NSURL *audioURL;
 	id<WaveSampleProviderDelegate>delegate;
 	NSString *title;
+    float **maximumAudioSamples;
+    
 }
 
 @property (readonly, nonatomic) WaveSampleStatus status;
