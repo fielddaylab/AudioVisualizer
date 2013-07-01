@@ -14,6 +14,9 @@
 
 -(void)waveformControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches;
 -(void)clipOver;
+-(CGPoint *)getSampleData;
+-(int)getSampleLength;
+-(float)getPlayProgress;
 
 @end
 

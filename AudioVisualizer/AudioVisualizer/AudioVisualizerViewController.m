@@ -8,7 +8,6 @@
 
 #import "AudioVisualizerViewController.h"
 #import "WaveformControl.h"
-#import "AppModel.h"
 #import "FreqHistogramControl.h"
 #import "WaveformControl.h"
 #import "AudioTint.h"
@@ -50,6 +49,11 @@
 @implementation AudioVisualizerViewController
 
 @synthesize withoutBorderButton;
+@synthesize sampleData;
+@synthesize sampleLength;
+@synthesize playProgress;
+@synthesize endTime;
+@synthesize lengthInSeconds;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -82,7 +86,7 @@
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
-    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/bunny.m4a";
+    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a";
     [self loadAudioForPath:path];
     
     freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
@@ -140,7 +144,7 @@
 {
     
     
-	[AppModel sharedAppModel].playProgress = 0.0;
+	playProgress = 0.0;
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
 	gray = [UIColor colorWithRed:64.0/255.0 green:63.0/255.0 blue:65.0/255.0 alpha:1.0];
 	lightgray = [UIColor colorWithRed:75.0/255.0 green:75.0/255.0 blue:75.0/255.0 alpha:1.0];
@@ -170,7 +174,7 @@
     [self.view addSubview:rightTint];
     [self.view addSubview:rightSlider];
     
-    [AppModel sharedAppModel].endTime = 1.0;
+    endTime = 1.0;
 
     
     
@@ -217,8 +221,8 @@
 
             CGFloat x = rightSlider.center.x - self.view.bounds.origin.x;
             float sel = x / self.view.bounds.size.width;
-            [AppModel sharedAppModel].endTime = sel;
-            if([AppModel sharedAppModel].endTime <= [AppModel sharedAppModel].playProgress){
+            endTime = sel;
+            if(endTime <= playProgress){
                 [self setPlayHeadToLeftSlider];
             }
         }
@@ -284,7 +288,7 @@
     int cmin = currentTime / 60;
     int csec = currentTime - (cmin * 60);
     [self setTimeString:[NSString stringWithFormat:@"%02d:%02d/%02d:%02d",cmin,csec,dmin,dsec]];
-    [AppModel sharedAppModel].playProgress = currentTime/duration;
+    playProgress = currentTime/duration;
 }
 
 - (void) setTimeString:(NSString *)newTime
@@ -303,7 +307,7 @@
 		[player pause];
 		player = nil;
 	}
-	[AppModel sharedAppModel].sampleLength = 0;
+	sampleLength = 0;
 	[wf setNeedsDisplay];
 	wsp = [[WaveSampleProvider alloc]initWithURL:url];
 	wsp.delegate = self;
@@ -338,7 +342,7 @@
         [self updateTimeString];
         [wf setNeedsDisplay];
         [self loadAudio];
-        if([AppModel sharedAppModel].playProgress >= [AppModel sharedAppModel].endTime){
+        if(playProgress >= endTime){
             [self clipOver];
         }
     }];
@@ -347,7 +351,7 @@
 
 - (void) setSampleData:(float *)theSampleData length:(int)length
 {
-	[AppModel sharedAppModel].sampleLength = 0;
+	sampleLength = 0;
 	
 	length += 2;
 	CGPoint *tempData = (CGPoint *)calloc(sizeof(CGPoint),length);
@@ -357,10 +361,10 @@
 		tempData[i] = CGPointMake(i, theSampleData[i]);
 	}
 	
-	CGPoint *oldData = [AppModel sharedAppModel].sampleData;
+	CGPoint *oldData = sampleData;
 	
-	[AppModel sharedAppModel].sampleData = tempData;
-	[AppModel sharedAppModel].sampleLength = length;
+	sampleData = tempData;
+	sampleLength = length;
 	
 	if(oldData != nil) {
 		free(oldData);
@@ -371,10 +375,12 @@
     [freq setNeedsDisplay];
 }
 
--(void)printSampleData:(CGPoint *)mySampleData forSampleLength:(int)mySampleLength{
-    for(int i = 0; i < mySampleLength; i++){
-        NSLog(@"X: %f Y: %f", mySampleData[i].x, mySampleData[i].y);
-    }
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
 }
 
 #pragma mark -
@@ -399,13 +405,11 @@
 	}
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscape;
+-(void)setAudioLength:(float)seconds{
+    self.lengthInSeconds = seconds;
 }
 
-- (BOOL)shouldAutorotate {
-    return YES;
-}
+
 
 #pragma mark Waveform control delegate
 
@@ -425,6 +429,18 @@
 
 -(void)clipOver{
     [self stopFunction];
+}
+
+-(CGPoint *)getSampleData{
+    return sampleData;
+}
+
+-(int)getSampleLength{
+    return sampleLength;
+}
+
+-(float)getPlayProgress{
+    return playProgress;
 }
 
 #pragma mark Freq Histogram control delegate
@@ -587,7 +603,7 @@
     
     Float64 sampleRate = 44100.0;
     
-    float startingSample = (44100.0 * [AppModel sharedAppModel].playProgress * [AppModel sharedAppModel].lengthInSeconds);
+    float startingSample = (44100.0 * playProgress * lengthInSeconds);
     
     AudioStreamBasicDescription clientFormat;
     propSize = sizeof(clientFormat);

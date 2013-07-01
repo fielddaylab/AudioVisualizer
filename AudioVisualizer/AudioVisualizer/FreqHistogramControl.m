@@ -7,7 +7,6 @@
 //
 
 #import "FreqHistogramControl.h"
-#import "AppModel.h"
 #import <Accelerate/Accelerate.h>
 #include <AudioToolbox/AudioToolbox.h>
 

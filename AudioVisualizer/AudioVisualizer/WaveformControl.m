@@ -7,7 +7,6 @@
 //
 
 #import "WaveformControl.h"
-#import "AppModel.h"
 
 @interface WaveformControl (Private)
 
@@ -94,13 +93,13 @@
     [self drawSquareRect:waveRect fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
 	
 	
-	if([AppModel sharedAppModel].sampleLength > 0) {
+	if([self.delegate getSampleLength] > 0) {
 		CGMutablePathRef halfPath = CGPathCreateMutable();
-		CGPathAddLines( halfPath, NULL,[AppModel sharedAppModel].sampleData, [AppModel sharedAppModel].sampleLength); // magic!
+		CGPathAddLines( halfPath, NULL,[self.delegate getSampleData], [self.delegate getSampleLength]); // magic!
 		
 		CGMutablePathRef path = CGPathCreateMutable();
 		
-		double xscale = (CGRectGetWidth(waveRect)) / (float)[AppModel sharedAppModel].sampleLength;
+		double xscale = (CGRectGetWidth(waveRect)) / (float)[self.delegate getSampleLength];
 		// Transform to fit the waveform ([0,1] range) into the vertical space
 		// ([halfHeight,height] range)
 		double halfHeight = floor( CGRectGetHeight(waveRect) / 2.0 );//waveRect.size.height / 2.0;
@@ -138,7 +137,7 @@
 		CGPathRelease(path); // clean up!
         
         
-        float currentPointX = (waveRect.size.width) * [AppModel sharedAppModel].playProgress;
+        float currentPointX = (waveRect.size.width) * [self.delegate getPlayProgress];
         CGPoint startPoint = CGPointMake(currentPointX, 0);
         CGPoint endPoint = CGPointMake(currentPointX, self.bounds.size.height);
         [self draw1PxStrokeForContext:cx startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];

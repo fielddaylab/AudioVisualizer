@@ -28,9 +28,11 @@
     
 
 }
-@property CGPoint* sampleData;
-@property int sampleLength;
-
+@property (nonatomic) CGPoint* sampleData;
+@property (nonatomic) int sampleLength;
+@property (nonatomic) float playProgress;
+@property (nonatomic) float endTime;
+@property (nonatomic) int lengthInSeconds;
 @property (strong, nonatomic) UIButton *withoutBorderButton;
 
 - (void) openAudioURL:(NSURL *)url;

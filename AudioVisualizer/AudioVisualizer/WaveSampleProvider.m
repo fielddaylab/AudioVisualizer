@@ -8,7 +8,6 @@
 
 #import "WaveSampleProvider.h"
 #import <Accelerate/Accelerate.h>
-#import "AppModel.h"
 
 @interface WaveSampleProvider (Private)
 - (void) loadSample;
@@ -188,7 +187,7 @@
         i++;
 	}
 	float allSec = packetReads / 44100;
-	[AppModel sharedAppModel].lengthInSeconds = allSec;
+    [self.delegate setAudioLength:allSec];
 	minute = allSec / 60;
 	sec = ceil(allSec - ((float)(minute * 60) + 0.5));
 	err = ExtAudioFileDispose(extAFRef);

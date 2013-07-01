@@ -11,7 +11,6 @@
 		5B019AF4177A196D00DE9C8B /* AudioVisualizerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019AF2177A196D00DE9C8B /* AudioVisualizerViewController.m */; };
 		5B019AF5177A196D00DE9C8B /* AudioVisualizerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B019AF3177A196D00DE9C8B /* AudioVisualizerViewController.xib */; };
 		5B019AFC177A203300DE9C8B /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019AFB177A203300DE9C8B /* WaveformControl.m */; };
-		5B019AFF177A2DD600DE9C8B /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019AFE177A2DD600DE9C8B /* AppModel.m */; };
 		5B019B02177A337D00DE9C8B /* FreqHistogramControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019B01177A337D00DE9C8B /* FreqHistogramControl.m */; };
 		5B019B05177A493800DE9C8B /* AudioTint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019B04177A493800DE9C8B /* AudioTint.m */; };
 		5B31BAAF1778C87500EC3478 /* gunSoundEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */; };
@@ -64,8 +63,6 @@
 		5B019AF3177A196D00DE9C8B /* AudioVisualizerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioVisualizerViewController.xib; sourceTree = "<group>"; };
 		5B019AFA177A203300DE9C8B /* WaveformControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformControl.h; sourceTree = "<group>"; };
 		5B019AFB177A203300DE9C8B /* WaveformControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveformControl.m; sourceTree = "<group>"; };
-		5B019AFD177A2DD600DE9C8B /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppModel.h; sourceTree = "<group>"; };
-		5B019AFE177A2DD600DE9C8B /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppModel.m; sourceTree = "<group>"; };
 		5B019B00177A337D00DE9C8B /* FreqHistogramControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreqHistogramControl.h; sourceTree = "<group>"; };
 		5B019B01177A337D00DE9C8B /* FreqHistogramControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreqHistogramControl.m; sourceTree = "<group>"; };
 		5B019B03177A493700DE9C8B /* AudioTint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioTint.h; sourceTree = "<group>"; };
@@ -197,8 +194,6 @@
 				5BFB60EB1773744F0058BCD3 /* view controllers */,
 				5BFB60DA177373AC0058BCD3 /* AppDelegate.h */,
 				5BFB60DB177373AC0058BCD3 /* AppDelegate.m */,
-				5B019AFD177A2DD600DE9C8B /* AppModel.h */,
-				5B019AFE177A2DD600DE9C8B /* AppModel.m */,
 				5BFB611017739FDB0058BCD3 /* WaveSampleProvider.h */,
 				5BFB611117739FDB0058BCD3 /* WaveSampleProvider.m */,
 				5BFB611217739FDB0058BCD3 /* WaveSampleProviderDelegate.h */,
@@ -354,7 +349,6 @@
 				5B67BD0F1774D60A000DE184 /* AudioSlider.m in Sources */,
 				5B019AF4177A196D00DE9C8B /* AudioVisualizerViewController.m in Sources */,
 				5B019AFC177A203300DE9C8B /* WaveformControl.m in Sources */,
-				5B019AFF177A2DD600DE9C8B /* AppModel.m in Sources */,
 				5B019B02177A337D00DE9C8B /* FreqHistogramControl.m in Sources */,
 				5B019B05177A493800DE9C8B /* AudioTint.m in Sources */,
 				713C65FE177DF201004D21EE /* TestStartViewController.m in Sources */,
