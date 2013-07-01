@@ -16,5 +16,7 @@
 
 - (IBAction)gotonext:(id)sender;
 
+- (IBAction)record:(id)sender;
+- (IBAction)stoprec:(id)sender;
 
 @end

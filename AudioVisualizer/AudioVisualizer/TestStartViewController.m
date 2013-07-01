@@ -14,7 +14,10 @@
 
 @end
 
-@implementation TestStartViewController
+@implementation TestStartViewController{
+    AVAudioRecorder *recorder;
+
+}
 
 @synthesize AVVC;
 
@@ -60,6 +63,35 @@
 
 - (IBAction)gotonext:(id)sender {
     [self nextScreen];
+}
+
+- (IBAction)record:(id)sender {
+    //NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    //NSString *docsDir = [dirPaths objectAtIndex:0];
+    //NSURL *tmpFileUrl = [NSURL fileURLWithPath:[docsDir stringByAppendingPathComponent:@"temp.m4a"]];
+    NSString *tmpFileUrl = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/temp.m4a";
+    NSDictionary *recordSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
+                                    [NSNumber numberWithFloat:16000.0], AVSampleRateKey,
+                                    [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
+                                    nil];
+    NSError *error = nil;
+    recorder = [[AVAudioRecorder alloc] initWithURL:[NSURL URLWithString:tmpFileUrl] settings:recordSettings error:&error];
+    [recorder prepareToRecord];
+    
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryRecord error:nil];
+    [session setActive:YES error:nil];
+    
+    [recorder record];
+    
+}
+
+- (IBAction)stoprec:(id)sender {
+    [recorder stop];
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    int flags = AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation;
+    [session setActive:NO withFlags:flags error:nil];
 }
 
 - (BOOL)shouldAutorotate {

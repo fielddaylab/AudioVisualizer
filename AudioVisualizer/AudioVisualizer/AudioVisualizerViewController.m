@@ -86,7 +86,7 @@
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
-    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a";
+    path = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/temp.m4a";
     [self loadAudioForPath:path];
     
     freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
