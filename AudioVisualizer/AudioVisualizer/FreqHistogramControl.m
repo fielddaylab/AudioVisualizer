@@ -30,8 +30,6 @@
         fourierData = nil;
         largestMag = FLT_MIN;
         currentFreqX = 0;
-        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataLoaded) name:@"DataLoaded" object:nil];
-        //[self loadAudio];
     }
     return self;
 }
@@ -91,25 +89,6 @@
     
     [self.delegate freqHistogramControl:self wasTouched:touches];
 }
-
-
--(void)dataLoaded{
-    
-    //this is a test
-//    int bufferFrames = 1024;
-//    float PI = 4*atan(1);
-//    int bin = 100;
-//    float *data = (float *)malloc(sizeof(float) * bufferFrames);
-//    for(int k = 0; k < bufferFrames; k++){
-//        data[k] = cos(2*PI*bin*k/bufferFrames);
-//    }
-//    
-//    fourierData = [self computeFFTForData:data forSampleSize:bufferFrames];
-//    [self setNeedsDisplay];
-}
-
-
-
 
 
 @end

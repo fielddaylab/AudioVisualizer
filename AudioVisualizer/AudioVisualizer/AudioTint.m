@@ -24,7 +24,7 @@
 {
     CGRect rectangle = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, self.bounds.size.height);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .4);   //this is the transparent color
+    CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, .4);
     CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 0.5);
     CGContextFillRect(context, rectangle);
     CGContextStrokeRect(context, rectangle);

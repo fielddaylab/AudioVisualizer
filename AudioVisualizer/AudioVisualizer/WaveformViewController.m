@@ -49,7 +49,6 @@
 -(void)loadAudioForPath:(NSString *)path{
     if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSURL *audioURL = [NSURL fileURLWithPath:path];
-        //[wfv openAudioURL:audioURL];
         [waveformView openAudioURL:audioURL];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio !"
@@ -71,13 +70,11 @@
                                              selector:@selector(updateTime)
                                              userInfo:nil
                                               repeats:YES];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -89,7 +86,6 @@
 }
 
 -(void)playFunction{
-    //[waveformView setPlayHeadToLeftSlider];
     if([waveformView player].rate == 0.0){
         [playButton setImage:[UIImage imageNamed:@"29-circle-pause.png"] forState:UIControlStateNormal];
     }

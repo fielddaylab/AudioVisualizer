@@ -71,8 +71,6 @@
 
 - (void)drawRect:(CGRect)rect
 {
-//	[self drawRoundRect:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) fillColor:[UIColor redColor] strokeColor:[UIColor blueColor] radius:4.0 lineWidht:2.0];
-    
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     //draw the two triangles

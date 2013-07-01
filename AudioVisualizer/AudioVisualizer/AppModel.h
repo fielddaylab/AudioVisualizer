@@ -12,9 +12,7 @@
 
 + (AppModel *)sharedAppModel;
 
-//this is the data of the waveform i.e. the 'peaks' and 'valleys'
 @property CGPoint* sampleData;
-//this is the length of the audio sample
 @property int sampleLength;
 @property float playProgress;
 @property float endTime;

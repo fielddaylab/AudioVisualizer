@@ -93,7 +93,6 @@
     wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
     wf.delegate = self;
     [self.view addSubview:wf];
-    // Do any additional setup after loading the view from its nib.
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -116,13 +115,10 @@
     timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [timeLabel setText:timeString];
     [timeLabel setBackgroundColor:[UIColor clearColor]];
-    //[timeLabel setTextColor:[UIColor colorWithRed:69 green:69 blue:69 alpha:0]];//Doesn't seem to work :'[
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
     
     freqLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
-//    float binWidth = freq.bounds.size.width / 512;
-//    float bin = freq.currentFreqX / binWidth;
     [freqLabel setText:@""];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
     [freqLabel setTextColor:[UIColor whiteColor]];
@@ -138,7 +134,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void) initView
@@ -158,7 +153,6 @@
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
-    //[leftSlider addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     
 
     rightSlider = [[AudioSlider alloc] init];
@@ -166,16 +160,13 @@
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
-    //[rightSlider addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     
     
     leftTint = [[AudioTint alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, 12, leftSlider.center.x, self.view.bounds.size.height)];
-    //[leftTint addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:leftTint];
     [self.view addSubview:leftSlider];
     
     rightTint = [[AudioTint alloc] initWithFrame:CGRectMake(rightSlider.center.x, 12, self.view.bounds.size.width, self.view.bounds.size.height)];
-    //[rightTint addTarget:self action:@selector(sliderOrTintWasTouched:withEvent:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:rightTint];
     [self.view addSubview:rightSlider];
     
@@ -192,15 +183,6 @@
 		NSLog(@"Cannot open audio file");
 		return;
 	}
-    
-}
-
-- (void)sliderOrTintWasTouched: (UIControl *) c withEvent: (UIEvent *) ev{
-    //depending on the view or the control that was touched we can do different things
-    //for now just handle the freq histogram
-    if(![self.view.subviews[2] isHidden]){
-        [self freqHistogramControl:freq wasTouched:[ev allTouches]];
-    }
     
 }
 
@@ -257,7 +239,6 @@
     }
     [self pauseAudio];
     [self updateTimeString];
-    NSLog(@"Updated Time String: Play Function");
 }
 
 -(void)stopFunction{
@@ -308,7 +289,6 @@
 
 - (void) setTimeString:(NSString *)newTime
 {
-	//[timeString release];
 	timeString = newTime;
     [timeLabel setText:timeString];
     [timeLabel setBackgroundColor:[UIColor clearColor]];
@@ -321,14 +301,10 @@
 {
 	if(player != nil) {
 		[player pause];
-		//[player release];
 		player = nil;
 	}
 	[AppModel sharedAppModel].sampleLength = 0;
 	[wf setNeedsDisplay];
-	//[progress setHidden:FALSE];
-	//[progress startAnimating];
-	//[wsp release];
 	wsp = [[WaveSampleProvider alloc]initWithURL:url];
 	wsp.delegate = self;
 	[wsp createSampleData];
@@ -339,14 +315,11 @@
 	if(player == nil) {
 		[self startAudio];
 		[player play];
-		//[self setInfoString:@"Playing"];
 	} else {
 		if(player.rate == 0.0) {
 			[player play];
-			//[self setInfoString:@"Playing"];
 		} else {
 			[player pause];
-			//[self setInfoString:@"Paused"];
 		}
 	}
 }
@@ -374,8 +347,6 @@
 
 - (void) setSampleData:(float *)theSampleData length:(int)length
 {
-	//[progress setHidden:FALSE];
-	//[progress startAnimating];
 	[AppModel sharedAppModel].sampleLength = 0;
 	
 	length += 2;
@@ -396,8 +367,6 @@
 	}
 	
 	free(theSampleData);
-	//[progress setHidden:TRUE];
-	//[progress stopAnimating];
 	[wf setNeedsDisplay];
     [freq setNeedsDisplay];
 }
@@ -422,16 +391,10 @@
 		//		float *sd = [wsp dataForResolution:[self waveRect].size.width lenght:&sdl];
 		float *sd = [wsp dataForResolution:8000 lenght:&sdl];
 		[self setSampleData:sd length:sdl];
-        //[self printSampleData:[AppModel sharedAppModel].sampleData forSampleLength:[AppModel sharedAppModel].sampleLength];
-		//[self setInfoString:@"Paused"];
 		int dmin = wsp.minute;
 		int dsec = wsp.sec;
 		[self setTimeString:[NSString stringWithFormat:@"--:--/%02d:%02d",dmin,dsec]];
 		[self startAudio];
-        
-        
-        //dont call this if the histogram is not the view
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"DataLoaded" object:nil]];
 		
 	}
 }
@@ -449,7 +412,6 @@
 -(void)waveformControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches{
     UITouch *touch = [touches anyObject];
 	CGPoint local_point = [touch locationInView:self.view];
-	//CGRect wr = [self waveRect];
 	if(CGRectContainsPoint(self.view.bounds,local_point) && player != nil) {
         CGFloat x = local_point.x - self.view.bounds.origin.x;
         float sel = x / self.view.bounds.size.width;
@@ -489,7 +451,6 @@
 #pragma mark Saving Data
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;{
-    // the user clicked OK
     if (buttonIndex == 1)
     {
         [self saveAudio];
@@ -511,7 +472,7 @@
 
 - (BOOL)saveAudio
 {
-    //TODO in ARIS: We'll need to but the sample back at the original file at the very end.
+    //TODO in ARIS: We'll need to put the sample back at the original file at the very end.
                 //  We'll need to change the paths in general to reflect aris's stuff
                 //  We'll probably have to convert .caf from ARIS to .m4a - talk to David because he talked about switching over to .m4a anyways.
     

@@ -22,9 +22,6 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
     return self;
 }
 
@@ -94,7 +91,6 @@
 	
 	
 	CGRect waveRect = [self waveRect];
-	//[self drawRoundRect:waveRect fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidht:2.0];
     [self drawSquareRect:waveRect fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
 	
 	
@@ -139,7 +135,6 @@
         [[UIColor lightGrayColor] set];
         CGContextAddPath(cx, path);
         CGContextStrokePath(cx);
-		//}
 		CGPathRelease(path); // clean up!
         
         
@@ -147,10 +142,6 @@
         CGPoint startPoint = CGPointMake(currentPointX, 0);
         CGPoint endPoint = CGPointMake(currentPointX, self.bounds.size.height);
         [self draw1PxStrokeForContext:cx startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];
-        
-//        if([AppModel sharedAppModel].playProgress >= [AppModel sharedAppModel].endTime){
-//            [self.delegate clipOver];
-//        }
         
         
 	}

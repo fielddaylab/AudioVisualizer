@@ -48,7 +48,6 @@ typedef enum {
 @property (readonly) NSString *title;
 
 - (id) initWithURL:(NSURL *)theURL;
-//- (id) initWithPath:(NSString *)thePath;
 - (void) createSampleData;
 - (float *)dataForResolution:(int)pixelWide lenght:(int *)length;
 @end

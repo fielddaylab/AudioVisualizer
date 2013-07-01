@@ -37,20 +37,6 @@
 	[self performSelectorOnMainThread:@selector(informDelegateOfStatusChange) withObject:nil waitUntilDone:NO];
 }
 
-//- (id) initWithPath:(NSString *)thePath
-//{
-//	self = [super init];
-//	if(self) {
-//		extAFNumChannels = 2;
-//		[self status:LOADING message:@"Processing"];
-//		binSize = 50;
-//		path = [[NSString stringWithString:thePath] retain];
-//		audioURL = [[NSURL fileURLWithPath:path]retain];
-//		title = [[path lastPathComponent] copy];
-//	}
-//	return self;
-//}
-
 - (id) initWithURL:(NSURL *)theURL
 {
 	self = [super init];
@@ -58,9 +44,8 @@
 		extAFNumChannels = 2;
 		[self status:LOADING message:@"Processing"];
 		binSize = 50;
-//		path = [[NSString stringWithString:thePath] retain];
-		audioURL = theURL;//[[NSURL fileURLWithPath:path]retain];
-		title = [[theURL lastPathComponent] copy];// @"";//[[path lastPathComponent] copy];
+		audioURL = theURL;
+		title = [[theURL lastPathComponent] copy];
 	}
 	return self;
 }

@@ -14,7 +14,6 @@
 		5B019AFF177A2DD600DE9C8B /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019AFE177A2DD600DE9C8B /* AppModel.m */; };
 		5B019B02177A337D00DE9C8B /* FreqHistogramControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019B01177A337D00DE9C8B /* FreqHistogramControl.m */; };
 		5B019B05177A493800DE9C8B /* AudioTint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019B04177A493800DE9C8B /* AudioTint.m */; };
-		5B31BAAD1778A86900EC3478 /* WaveformViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */; };
 		5B31BAAF1778C87500EC3478 /* gunSoundEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */; };
 		5B31BAB11778C94D00EC3478 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB01778C94D00EC3478 /* sound.caf */; };
 		5B31BAB31778C9BA00EC3478 /* sample.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB21778C9BA00EC3478 /* sample.mp3 */; };
@@ -38,7 +37,6 @@
 		5BFB60E0177373AC0058BCD3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BFB60DF177373AC0058BCD3 /* Default@2x.png */; };
 		5BFB60E2177373AC0058BCD3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BFB60E1177373AC0058BCD3 /* Default-568h@2x.png */; };
 		5BFB60E5177373AC0058BCD3 /* AudioVisualizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB60E3177373AC0058BCD3 /* AudioVisualizer.xcdatamodeld */; };
-		5BFB60F2177376850058BCD3 /* WaveformViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB60F0177376850058BCD3 /* WaveformViewController.m */; };
 		5BFB610F17739F8C0058BCD3 /* WaveFormViewIOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB610E17739F8C0058BCD3 /* WaveFormViewIOS.m */; };
 		5BFB611317739FDB0058BCD3 /* WaveSampleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFB611117739FDB0058BCD3 /* WaveSampleProvider.m */; };
 		5BFB61151773A1770058BCD3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFB61141773A1770058BCD3 /* AudioToolbox.framework */; };
@@ -72,7 +70,6 @@
 		5B019B01177A337D00DE9C8B /* FreqHistogramControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreqHistogramControl.m; sourceTree = "<group>"; };
 		5B019B03177A493700DE9C8B /* AudioTint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioTint.h; sourceTree = "<group>"; };
 		5B019B04177A493800DE9C8B /* AudioTint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioTint.m; sourceTree = "<group>"; };
-		5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WaveformViewController.xib; sourceTree = "<group>"; };
 		5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gunSoundEffect.mp3; sourceTree = "<group>"; };
 		5B31BAB01778C94D00EC3478 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
 		5B31BAB21778C9BA00EC3478 /* sample.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sample.mp3; sourceTree = "<group>"; };
@@ -101,8 +98,6 @@
 		5BFB60DF177373AC0058BCD3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		5BFB60E1177373AC0058BCD3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		5BFB60E4177373AC0058BCD3 /* AudioVisualizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AudioVisualizer.xcdatamodel; sourceTree = "<group>"; };
-		5BFB60EF177376850058BCD3 /* WaveformViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformViewController.h; sourceTree = "<group>"; };
-		5BFB60F0177376850058BCD3 /* WaveformViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveformViewController.m; sourceTree = "<group>"; };
 		5BFB610D17739F8C0058BCD3 /* WaveFormViewIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveFormViewIOS.h; sourceTree = "<group>"; };
 		5BFB610E17739F8C0058BCD3 /* WaveFormViewIOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveFormViewIOS.m; sourceTree = "<group>"; };
 		5BFB611017739FDB0058BCD3 /* WaveSampleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProvider.h; sourceTree = "<group>"; };
@@ -255,9 +250,6 @@
 				713C65FB177DF201004D21EE /* TestStartViewController.h */,
 				713C65FC177DF201004D21EE /* TestStartViewController.m */,
 				713C65FD177DF201004D21EE /* TestStartViewController.xib */,
-				5BFB60EF177376850058BCD3 /* WaveformViewController.h */,
-				5BFB60F0177376850058BCD3 /* WaveformViewController.m */,
-				5B31BAAC1778A86900EC3478 /* WaveformViewController.xib */,
 				5B019AF1177A196D00DE9C8B /* AudioVisualizerViewController.h */,
 				5B019AF2177A196D00DE9C8B /* AudioVisualizerViewController.m */,
 				5B019AF3177A196D00DE9C8B /* AudioVisualizerViewController.xib */,
@@ -320,7 +312,6 @@
 				5BFB60DE177373AC0058BCD3 /* Default.png in Resources */,
 				5BFB60E0177373AC0058BCD3 /* Default@2x.png in Resources */,
 				5BFB60E2177373AC0058BCD3 /* Default-568h@2x.png in Resources */,
-				5B31BAAD1778A86900EC3478 /* WaveformViewController.xib in Resources */,
 				5B31BAAF1778C87500EC3478 /* gunSoundEffect.mp3 in Resources */,
 				5B31BAB11778C94D00EC3478 /* sound.caf in Resources */,
 				5B31BAB31778C9BA00EC3478 /* sample.mp3 in Resources */,
@@ -358,7 +349,6 @@
 				5BFB60D8177373AC0058BCD3 /* main.m in Sources */,
 				5BFB60DC177373AC0058BCD3 /* AppDelegate.m in Sources */,
 				5BFB60E5177373AC0058BCD3 /* AudioVisualizer.xcdatamodeld in Sources */,
-				5BFB60F2177376850058BCD3 /* WaveformViewController.m in Sources */,
 				5BFB610F17739F8C0058BCD3 /* WaveFormViewIOS.m in Sources */,
 				5BFB611317739FDB0058BCD3 /* WaveSampleProvider.m in Sources */,
 				5B67BD0F1774D60A000DE184 /* AudioSlider.m in Sources */,
