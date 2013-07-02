@@ -86,7 +86,7 @@
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
-    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample.m4a";
+    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/clap.m4a";
     [self loadAudioForPath:path];
     
     freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
@@ -101,7 +101,8 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-
+    
+    self.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     
     toolbar = [[UIToolbar alloc]init];
     toolbar.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.size.height - 44, self.view.bounds.size.width, 44);
@@ -142,7 +143,6 @@
 
 - (void) initView
 {
-    
     
 	playProgress = 0.0;
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
@@ -376,11 +376,16 @@
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscape;
+    return UIInterfaceOrientationMaskLandscapeLeft;
 }
 
 - (BOOL)shouldAutorotate {
     return YES;
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return interfaceOrientation == UIInterfaceOrientationLandscapeLeft;
 }
 
 #pragma mark -
@@ -447,9 +452,9 @@
 -(void)freqHistogramControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches{
     UITouch *touch = [touches anyObject];
     CGPoint local_point = [touch locationInView:freq];
-    float binWidth = freq.bounds.size.width / 512;
+    float binWidth = freq.bounds.size.width / 256;
     float bin = local_point.x / binWidth;
-    NSLog(@"Frequency: %.2f", (bin * 44100.0)/1024);
+    NSLog(@"Frequency: %.2f", (bin * 44100.0)/512);
     
     if(CGRectContainsPoint(freq.bounds,local_point)){
         freq.currentFreqX = local_point.x;
@@ -457,7 +462,7 @@
     
     [freq setNeedsDisplay];
     
-    [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * 44100.0)/1024)]];
+    [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * 44100.0)/512)]];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
     [freqLabel setTextColor:[UIColor whiteColor]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
@@ -624,7 +629,6 @@
 		return;
 	}
     
-    //seek to an unspecified time currently
     err = ExtAudioFileSeek(extAFRef, startingSample);
     if(err != noErr) {
 		NSLog(@"Error in seeking in file");
@@ -656,9 +660,12 @@
     
     int bufferLog2 = round(log2(bufferFrames));
     FFTSetup fftSetup = vDSP_create_fftsetup(bufferLog2, kFFTRadix2);
+    float *hammingWindow = (float *)malloc(sizeof(float) * bufferFrames);
+    vDSP_hamm_window(hammingWindow, bufferFrames, 0);
     float outReal[bufferFrames / 2];
     float outImaginary[bufferFrames / 2];
     COMPLEX_SPLIT out = { .realp = outReal, .imagp = outImaginary };
+    vDSP_vmul(data, 1, hammingWindow, 1, data, 1, bufferFrames);
     vDSP_ctoz((COMPLEX *)data, 2, &out, 1, bufferFrames / 2);
     vDSP_fft_zrip(fftSetup, &out, 1, bufferLog2, FFT_FORWARD);
     

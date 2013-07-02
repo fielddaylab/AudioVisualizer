@@ -11,6 +11,7 @@
 
 #import "AudioVisualizerViewController.h"
 #import "TestStartViewController.h"
+#import "ARISNavigationController.h"
 
 @implementation AppDelegate
 
@@ -26,7 +27,8 @@
     TestStartViewController *test = [[TestStartViewController alloc] initWithNibName:@"TestStartViewController" bundle:nil];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:test];
-        
+//    ARISNavigationController *navigationController = [[ARISNavigationController alloc] initWithRootViewController:]
+    
     self.window.rootViewController = navigationController;
     
     [self.window makeKeyAndVisible];
