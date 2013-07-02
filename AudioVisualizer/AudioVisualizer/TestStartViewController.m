@@ -36,19 +36,7 @@
 
 - (void)nextScreen
 {
-    
-//    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save"
-//                                                                             style:UIBarButtonItemStyleBordered
-//                                                                            target:nil
-//                                                                            action:nil];
-    
-    
-    
     self.AVVC = [[AudioVisualizerViewController alloc] initWithNibName:@"AudioVisualizerViewController" bundle:nil];
-
-
-    
-    
     [self.navigationController pushViewController:self.AVVC animated:YES];
 }
 
@@ -67,12 +55,11 @@
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
-    //locked landscape to prevent weird formatting issues.
     return UIInterfaceOrientationMaskLandscape;
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return interfaceOrientation == UIInterfaceOrientationLandscapeLeft;
+    return YES;
 }
 @end

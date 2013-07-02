@@ -27,7 +27,7 @@
     TestStartViewController *test = [[TestStartViewController alloc] initWithNibName:@"TestStartViewController" bundle:nil];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:test];
-//    ARISNavigationController *navigationController = [[ARISNavigationController alloc] initWithRootViewController:]
+//    ARISNavigationController *navigationController = [[ARISNavigationController alloc] initWithRootViewController:test];
     
     self.window.rootViewController = navigationController;
     

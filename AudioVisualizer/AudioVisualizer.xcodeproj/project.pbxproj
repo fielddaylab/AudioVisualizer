@@ -20,6 +20,7 @@
 		5B01FFBE17836C8D0000ECC7 /* 10000hz.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFBD17836C8D0000ECC7 /* 10000hz.m4a */; };
 		5B01FFC217836F820000ECC7 /* 20000hz.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFC117836F820000ECC7 /* 20000hz.m4a */; };
 		5B01FFC4178371680000ECC7 /* clap.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFC3178371680000ECC7 /* clap.m4a */; };
+		5B01FFC817837CD40000ECC7 /* sine_wave_sweep2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFC717837CD40000ECC7 /* sine_wave_sweep2.m4a */; };
 		5B31BAAF1778C87500EC3478 /* gunSoundEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */; };
 		5B31BAB11778C94D00EC3478 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB01778C94D00EC3478 /* sound.caf */; };
 		5B31BAB31778C9BA00EC3478 /* sample.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB21778C9BA00EC3478 /* sample.mp3 */; };
@@ -82,6 +83,7 @@
 		5B01FFBD17836C8D0000ECC7 /* 10000hz.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 10000hz.m4a; sourceTree = "<group>"; };
 		5B01FFC117836F820000ECC7 /* 20000hz.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 20000hz.m4a; sourceTree = "<group>"; };
 		5B01FFC3178371680000ECC7 /* clap.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = clap.m4a; sourceTree = "<group>"; };
+		5B01FFC717837CD40000ECC7 /* sine_wave_sweep2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sine_wave_sweep2.m4a; sourceTree = "<group>"; };
 		5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gunSoundEffect.mp3; sourceTree = "<group>"; };
 		5B31BAB01778C94D00EC3478 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
 		5B31BAB21778C9BA00EC3478 /* sample.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sample.mp3; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		5BFB60D2177373AC0058BCD3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B01FFC717837CD40000ECC7 /* sine_wave_sweep2.m4a */,
 				5B01FFC3178371680000ECC7 /* clap.m4a */,
 				5B01FFC117836F820000ECC7 /* 20000hz.m4a */,
 				5B01FFBD17836C8D0000ECC7 /* 10000hz.m4a */,
@@ -360,6 +363,7 @@
 				5B01FFBE17836C8D0000ECC7 /* 10000hz.m4a in Resources */,
 				5B01FFC217836F820000ECC7 /* 20000hz.m4a in Resources */,
 				5B01FFC4178371680000ECC7 /* clap.m4a in Resources */,
+				5B01FFC817837CD40000ECC7 /* sine_wave_sweep2.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
