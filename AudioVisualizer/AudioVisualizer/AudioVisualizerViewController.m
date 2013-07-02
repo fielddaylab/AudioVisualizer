@@ -86,56 +86,12 @@
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
-    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/sine_wave_sweep2.m4a";
+    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/clap.m4a";
     [self loadAudioForPath:path];
-    
-    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
-    freq.delegate = self;
-    [self.view addSubview:freq];
-    
-    
-    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
-    wf.delegate = self;
-    [self.view addSubview:wf];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    //[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft];
-    
-    self.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-    
-    toolbar = [[UIToolbar alloc]init];
-    toolbar.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.size.height - 44, self.view.bounds.size.width, 44);
-    withoutBorderButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
-    [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
-    playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
-
-    UIButton *withoutBorderStopButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderStopButton setImage:[UIImage imageNamed:@"35-circle-stop.png"] forState:UIControlStateNormal];
-    [withoutBorderStopButton addTarget:self action:@selector(stopFunction) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderStopButton];
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    
-    timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
-    [timeLabel setText:timeString];
-    [timeLabel setBackgroundColor:[UIColor clearColor]];
-    [timeLabel setTextAlignment:NSTextAlignmentCenter];
-    timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
-    
-    freqLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
-    [freqLabel setText:@""];
-    [freqLabel setBackgroundColor:[UIColor clearColor]];
-    [freqLabel setTextColor:[UIColor whiteColor]];
-    [freqLabel setTextAlignment:NSTextAlignmentCenter];
-    freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
-    
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, flexibleSpace, timeButton, flexibleSpace,freqButton, flexibleSpace, stopButton, nil];
-    [toolbar setItems:toolbarButtons animated:NO];
-    [self.view addSubview:toolbar];
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -154,12 +110,21 @@
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
 
+    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    freq.delegate = self;
+    [self.view addSubview:freq];
+    
+    
+    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    wf.delegate = self;
+    [self.view addSubview:wf];
+    
+    
     leftSlider = [[AudioSlider alloc] init];
     leftSlider.frame = CGRectMake(-7.5, 0, 15.0, self.view.bounds.size.height + 12);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
-    
 
     rightSlider = [[AudioSlider alloc] init];
     rightSlider.frame = CGRectMake(self.view.bounds.size.width - 88.0 - 7.5, 0, 15.0, self.view.bounds.size.height + 12);
@@ -176,12 +141,40 @@
     [self.view addSubview:rightTint];
     [self.view addSubview:rightSlider];
     
-    endTime = 1.0;
-
+    toolbar = [[UIToolbar alloc]init];
+    toolbar.frame = CGRectMake(self.view.bounds.origin.x, wf.bounds.size.height, self.view.bounds.size.width, 44);
     
+    withoutBorderButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+    [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
+    playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
+    
+    UIButton *withoutBorderStopButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderStopButton setImage:[UIImage imageNamed:@"35-circle-stop.png"] forState:UIControlStateNormal];
+    [withoutBorderStopButton addTarget:self action:@selector(stopFunction) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderStopButton];
+    //    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
+    [timeLabel setText:timeString];
+    [timeLabel setBackgroundColor:[UIColor clearColor]];
+    [timeLabel setTextAlignment:NSTextAlignmentCenter];
+    timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
+    
+    freqLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
+    [freqLabel setText:@""];
+    [freqLabel setBackgroundColor:[UIColor clearColor]];
+    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextAlignment:NSTextAlignmentCenter];
+    freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
+    
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, timeButton, freqButton, stopButton, nil];
+    [toolbar setItems:toolbarButtons animated:NO];
+    [self.view addSubview:toolbar];
+    
+    endTime = 1.0;
     
     audioURL = [NSURL fileURLWithPath:path];
-    
     OSStatus err;
 	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
 	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
