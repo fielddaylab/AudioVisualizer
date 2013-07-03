@@ -18,7 +18,9 @@
 @interface AudioVisualizerViewController (){
     UIToolbar *toolbar;
     UIButton *withoutBorderButton;
+    UIButton *withoutBorderButtonStop;
     UIBarButtonItem *playButton;
+    UIBarButtonItem *stopButton;
     AudioSlider *leftSlider;
     AudioSlider *rightSlider;
     AudioTint *leftTint;
@@ -48,7 +50,6 @@
 
 @implementation AudioVisualizerViewController
 
-@synthesize withoutBorderButton;
 @synthesize sampleData;
 @synthesize sampleLength;
 @synthesize playProgress;
@@ -86,12 +87,13 @@
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
-    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/3000hz.m4a";
+    path = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/3000hz.m4a";
     [self loadAudioForPath:path];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -149,11 +151,10 @@
     [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
     playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
     
-    UIButton *withoutBorderStopButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderStopButton setImage:[UIImage imageNamed:@"35-circle-stop.png"] forState:UIControlStateNormal];
-    [withoutBorderStopButton addTarget:self action:@selector(stopFunction) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderStopButton];
-    //    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    withoutBorderButtonStop = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderButtonStop setImage:[UIImage imageNamed:@"35-circle-stop.png"] forState:UIControlStateNormal];
+    [withoutBorderButtonStop addTarget:self action:@selector(stopFunction) forControlEvents:UIControlEventTouchUpInside];
+    stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButtonStop];
     
     timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [timeLabel setText:timeString];
@@ -168,7 +169,15 @@
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
     freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
     
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, timeButton, freqButton, stopButton, nil];
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    NSLog(@"%f height lulz",[UIScreen mainScreen].bounds.size.height);
+    //Normal Screen - 480
+    //fixedSpace.width = 42;//42*3=128 ; 480-128=352 -> ([UIScreen mainScreen].bounds.size.height - 352)/3
+    //4 Inch Screen - 568
+    //fixedSpace.width = 72;//72*3=216 ; 568-216=352 -> ([UIScreen mainScreen].bounds.size.height - 352)/3
+    fixedSpace.width = ([UIScreen mainScreen].bounds.size.height - 352)/3;
+    
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, fixedSpace, timeButton, fixedSpace, freqButton, fixedSpace, stopButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
     
@@ -375,11 +384,13 @@
 }
 
 - (BOOL)shouldAutorotate {
+    
     return YES;
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    
     return interfaceOrientation == UIInterfaceOrientationLandscapeLeft;
 }
 

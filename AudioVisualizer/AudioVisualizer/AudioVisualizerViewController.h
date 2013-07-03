@@ -33,7 +33,6 @@
 @property (nonatomic) float playProgress;
 @property (nonatomic) float endTime;
 @property (nonatomic) int lengthInSeconds;
-@property (strong, nonatomic) UIButton *withoutBorderButton;
 
 - (void) openAudioURL:(NSURL *)url;
 -(void)setPlayHeadToLeftSlider;
