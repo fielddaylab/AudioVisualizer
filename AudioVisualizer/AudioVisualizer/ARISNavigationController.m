@@ -12,7 +12,7 @@
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return YES;
+    return [self.topViewController supportedInterfaceOrientations];
 }
 
 - (BOOL) shouldAutorotate
@@ -22,7 +22,7 @@
 
 - (NSInteger) supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAll;
+    return [self.topViewController supportedInterfaceOrientations];
 }
 
 @end
