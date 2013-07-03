@@ -68,7 +68,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];  
-
+    
     [self.navigationItem setHidesBackButton:YES animated:YES];
 
     
@@ -94,6 +94,10 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    UIAlertView *alertRotate = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"RotateToLandscapeKey", nil) message:nil delegate:self cancelButtonTitle: NSLocalizedString(@"OkKey", nil) otherButtonTitles:nil, nil];
+    
+    [alertRotate setTag:2];
+    [alertRotate show];
 }
 
 - (void)didReceiveMemoryWarning
@@ -477,14 +481,15 @@
 
 #pragma mark Saving Data
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;{
-    if (buttonIndex == 1)
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;{ 
+    if(alertView.tag == 1 || alertView.tag == 3)
     {
-        [self saveAudio];
+        if (buttonIndex == 1)
+        {
+            [self saveAudio];
+        }
+        [self.navigationController popViewControllerAnimated:YES];
     }
-    
-    [self.navigationController popViewControllerAnimated:YES];
-
 }
 
 - (void)saveAudioConfirmation
@@ -495,6 +500,7 @@
                                                               delegate:self
                                                      cancelButtonTitle:NSLocalizedString(@"DiscardKey", nil)
                                                      otherButtonTitles:NSLocalizedString(@"SaveKey", nil), nil];
+    [confirmationAlert setTag:1];
     [confirmationAlert show];
 }
 
@@ -506,7 +512,7 @@
     
     //Also need to force into landscape. Seems like a bitch to do so in iOS6 >:/
     //If not there already, need to add DiscardKey "Discard", SaveKey "Save", and SaveConfirmationKey "Would you like to save?"
-    //Also SaveErrorKey "Sorry, the file didn't save properly" ; ErrorKey "Error :'["
+    //Also SaveErrorKey "Sorry, the file didn't save properly" ; ErrorKey "Error :'[" ; RotateToLandscapeKey "Rotate to Landscape"
     
     //possibly add slider's representation of time. Something like this:
     //*toolbarButtons = [NSArray arrayWithObjects:
@@ -563,7 +569,6 @@
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
          {
              // It failed...
-             // Show an error as a popup
              NSLog(@"DIDNT WORK");
              
              UIAlertView *errorAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"ErrorKey", nil)
@@ -571,6 +576,7 @@
                                                                        delegate:self
                                                               cancelButtonTitle:NSLocalizedString(@"OkKey", nil)
                                                               otherButtonTitles:nil];
+             [errorAlert setTag:3];
              [errorAlert show];
          }
      }];
