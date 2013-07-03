@@ -96,7 +96,7 @@
     
     UIAlertView *alertRotate = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"RotateToLandscapeKey", nil) message:nil delegate:self cancelButtonTitle: NSLocalizedString(@"OkKey", nil) otherButtonTitles:nil, nil];
     
-    [alertRotate setTag:2];
+    [alertRotate setTag:1];
     [alertRotate show];
 }
 
@@ -279,12 +279,13 @@
         NSURL *audio = [NSURL fileURLWithPath:pathURL];
         [self openAudioURL:audio];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio !"
+        UIAlertView *alertNoAudio = [[UIAlertView alloc] initWithTitle: @"No Audio !"
                                                         message: @"You should add a sample.mp3 file to the project before test it."
                                                        delegate: self
                                               cancelButtonTitle: @"OK"
                                               otherButtonTitles: nil];
-        [alert show];
+        [alertNoAudio setTag:3];
+        [alertNoAudio show];
     }
 }
 
@@ -482,7 +483,7 @@
 #pragma mark Saving Data
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;{ 
-    if(alertView.tag == 1 || alertView.tag == 3)
+    if(alertView.tag >= 2)
     {
         if (buttonIndex == 1)
         {
@@ -500,7 +501,7 @@
                                                               delegate:self
                                                      cancelButtonTitle:NSLocalizedString(@"DiscardKey", nil)
                                                      otherButtonTitles:NSLocalizedString(@"SaveKey", nil), nil];
-    [confirmationAlert setTag:1];
+    [confirmationAlert setTag:2];
     [confirmationAlert show];
 }
 
@@ -576,7 +577,7 @@
                                                                        delegate:self
                                                               cancelButtonTitle:NSLocalizedString(@"OkKey", nil)
                                                               otherButtonTitles:nil];
-             [errorAlert setTag:3];
+             [errorAlert setTag:4];
              [errorAlert show];
          }
      }];
