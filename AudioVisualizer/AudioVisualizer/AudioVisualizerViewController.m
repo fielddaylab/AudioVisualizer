@@ -129,7 +129,7 @@
      UIControlEventTouchDragInside];
 
     rightSlider = [[AudioSlider alloc] init];
-    rightSlider.frame = CGRectMake(self.view.bounds.size.width - 88.0 - 7.5, 0, 15.0, self.view.bounds.size.height + 12);
+    rightSlider.frame = CGRectMake([UIScreen mainScreen].bounds.size.height - 7.5, 0, 15.0, self.view.bounds.size.height + 12);
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
