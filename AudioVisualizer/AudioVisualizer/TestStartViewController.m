@@ -72,7 +72,7 @@
     NSString *tmpFileUrl = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/temp.m4a";
     NSDictionary *recordSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
-                                    [NSNumber numberWithFloat:16000.0], AVSampleRateKey,
+                                    [NSNumber numberWithFloat:44100.0], AVSampleRateKey,
                                     [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
                                     nil];
     NSError *error = nil;

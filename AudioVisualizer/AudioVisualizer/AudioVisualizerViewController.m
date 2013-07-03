@@ -477,7 +477,8 @@
 }
 
 - (void)saveAudioConfirmation
-{    
+{
+    [player pause];
     UIAlertView *confirmationAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"SaveConfirmationKey", nil)
                                                                message:nil
                                                               delegate:self
