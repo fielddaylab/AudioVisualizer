@@ -13,6 +13,14 @@
 		5B019AFC177A203300DE9C8B /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019AFB177A203300DE9C8B /* WaveformControl.m */; };
 		5B019B02177A337D00DE9C8B /* FreqHistogramControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019B01177A337D00DE9C8B /* FreqHistogramControl.m */; };
 		5B019B05177A493800DE9C8B /* AudioTint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B019B04177A493800DE9C8B /* AudioTint.m */; };
+		5B01FFB6178340A90000ECC7 /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B01FFB5178340A90000ECC7 /* ARISNavigationController.m */; };
+		5B01FFB8178348990000ECC7 /* sinewave.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFB7178348990000ECC7 /* sinewave.m4a */; };
+		5B01FFBA1783497F0000ECC7 /* 20to20.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFB91783497F0000ECC7 /* 20to20.m4a */; };
+		5B01FFBC17836ACE0000ECC7 /* 3000hz.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFBB17836ACE0000ECC7 /* 3000hz.m4a */; };
+		5B01FFBE17836C8D0000ECC7 /* 10000hz.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFBD17836C8D0000ECC7 /* 10000hz.m4a */; };
+		5B01FFC217836F820000ECC7 /* 20000hz.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFC117836F820000ECC7 /* 20000hz.m4a */; };
+		5B01FFC4178371680000ECC7 /* clap.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFC3178371680000ECC7 /* clap.m4a */; };
+		5B01FFC817837CD40000ECC7 /* sine_wave_sweep2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5B01FFC717837CD40000ECC7 /* sine_wave_sweep2.m4a */; };
 		5B31BAAF1778C87500EC3478 /* gunSoundEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */; };
 		5B31BAB11778C94D00EC3478 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB01778C94D00EC3478 /* sound.caf */; };
 		5B31BAB31778C9BA00EC3478 /* sample.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B31BAB21778C9BA00EC3478 /* sample.mp3 */; };
@@ -67,6 +75,15 @@
 		5B019B01177A337D00DE9C8B /* FreqHistogramControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreqHistogramControl.m; sourceTree = "<group>"; };
 		5B019B03177A493700DE9C8B /* AudioTint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioTint.h; sourceTree = "<group>"; };
 		5B019B04177A493800DE9C8B /* AudioTint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioTint.m; sourceTree = "<group>"; };
+		5B01FFB4178340A90000ECC7 /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
+		5B01FFB5178340A90000ECC7 /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
+		5B01FFB7178348990000ECC7 /* sinewave.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sinewave.m4a; sourceTree = "<group>"; };
+		5B01FFB91783497F0000ECC7 /* 20to20.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 20to20.m4a; sourceTree = "<group>"; };
+		5B01FFBB17836ACE0000ECC7 /* 3000hz.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 3000hz.m4a; sourceTree = "<group>"; };
+		5B01FFBD17836C8D0000ECC7 /* 10000hz.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 10000hz.m4a; sourceTree = "<group>"; };
+		5B01FFC117836F820000ECC7 /* 20000hz.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 20000hz.m4a; sourceTree = "<group>"; };
+		5B01FFC3178371680000ECC7 /* clap.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = clap.m4a; sourceTree = "<group>"; };
+		5B01FFC717837CD40000ECC7 /* sine_wave_sweep2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sine_wave_sweep2.m4a; sourceTree = "<group>"; };
 		5B31BAAE1778C87500EC3478 /* gunSoundEffect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gunSoundEffect.mp3; sourceTree = "<group>"; };
 		5B31BAB01778C94D00EC3478 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
 		5B31BAB21778C9BA00EC3478 /* sample.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sample.mp3; sourceTree = "<group>"; };
@@ -206,6 +223,13 @@
 		5BFB60D2177373AC0058BCD3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B01FFC717837CD40000ECC7 /* sine_wave_sweep2.m4a */,
+				5B01FFC3178371680000ECC7 /* clap.m4a */,
+				5B01FFC117836F820000ECC7 /* 20000hz.m4a */,
+				5B01FFBD17836C8D0000ECC7 /* 10000hz.m4a */,
+				5B01FFBB17836ACE0000ECC7 /* 3000hz.m4a */,
+				5B01FFB91783497F0000ECC7 /* 20to20.m4a */,
+				5B01FFB7178348990000ECC7 /* sinewave.m4a */,
 				713C65EE177DE58D004D21EE /* 05-shuffle.png */,
 				713C65EF177DE58D004D21EE /* 05-shuffle@2x.png */,
 				713C65F0177DE58D004D21EE /* 17-bar-chart.png */,
@@ -244,6 +268,8 @@
 			children = (
 				713C65FB177DF201004D21EE /* TestStartViewController.h */,
 				713C65FC177DF201004D21EE /* TestStartViewController.m */,
+				5B01FFB4178340A90000ECC7 /* ARISNavigationController.h */,
+				5B01FFB5178340A90000ECC7 /* ARISNavigationController.m */,
 				713C65FD177DF201004D21EE /* TestStartViewController.xib */,
 				5B019AF1177A196D00DE9C8B /* AudioVisualizerViewController.h */,
 				5B019AF2177A196D00DE9C8B /* AudioVisualizerViewController.m */,
@@ -331,6 +357,13 @@
 				713C65F8177DE58D004D21EE /* 77-ekg.png in Resources */,
 				713C65F9177DE58D004D21EE /* 77-ekg@2x.png in Resources */,
 				713C65FF177DF201004D21EE /* TestStartViewController.xib in Resources */,
+				5B01FFB8178348990000ECC7 /* sinewave.m4a in Resources */,
+				5B01FFBA1783497F0000ECC7 /* 20to20.m4a in Resources */,
+				5B01FFBC17836ACE0000ECC7 /* 3000hz.m4a in Resources */,
+				5B01FFBE17836C8D0000ECC7 /* 10000hz.m4a in Resources */,
+				5B01FFC217836F820000ECC7 /* 20000hz.m4a in Resources */,
+				5B01FFC4178371680000ECC7 /* clap.m4a in Resources */,
+				5B01FFC817837CD40000ECC7 /* sine_wave_sweep2.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +385,7 @@
 				5B019B02177A337D00DE9C8B /* FreqHistogramControl.m in Sources */,
 				5B019B05177A493800DE9C8B /* AudioTint.m in Sources */,
 				713C65FE177DF201004D21EE /* TestStartViewController.m in Sources */,
+				5B01FFB6178340A90000ECC7 /* ARISNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,7 +428,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -419,7 +453,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -433,6 +467,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AudioVisualizer/AudioVisualizer-Prefix.pch";
 				INFOPLIST_FILE = "AudioVisualizer/AudioVisualizer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -444,6 +479,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AudioVisualizer/AudioVisualizer-Prefix.pch";
 				INFOPLIST_FILE = "AudioVisualizer/AudioVisualizer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

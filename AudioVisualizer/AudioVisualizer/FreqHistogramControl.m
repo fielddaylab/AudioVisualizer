@@ -64,16 +64,19 @@
     if(fourierData != nil){
         
         
-        float binWidth = self.bounds.size.width / 512;
+        float binWidth = self.bounds.size.width / 256; //512/2
         float currentBinCoor = binWidth / 2;
         for(int k = 1; k < 512; k++){
             float heightRatio = fourierData[k] / largestMag;
             float screenHeight = self.bounds.size.height * heightRatio;
+            //float screenHeight = fourierData[k];
             CGPoint startPoint = CGPointMake(currentBinCoor, self.bounds.size.height);
             CGPoint endPoint = CGPointMake(currentBinCoor, self.bounds.size.height - screenHeight);
             [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];
             currentBinCoor += binWidth;
-            //NSLog(@"%i Frequency: %f X: %f Y: %f", k, (k * 44100.0)/1024, currentBinCoor, screenHeight);
+//            if(screenHeight > 0){
+//                NSLog(@"%i Frequency: %f X: %f Y: %f", k, (k * 44100.0)/1024, currentBinCoor, screenHeight);
+//            }
         }
         
     }

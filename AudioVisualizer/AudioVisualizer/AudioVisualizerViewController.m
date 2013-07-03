@@ -86,53 +86,12 @@
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
-    path = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/temp.m4a";
+    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/3000hz.m4a";
     [self loadAudioForPath:path];
-    
-    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
-    freq.delegate = self;
-    [self.view addSubview:freq];
-    
-    
-    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
-    wf.delegate = self;
-    [self.view addSubview:wf];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-
-    
-    toolbar = [[UIToolbar alloc]init];
-    toolbar.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.size.height - 44, self.view.bounds.size.width, 44);
-    withoutBorderButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
-    [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
-    playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
-
-    UIButton *withoutBorderStopButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderStopButton setImage:[UIImage imageNamed:@"35-circle-stop.png"] forState:UIControlStateNormal];
-    [withoutBorderStopButton addTarget:self action:@selector(stopFunction) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderStopButton];
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    
-    timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
-    [timeLabel setText:timeString];
-    [timeLabel setBackgroundColor:[UIColor clearColor]];
-    [timeLabel setTextAlignment:NSTextAlignmentCenter];
-    timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
-    
-    freqLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
-    [freqLabel setText:@""];
-    [freqLabel setBackgroundColor:[UIColor clearColor]];
-    [freqLabel setTextColor:[UIColor whiteColor]];
-    [freqLabel setTextAlignment:NSTextAlignmentCenter];
-    freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
-    
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, flexibleSpace, timeButton, flexibleSpace,freqButton, flexibleSpace, stopButton, nil];
-    [toolbar setItems:toolbarButtons animated:NO];
-    [self.view addSubview:toolbar];
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -143,7 +102,6 @@
 - (void) initView
 {
     
-    
 	playProgress = 0.0;
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
 	gray = [UIColor colorWithRed:64.0/255.0 green:63.0/255.0 blue:65.0/255.0 alpha:1.0];
@@ -152,12 +110,21 @@
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
 
+    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    freq.delegate = self;
+    [self.view addSubview:freq];
+    
+    
+    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    wf.delegate = self;
+    [self.view addSubview:wf];
+    
+    
     leftSlider = [[AudioSlider alloc] init];
     leftSlider.frame = CGRectMake(-7.5, 0, 15.0, self.view.bounds.size.height + 12);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
-    
 
     rightSlider = [[AudioSlider alloc] init];
     rightSlider.frame = CGRectMake(self.view.bounds.size.width - 88.0 - 7.5, 0, 15.0, self.view.bounds.size.height + 12);
@@ -174,12 +141,40 @@
     [self.view addSubview:rightTint];
     [self.view addSubview:rightSlider];
     
-    endTime = 1.0;
-
+    toolbar = [[UIToolbar alloc]init];
+    toolbar.frame = CGRectMake(self.view.bounds.origin.x, wf.bounds.size.height, self.view.bounds.size.width, 44);
     
+    withoutBorderButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+    [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
+    playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
+    
+    UIButton *withoutBorderStopButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderStopButton setImage:[UIImage imageNamed:@"35-circle-stop.png"] forState:UIControlStateNormal];
+    [withoutBorderStopButton addTarget:self action:@selector(stopFunction) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderStopButton];
+    //    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
+    [timeLabel setText:timeString];
+    [timeLabel setBackgroundColor:[UIColor clearColor]];
+    [timeLabel setTextAlignment:NSTextAlignmentCenter];
+    timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
+    
+    freqLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
+    [freqLabel setText:@""];
+    [freqLabel setBackgroundColor:[UIColor clearColor]];
+    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextAlignment:NSTextAlignmentCenter];
+    freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
+    
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, timeButton, freqButton, stopButton, nil];
+    [toolbar setItems:toolbarButtons animated:NO];
+    [self.view addSubview:toolbar];
+    
+    endTime = 1.0;
     
     audioURL = [NSURL fileURLWithPath:path];
-    
     OSStatus err;
 	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
 	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
@@ -383,6 +378,11 @@
     return YES;
 }
 
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return interfaceOrientation == UIInterfaceOrientationLandscapeLeft;
+}
+
 #pragma mark -
 #pragma mark Sample Data Provider Delegate
 - (void) statusUpdated:(WaveSampleProvider *)provider
@@ -447,9 +447,9 @@
 -(void)freqHistogramControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches{
     UITouch *touch = [touches anyObject];
     CGPoint local_point = [touch locationInView:freq];
-    float binWidth = freq.bounds.size.width / 512;
+    float binWidth = freq.bounds.size.width / 256;
     float bin = local_point.x / binWidth;
-    NSLog(@"Frequency: %.2f", (bin * 44100.0)/1024);
+    NSLog(@"Frequency: %.2f", (bin * 44100.0)/512);
     
     if(CGRectContainsPoint(freq.bounds,local_point)){
         freq.currentFreqX = local_point.x;
@@ -457,7 +457,7 @@
     
     [freq setNeedsDisplay];
     
-    [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * 44100.0)/1024)]];
+    [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * 44100.0)/512)]];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
     [freqLabel setTextColor:[UIColor whiteColor]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
@@ -625,7 +625,6 @@
 		return;
 	}
     
-    //seek to an unspecified time currently
     err = ExtAudioFileSeek(extAFRef, startingSample);
     if(err != noErr) {
 		NSLog(@"Error in seeking in file");
@@ -657,9 +656,12 @@
     
     int bufferLog2 = round(log2(bufferFrames));
     FFTSetup fftSetup = vDSP_create_fftsetup(bufferLog2, kFFTRadix2);
+    float *hammingWindow = (float *)malloc(sizeof(float) * bufferFrames);
+    vDSP_hamm_window(hammingWindow, bufferFrames, 0);
     float outReal[bufferFrames / 2];
     float outImaginary[bufferFrames / 2];
     COMPLEX_SPLIT out = { .realp = outReal, .imagp = outImaginary };
+    vDSP_vmul(data, 1, hammingWindow, 1, data, 1, bufferFrames);
     vDSP_ctoz((COMPLEX *)data, 2, &out, 1, bufferFrames / 2);
     vDSP_fft_zrip(fftSetup, &out, 1, bufferLog2, FFT_FORWARD);
     
